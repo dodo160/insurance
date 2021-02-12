@@ -3,10 +3,8 @@ package com.insurance;
 import com.insurance.enums.InsuranceType;
 import com.insurance.enums.Packet;
 import com.insurance.enums.ReinsuranceType;
-import com.insurance.model.Insurance;
-import com.insurance.model.Reinsurance;
-import com.insurance.model.Tariff;
-import com.insurance.model.User;
+import com.insurance.enums.UserType;
+import com.insurance.model.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -17,11 +15,8 @@ public class TestUtils {
     }
 
     public static Insurance buildInsurance(final InsuranceType insuranceType){
-        final Tariff tariff = new Tariff();
-        tariff.setId(1l);
-        tariff.setInsuranceType(insuranceType);
-        tariff.setPacket(Packet.BASIC);
-        tariff.setPrice(insuranceType == InsuranceType.YEAR ? new BigDecimal(39.0): new BigDecimal(1.2));
+        final Tariff tariff = buildTariff(insuranceType);
+        final User user = buildUser(UserType.CLIENT);
 
         final Reinsurance reinsuranceStorno = new Reinsurance();
         reinsuranceStorno.setId(1l);
@@ -39,6 +34,7 @@ public class TestUtils {
         insurance.setTariff(tariff);
         insurance.addReinsurance(reinsuranceStorno);
         insurance.addReinsurance(reinsuranceSportsActivity);
+        insurance.setUser(user);
         return insurance;
     }
 
@@ -51,8 +47,8 @@ public class TestUtils {
         return tariff;
     }
 
-    public static User buildUser(){
-        final User user = new User();
+    public static User buildUser(final UserType userType){
+        final User user = userType == UserType.CLIENT ? new Client() : new Employee();
         user.setId(1L);
         user.setFirstName("FIRST_NAME");
         user.setLastName("LAST_NAME");

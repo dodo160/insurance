@@ -1,5 +1,6 @@
 package com.insurance.service;
 
+import com.insurance.enums.UserType;
 import com.insurance.model.User;
 import com.insurance.repository.UserRepository;
 import org.junit.Assert;
@@ -47,7 +48,7 @@ public class UserServiceMockTest {
 
     @Test
     public void findByIdTest(){
-        when(userRepository.findById(1l)).thenReturn(Optional.of(buildUser()));
+        when(userRepository.findById(1l)).thenReturn(Optional.of(buildUser(UserType.CLIENT)));
 
         final User result = userService.findById(1l);
 
@@ -63,7 +64,7 @@ public class UserServiceMockTest {
 
     @Test
     public void softDeleteByIdTest(){
-        final User user = buildUser();
+        final User user = buildUser(UserType.CLIENT);
         when(userRepository.findById(1L)).thenReturn(Optional.of(user));
 
         userService.softDeleteById(1L);
@@ -83,7 +84,7 @@ public class UserServiceMockTest {
 
     @Test
     public void addTest(){
-        final User user = buildUser();
+        final User user = buildUser(UserType.CLIENT);
 
         userService.add(user);
 
@@ -92,14 +93,14 @@ public class UserServiceMockTest {
 
     @Test
     public void updateTest(){
-        final User user = buildUser();
+        final User user = buildUser(UserType.CLIENT);
         user.setFirstName("FIRST_NAME_UPDATED");
         user.setLastName("LAST_NAME_UPDATED");
         user.setAddress("ADDRESS_UPDATED");
         user.setCity("CITY_UPDATED");
         user.setPostCode("5555");
 
-        when(userRepository.findById(1L)).thenReturn(Optional.of(buildUser()));
+        when(userRepository.findById(1L)).thenReturn(Optional.of(buildUser(UserType.CLIENT)));
 
         final ArgumentCaptor<User> userArgumentCaptor = ArgumentCaptor.forClass(User.class);
 
@@ -123,7 +124,7 @@ public class UserServiceMockTest {
         when(userRepository.findById(1L)).thenReturn(Optional.empty());
 
         try {
-            userService.update(buildUser());
+            userService.update(buildUser(UserType.CLIENT));
             Assert.fail();
         } catch (ValidationException e) {
             Assert.assertTrue("User entity doesn't exist".equals(e.getMessage()));
