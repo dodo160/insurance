@@ -84,7 +84,6 @@ public class Tariff extends BaseEntity {
 				"insuranceType=" + insuranceType +
 				", packet=" + packet +
 				", price=" + price +
-				", insurances=" + insurances +
 				"} " + super.toString();
 	}
 }

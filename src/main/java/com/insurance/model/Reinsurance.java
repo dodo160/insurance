@@ -55,8 +55,7 @@ public class Reinsurance extends BaseEntity {
 	@Override
 	public String toString() {
 		return "Reinsurance{" +
-				"insurance=" + insurance +
-				", reinsuranceType=" + reinsuranceType +
+				" reinsuranceType=" + reinsuranceType +
 				"} " + super.toString();
 	}
 }
