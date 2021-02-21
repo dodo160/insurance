@@ -42,6 +42,10 @@ public class InsuranceServiceImpl implements InsuranceService {
 		this.tariffService=tariffService;
 	}
 
+	public Class getEntityServiceClass(){
+		return Insurance.class;
+	}
+
 	@Override
 	public Set<Insurance> findAll() {
 		final Set<Insurance> insurances = new HashSet<>();

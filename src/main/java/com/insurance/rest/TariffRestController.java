@@ -48,7 +48,7 @@ public class TariffRestController {
 	}
 
 	@DeleteMapping("/tariff/softDelete/{id}")
-	public ResponseEntity<Void> softDeleteTariff(@PathVariable("id") final Long id) {
+	public ResponseEntity<Void> softDeleteTariff(@PathVariable("id") final Long id) throws ValidationException {
 		tariffService.softDeleteById(id);
 		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}

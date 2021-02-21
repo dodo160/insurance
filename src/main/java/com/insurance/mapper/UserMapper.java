@@ -19,7 +19,8 @@ public interface UserMapper {
             @Mapping(target = "postCode", source = "entity.postCode"),
             @Mapping(target = "identityId", source = "entity.identityId"),
             @Mapping(target = "userType", expression = "java(entity.getUserType())"),
-            @Mapping(target = "insurances", source = "entity.insurances")
+            @Mapping(target = "insurances", source = "entity.insurances"),
+            @Mapping(target = "temporalEntities", source = "entity.temporalEntities")
     })
     UserDTO userToUserDTO(User entity, @Context CycleAvoidingMappingContext context);
 
@@ -31,7 +32,8 @@ public interface UserMapper {
             @Mapping(target = "address", source = "dto.address"),
             @Mapping(target = "postCode", source = "dto.postCode"),
             @Mapping(target = "identityId", source = "dto.identityId"),
-            @Mapping(target = "insurances", source = "dto.insurances")
+            @Mapping(target = "insurances", source = "dto.insurances"),
+            @Mapping(target = "temporalEntities", source = "dto.temporalEntities")
     })
     User userDTOtoUser(UserDTO dto, @Context CycleAvoidingMappingContext context);
 }

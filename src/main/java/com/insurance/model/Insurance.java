@@ -1,5 +1,6 @@
 package com.insurance.model;
 
+import com.insurance.xml.xmladapter.LocalDateAdapter;
 import org.hibernate.annotations.Where;
 import org.hibernate.validator.constraints.Range;
 
@@ -8,6 +9,9 @@ import javax.validation.constraints.Digits;
 import javax.validation.constraints.Future;
 import javax.validation.constraints.FutureOrPresent;
 import javax.validation.constraints.NotNull;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlType;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.HashSet;
@@ -17,6 +21,8 @@ import java.util.Set;
 @Entity
 @Table(name = "insurance")
 @Where(clause = "deletedDate is null")
+@XmlRootElement()
+@XmlType(namespace = "/insurance/model/insurance")
 public class Insurance extends BaseEntity {
 
 	private static final long serialVersionUID = -2917439034407858747L;
@@ -46,7 +52,7 @@ public class Insurance extends BaseEntity {
 	@Digits(integer = 10, fraction = 2)
 	private BigDecimal price;
 
-
+	@XmlJavaTypeAdapter(LocalDateAdapter.class)
 	public LocalDate getStartDate() {
 		return startDate;
 	}
@@ -55,6 +61,7 @@ public class Insurance extends BaseEntity {
 		this.startDate = startDate;
 	}
 
+	@XmlJavaTypeAdapter(LocalDateAdapter.class)
 	public LocalDate getEndDate() {
 		return endDate;
 	}

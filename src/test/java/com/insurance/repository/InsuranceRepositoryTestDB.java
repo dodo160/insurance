@@ -23,8 +23,10 @@ public class InsuranceRepositoryTestDB {
     @Test
     public void saveTest(){
         final Insurance insurance = TestUtils.buildInsurance(InsuranceType.DAY);
+        insurance.setId(null);
         insurance.setPrice(BigDecimal.TEN);
         insurance.updateReinsurances();
+        insurance.getReinsurances().forEach(x->x.setId(null));
 
         final Insurance savedInsurance = insuranceRepository.save(insurance);
         Assert.assertNotNull(savedInsurance);
@@ -32,7 +34,7 @@ public class InsuranceRepositoryTestDB {
         Assert.assertNotNull(savedInsurance.getId());
         Assert.assertEquals(insurance.getTariff().getInsuranceType(), savedInsurance.getTariff().getInsuranceType());
         Assert.assertEquals(insurance.getTariff().getPacket(), savedInsurance.getTariff().getPacket());
-        Assert.assertEquals(insurance.getTariff().getPrice().setScale(2, RoundingMode.HALF_UP), savedInsurance.getTariff().getPrice());
+        Assert.assertEquals(insurance.getTariff().getPrice().setScale(2, RoundingMode.HALF_UP), savedInsurance.getTariff().getPrice().setScale(2, RoundingMode.HALF_UP));
         Assert.assertNotNull(savedInsurance.getUser());
         Assert.assertNotNull(savedInsurance.getUser().getId());
         Assert.assertNotNull(savedInsurance.getReinsurances());

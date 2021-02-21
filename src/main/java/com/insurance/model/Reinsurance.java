@@ -4,12 +4,17 @@ import com.insurance.enums.ReinsuranceType;
 import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
+import javax.xml.bind.annotation.XmlType;
 import java.util.Objects;
 
 @Entity
 @Table(name = "reinsurance", uniqueConstraints = { @UniqueConstraint(columnNames = "insurance_id"),
 		@UniqueConstraint(columnNames = "reinsuranceType") })
 @Where(clause = "deletedDate is null")
+@XmlRootElement()
+@XmlType(namespace = "/insurance/model/reinsurance")
 public class Reinsurance extends BaseEntity {
 
 	private static final long serialVersionUID = -4854797535664095284L;
@@ -21,6 +26,7 @@ public class Reinsurance extends BaseEntity {
 	@Enumerated(EnumType.STRING)
 	private ReinsuranceType reinsuranceType;
 
+	@XmlTransient
 	public Insurance getInsurance() {
 		return insurance;
 	}

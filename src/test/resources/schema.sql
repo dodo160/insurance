@@ -2,6 +2,7 @@
 drop table if exists REINSURANCE;
 drop table if exists INSURANCE;
 drop table if exists TARIFF;
+drop table if exists TEMPORAL_ENTITY;
 drop table if exists USER;
 
 
@@ -17,7 +18,8 @@ create table IF NOT EXISTS TARIFF
    createdDate          datetime NOT NULL,
    lastUpdatedDate      datetime,
    deletedDate          datetime,
-   primary key (id)
+   primary key (id),
+   UNIQUE KEY(insuranceType,packet,price)
 );
 
 /*==============================================================*/
@@ -73,5 +75,19 @@ create table IF NOT EXISTS REINSURANCE
    UNIQUE KEY(insurance_id, reinsuranceType)
 );
 
+/*==============================================================*/
+/* Table: TEMPORAL_ENTITY                                       */
+/*==============================================================*/
+create table IF NOT EXISTS TEMPORAL_ENTITY
+(
+    id                   int not null AUTO_INCREMENT,
+    user_id              int not null,
+    entityClass          varchar(255) not null,
+    mediaType            varchar(255) not null,
+    entity               varchar(255) not null,
+    primary key (id),
+    FOREIGN KEY (user_id) REFERENCES user(id) ON DELETE CASCADE,
+    UNIQUE KEY(user_id, entityClass, mediaType, entity)
+);
 
 

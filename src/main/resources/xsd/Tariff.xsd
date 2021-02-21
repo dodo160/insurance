@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="/insurance/model/tariff" version="1.0">
+      
+  
+  <xs:import schemaLocation="schema7.xsd"/>
+      
+  
+  <xs:complexType name="tariff">
+            
+    
+    <xs:complexContent>
+                  
+      
+      <xs:extension base="baseEntity">
+                        
+        
+        <xs:sequence>
+                              
+          
+          <xs:element minOccurs="0" name="insuranceType" type="insuranceType"/>
+                              
+          
+          <xs:element minOccurs="0" name="packet" type="packet"/>
+                              
+          
+          <xs:element minOccurs="0" name="price" type="xs:decimal"/>
+                            
+        
+        </xs:sequence>
+                      
+      
+      </xs:extension>
+                
+    
+    </xs:complexContent>
+          
+  
+  </xs:complexType>
+    
+
+</xs:schema>

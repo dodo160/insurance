@@ -3,7 +3,6 @@ package com.insurance.validators;
 import com.insurance.enums.InsuranceType;
 import com.insurance.model.Insurance;
 import org.springframework.stereotype.Component;
-import org.springframework.util.Assert;
 
 @Component
 public class ValidatorInsuranceYear implements InsuranceValidator {

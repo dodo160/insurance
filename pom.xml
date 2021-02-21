@@ -127,7 +127,58 @@
 					</compilerArgs>
 				</configuration>
 			</plugin>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>jaxb2-maven-plugin</artifactId>
+				<version>2.5.0</version>
+				<executions>
+					<execution>
+						<id>schemagen</id>
+						<goals>
+							<goal>schemagen</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<sources>
+						<source>src/main/java/com/insurance/model</source>
+					</sources>
+					<outputDirectory>src/main/resources/xsd</outputDirectory>
+					<clearOutputDir>true</clearOutputDir>
+					<transformSchemas>
+						<transformSchema>
+							<uri>/insurance/model/user</uri>
+							<toPrefix>user</toPrefix>
+							<toFile>User.xsd</toFile>
+						</transformSchema>
+						<transformSchema>
+							<uri>/insurance/model/client</uri>
+							<toPrefix>client</toPrefix>
+							<toFile>Client.xsd</toFile>
+						</transformSchema>
+						<transformSchema>
+							<uri>/insurance/model/employee</uri>
+							<toPrefix>employee</toPrefix>
+							<toFile>Employee.xsd</toFile>
+						</transformSchema>
+						<transformSchema>
+							<uri>/insurance/model/insurance</uri>
+							<toPrefix>insurance</toPrefix>
+							<toFile>Insurance.xsd</toFile>
+						</transformSchema>
+						<transformSchema>
+							<uri>/insurance/model/reinsurance</uri>
+							<toPrefix>reinsurance</toPrefix>
+							<toFile>Reinsurance.xsd</toFile>
+						</transformSchema>
+						<transformSchema>
+							<uri>/insurance/model/tariff</uri>
+							<toPrefix>tariff</toPrefix>
+							<toFile>Tariff.xsd</toFile>
+						</transformSchema>
+					</transformSchemas>
+				</configuration>
+			</plugin>
 		</plugins>
 	</build>
-
 </project>

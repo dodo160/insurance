@@ -12,7 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.xml.bind.ValidationException;
+import javax.xml.bind.ValidationException;;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -61,7 +61,7 @@ public class UserRestController {
     }
 
     @DeleteMapping("/user/softDelete/{id}")
-    public ResponseEntity<Void> softDeleteUser(@PathVariable("id") final Long id) {
+    public ResponseEntity<Void> softDeleteUser(@PathVariable("id") final Long id) throws ValidationException {
         userService.softDeleteById(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }

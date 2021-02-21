@@ -5,6 +5,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
+import javax.xml.bind.annotation.XmlTransient;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Objects;
@@ -33,6 +34,7 @@ public class BaseEntity implements Serializable {
         this.id = id;
     }
 
+    @XmlTransient
     public LocalDateTime getCreatedDate() {
         return createdDate;
     }
@@ -41,6 +43,7 @@ public class BaseEntity implements Serializable {
         this.createdDate = createdDate;
     }
 
+    @XmlTransient
     public LocalDateTime getLastUpdatedDate() {
         return lastUpdatedDate;
     }
@@ -49,6 +52,7 @@ public class BaseEntity implements Serializable {
         this.lastUpdatedDate = lastUpdatedDate;
     }
 
+    @XmlTransient
     public LocalDateTime getDeletedDate() {
         return deletedDate;
     }

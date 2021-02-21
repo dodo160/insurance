@@ -15,5 +15,7 @@ public interface BasicService<T,ID> {
 
     void deleteById(ID id);
 
-    void softDeleteById(ID id);
+    void softDeleteById(ID id) throws ValidationException;
+
+    Class getEntityServiceClass();
 }

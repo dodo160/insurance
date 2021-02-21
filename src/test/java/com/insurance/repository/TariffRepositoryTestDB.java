@@ -39,6 +39,7 @@ public class TariffRepositoryTestDB {
     @Test
     public void saveTest(){
         final Tariff newTariff = TestUtils.buildTariff(InsuranceType.DAY);
+        newTariff.setId(null);
         newTariff.setPrice(new BigDecimal(30));
 
         final Tariff savedTariff = tariffRepository.save(newTariff);

@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:reinsurance="/insurance/model/reinsurance" xmlns:tariff="/insurance/model/tariff" xmlns:user="/insurance/model/user" targetNamespace="/insurance/model/insurance" version="1.0">
+        
+  
+  
+  <xs:import schemaLocation="schema7.xsd"/>
+        
+  
+  
+  <xs:import namespace="/insurance/model/reinsurance" schemaLocation="Reinsurance.xsd"/>
+        
+  
+  
+  <xs:import namespace="/insurance/model/tariff" schemaLocation="Tariff.xsd"/>
+        
+  
+  
+  <xs:import namespace="/insurance/model/user" schemaLocation="User.xsd"/>
+        
+  
+  
+  <xs:complexType name="insurance">
+                
+    
+    
+    <xs:complexContent>
+                        
+      
+      
+      <xs:extension base="baseEntity">
+                                
+        
+        
+        <xs:sequence>
+                                        
+          
+          
+          <xs:element minOccurs="0" name="endDate" type="xs:string"/>
+                                        
+          
+          
+          <xs:element name="person" type="xs:int"/>
+                                        
+          
+          
+          <xs:element minOccurs="0" name="price" type="xs:decimal"/>
+                                        
+          
+          
+          <xs:element maxOccurs="unbounded" minOccurs="0" name="reinsurances" nillable="true" type="reinsurance:reinsurance"/>
+                                        
+          
+          
+          <xs:element minOccurs="0" name="startDate" type="xs:string"/>
+                                        
+          
+          
+          <xs:element minOccurs="0" ref="tariff"/>
+                                        
+          
+          
+          <xs:element minOccurs="0" ref="user"/>
+                                      
+        
+        
+        </xs:sequence>
+                              
+      
+      
+      </xs:extension>
+                      
+    
+    
+    </xs:complexContent>
+              
+  
+  
+  </xs:complexType>
+      
+
+
+</xs:schema>

@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:client="/insurance/model/client" xmlns:employee="/insurance/model/employee" xmlns:insurance="/insurance/model/insurance" xmlns:reinsurance="/insurance/model/reinsurance" xmlns:tariff="/insurance/model/tariff" xmlns:user="/insurance/model/user" version="1.0">
+        
+  
+  
+  <xs:import namespace="/insurance/model/client" schemaLocation="Client.xsd"/>
+        
+  
+  
+  <xs:import namespace="/insurance/model/user" schemaLocation="User.xsd"/>
+        
+  
+  
+  <xs:import namespace="/insurance/model/employee" schemaLocation="Employee.xsd"/>
+        
+  
+  
+  <xs:import namespace="/insurance/model/insurance" schemaLocation="Insurance.xsd"/>
+        
+  
+  
+  <xs:import namespace="/insurance/model/reinsurance" schemaLocation="Reinsurance.xsd"/>
+        
+  
+  
+  <xs:import namespace="/insurance/model/tariff" schemaLocation="Tariff.xsd"/>
+        
+  
+  
+  <xs:element name="client" type="client:client"/>
+        
+  
+  
+  <xs:element name="employee" type="employee:employee"/>
+        
+  
+  
+  <xs:element name="insurance" type="insurance:insurance"/>
+        
+  
+  
+  <xs:element name="reinsurance" type="reinsurance:reinsurance"/>
+        
+  
+  
+  <xs:element name="tariff" type="tariff:tariff"/>
+        
+  
+  
+  <xs:element name="user" type="user:user"/>
+        
+  
+  
+  <xs:complexType name="baseEntity">
+                
+    
+    
+    <xs:sequence>
+                        
+      
+      
+      <xs:element minOccurs="0" name="id" type="xs:long"/>
+                      
+    
+    
+    </xs:sequence>
+              
+  
+  
+  </xs:complexType>
+        
+  
+  
+  <xs:complexType name="temporalEntity">
+                
+    
+    
+    <xs:sequence>
+                        
+      
+      
+      <xs:element minOccurs="0" name="entity" type="xs:string"/>
+                        
+      
+      
+      <xs:element minOccurs="0" name="entityClass" type="xs:string"/>
+                        
+      
+      
+      <xs:element minOccurs="0" name="id" type="xs:long"/>
+                        
+      
+      
+      <xs:element minOccurs="0" name="mediaType" type="xs:string"/>
+                        
+      
+      
+      <xs:element minOccurs="0" ref="user"/>
+                      
+    
+    
+    </xs:sequence>
+              
+  
+  
+  </xs:complexType>
+        
+  
+  
+  <xs:simpleType name="reinsuranceType">
+                
+    
+    
+    <xs:restriction base="xs:string">
+                        
+      
+      
+      <xs:enumeration value="STORNO"/>
+                        
+      
+      
+      <xs:enumeration value="SPORTS_ACTIVITY"/>
+                      
+    
+    
+    </xs:restriction>
+              
+  
+  
+  </xs:simpleType>
+        
+  
+  
+  <xs:simpleType name="insuranceType">
+                
+    
+    
+    <xs:restriction base="xs:string">
+                        
+      
+      
+      <xs:enumeration value="DAY"/>
+                        
+      
+      
+      <xs:enumeration value="YEAR"/>
+                      
+    
+    
+    </xs:restriction>
+              
+  
+  
+  </xs:simpleType>
+        
+  
+  
+  <xs:simpleType name="packet">
+                
+    
+    
+    <xs:restriction base="xs:string">
+                        
+      
+      
+      <xs:enumeration value="BASIC"/>
+                        
+      
+      
+      <xs:enumeration value="EXTEND"/>
+                        
+      
+      
+      <xs:enumeration value="EXTRA"/>
+                      
+    
+    
+    </xs:restriction>
+              
+  
+  
+  </xs:simpleType>
+      
+
+
+</xs:schema>

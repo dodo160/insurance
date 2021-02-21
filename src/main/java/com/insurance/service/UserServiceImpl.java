@@ -19,6 +19,10 @@ public class UserServiceImpl implements UserService{
         this.userRepository = userRepository;
     }
 
+    public Class getEntityServiceClass(){
+        return User.class;
+    }
+
     @Override
     public Set<User> findAll() {
         final Set<User> users = new HashSet<>();

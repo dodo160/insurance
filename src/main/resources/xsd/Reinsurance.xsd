@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="/insurance/model/reinsurance" version="1.0">
+      
+  
+  <xs:import schemaLocation="schema7.xsd"/>
+      
+  
+  <xs:complexType name="reinsurance">
+            
+    
+    <xs:complexContent>
+                  
+      
+      <xs:extension base="baseEntity">
+                        
+        
+        <xs:sequence>
+                              
+          
+          <xs:element minOccurs="0" name="reinsuranceType" type="reinsuranceType"/>
+                            
+        
+        </xs:sequence>
+                      
+      
+      </xs:extension>
+                
+    
+    </xs:complexContent>
+          
+  
+  </xs:complexType>
+    
+
+</xs:schema>

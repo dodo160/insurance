@@ -2,14 +2,13 @@ package com.insurance;
 
 import com.insurance.repository.InsuranceRepository;
 import com.insurance.repository.TariffRepository;
+import com.insurance.repository.TemporalEntityRepository;
 import com.insurance.repository.UserRepository;
-import com.insurance.service.ConfigProperties;
-import com.insurance.service.InsuranceService;
-import com.insurance.service.TariffService;
-import com.insurance.service.UserService;
+import com.insurance.service.*;
 import com.insurance.validators.ValidatorFactory;
 import com.insurance.validators.ValidatorInsuranceDay;
 import com.insurance.validators.ValidatorInsuranceYear;
+import com.insurance.xml.xmlvalidator.XmlValidator;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.platform.commons.util.StringUtils;
@@ -52,6 +51,15 @@ public class InsuranceApplicationTests {
 	@Autowired
 	private ValidatorInsuranceYear validatorInsuranceYear;
 
+	@Autowired
+	private TemporalEntityService temporalEntityService;
+
+	@Autowired
+	private TemporalEntityRepository temporalEntityRepository;
+
+	@Autowired
+	private XmlValidator xmlValidator;
+
 	@Test
 	public void contextLoads() {
 		Assert.assertNotNull(insuranceRepository);
@@ -64,6 +72,9 @@ public class InsuranceApplicationTests {
 		Assert.assertNotNull(validatorFactory);
 		Assert.assertNotNull(validatorInsuranceDay);
 		Assert.assertNotNull(validatorInsuranceYear);
+		Assert.assertNotNull(temporalEntityService);
+		Assert.assertNotNull(temporalEntityRepository);
+		Assert.assertNotNull(xmlValidator);
 	}
 
 	@Test
@@ -81,5 +92,7 @@ public class InsuranceApplicationTests {
 		final String yearSportActivity = configProperties.getConfigValue("ext.param.YEAR.SPORTS_ACTIVITY");
 		Assert.assertTrue(StringUtils.isNotBlank(yearSportActivity));
 		Assert.assertEquals("1.1", yearSportActivity);
+		final String xsdSchema = configProperties.getConfigValue("xsd.schema.path");
+		Assert.assertNotNull(xsdSchema);
 	}
 }

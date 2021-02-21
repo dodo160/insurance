@@ -2,7 +2,6 @@ package com.insurance.rest;
 
 import com.insurance.mapper.CycleAvoidingMappingContext;
 import com.insurance.mapper.InsuranceMapper;
-import com.insurance.model.Insurance;
 import com.insurance.modeldto.InsuranceDTO;
 import com.insurance.service.InsuranceService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,7 +53,7 @@ public class InsuranceRestController {
 	}
 
 	@DeleteMapping("/insurance/softDelete/{id}")
-	public ResponseEntity<Void> softDeleteInsuracnce(@PathVariable("id") final Long id) {
+	public ResponseEntity<Void> softDeleteInsuracnce(@PathVariable("id") final Long id) throws ValidationException {
 		insuranceService.softDeleteById(id);
 		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}

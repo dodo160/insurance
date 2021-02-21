@@ -6,13 +6,19 @@ import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
 import javax.validation.constraints.Digits;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
+import javax.xml.bind.annotation.XmlType;
 import java.math.BigDecimal;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
 @Entity
-@Table(name = "tariff")
+@Table(name = "tariff", uniqueConstraints = { @UniqueConstraint(columnNames = "insuranceType"),
+		@UniqueConstraint(columnNames = "packet"), @UniqueConstraint(columnNames = "price") })
+@XmlRootElement()
+@XmlType(namespace = "/insurance/model/tariff")
 @Where(clause = "deletedDate is null")
 public class Tariff extends BaseEntity {
 
@@ -54,6 +60,7 @@ public class Tariff extends BaseEntity {
 		this.price = price;
 	}
 
+	@XmlTransient
 	public Set<Insurance> getInsurances() {
 		return insurances;
 	}

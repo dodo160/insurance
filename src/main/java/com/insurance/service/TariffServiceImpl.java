@@ -21,6 +21,10 @@ public class TariffServiceImpl implements TariffService {
 		this.tariffRepository=tariffRepository;
 	}
 
+	public Class getEntityServiceClass(){
+		return Tariff.class;
+	}
+
 	@Override
 	public Set<Tariff> findAll() {
 		final Set<Tariff> tariffs = new HashSet<>();

@@ -5,6 +5,7 @@ import com.insurance.enums.Packet;
 import com.insurance.enums.ReinsuranceType;
 import com.insurance.enums.UserType;
 import com.insurance.model.*;
+import org.springframework.http.MediaType;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -57,5 +58,16 @@ public class TestUtils {
         user.setPostCode("1111");
         user.setIdentityId("2222");
         return user;
+    }
+
+    public static TemporalEntity buildTemporalEntity(){
+        final String xmlString = "XML_STRING";
+        final TemporalEntity temporalEntity= new TemporalEntity();
+        temporalEntity.setId(1L);
+        temporalEntity.setEntityClass(Insurance.class.getSimpleName());
+        temporalEntity.setMediaType(MediaType.APPLICATION_XML_VALUE);
+        temporalEntity.setEntity(xmlString);
+        temporalEntity.setUser(buildUser(UserType.CLIENT));
+        return temporalEntity;
     }
 }

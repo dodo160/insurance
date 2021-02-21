@@ -37,6 +37,7 @@ public class UserRepositoryTestDB {
     @Test
     public void saveTest(){
         final User newUser = buildUser(UserType.CLIENT);
+        newUser.setId(null);
 
         final User savedUser = userRepository.save(newUser);
 

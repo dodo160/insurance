@@ -5,6 +5,9 @@ import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
+import javax.xml.bind.annotation.XmlType;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -13,6 +16,8 @@ import java.util.Set;
 @Table(name = "user", uniqueConstraints = {@UniqueConstraint(columnNames = "identityId")})
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "userType", discriminatorType = DiscriminatorType.STRING)
+@XmlRootElement()
+@XmlType(namespace = "/insurance/model/user")
 @Where(clause = "deletedDate is null")
 public class User extends BaseEntity{
 
@@ -31,6 +36,9 @@ public class User extends BaseEntity{
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<Insurance> insurances = new HashSet<>();
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Set<TemporalEntity> temporalEntities = new HashSet<>();
 
     public String getFirstName() {
         return firstName;
@@ -80,12 +88,22 @@ public class User extends BaseEntity{
         this.identityId = identityId;
     }
 
+    @XmlTransient
     public Set<Insurance> getInsurances() {
         return insurances;
     }
 
     public void setInsurances(Set<Insurance> insurances) {
         this.insurances = insurances;
+    }
+
+    @XmlTransient
+    public Set<TemporalEntity> getTemporalEntities() {
+        return temporalEntities;
+    }
+
+    public void setTemporalEntities(final Set<TemporalEntity> temporalEntities) {
+        this.temporalEntities = temporalEntities;
     }
 
     public UserType getUserType(){
