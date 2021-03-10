@@ -9,14 +9,11 @@ import javax.validation.constraints.Digits;
 import javax.validation.constraints.Future;
 import javax.validation.constraints.FutureOrPresent;
 import javax.validation.constraints.NotNull;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlType;
+import javax.xml.bind.annotation.*;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 @Table(name = "insurance")
@@ -43,7 +40,7 @@ public class Insurance extends BaseEntity {
 	private LocalDate endDate;
 
 	@OneToMany(mappedBy = "insurance", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
-	private Set<Reinsurance> reinsurances = new HashSet<>();
+	private Collection<Reinsurance> reinsurances;
 
 	@Range(min = 1, max = 3)
 	@NotNull
@@ -70,11 +67,13 @@ public class Insurance extends BaseEntity {
 		this.endDate = endDate;
 	}
 
-	public Set<Reinsurance> getReinsurances() {
+	@XmlElementWrapper(name="reinsurances")
+	@XmlElement(name="reinsurance")
+	public Collection<Reinsurance> getReinsurances() {
 		return reinsurances;
 	}
 
-	public void setReinsurances(Set<Reinsurance> reinsurances) {
+	public void setReinsurances(Collection<Reinsurance> reinsurances) {
 		this.reinsurances = reinsurances;
 	}
 

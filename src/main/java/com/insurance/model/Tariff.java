@@ -10,9 +10,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
 import java.math.BigDecimal;
-import java.util.HashSet;
+import java.util.Collection;
 import java.util.Objects;
-import java.util.Set;
 
 @Entity
 @Table(name = "tariff", uniqueConstraints = { @UniqueConstraint(columnNames = "insuranceType"),
@@ -34,7 +33,7 @@ public class Tariff extends BaseEntity {
 	private BigDecimal price;
 
 	@OneToMany(mappedBy = "tariff", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	private Set<Insurance> insurances = new HashSet<>();
+	private Collection<Insurance> insurances;
 
 	public InsuranceType getInsuranceType() {
 		return insuranceType;
@@ -61,11 +60,11 @@ public class Tariff extends BaseEntity {
 	}
 
 	@XmlTransient
-	public Set<Insurance> getInsurances() {
+	public Collection<Insurance> getInsurances() {
 		return insurances;
 	}
 
-	public void setInsurances(Set<Insurance> insurances) {
+	public void setInsurances(Collection<Insurance> insurances) {
 		this.insurances = insurances;
 	}
 

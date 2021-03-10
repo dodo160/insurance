@@ -47,7 +47,31 @@
                                         
           
           
-          <xs:element maxOccurs="unbounded" minOccurs="0" name="reinsurances" nillable="true" type="reinsurance:reinsurance"/>
+          <xs:element minOccurs="0" name="reinsurances">
+                                                
+            
+            
+            <xs:complexType>
+                                                        
+              
+              
+              <xs:sequence>
+                                                                
+                
+                
+                <xs:element maxOccurs="unbounded" minOccurs="0" ref="reinsurance"/>
+                                                              
+              
+              
+              </xs:sequence>
+                                                      
+            
+            
+            </xs:complexType>
+                                              
+          
+          
+          </xs:element>
                                         
           
           

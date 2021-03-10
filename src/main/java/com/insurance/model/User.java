@@ -8,9 +8,8 @@ import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
-import java.util.HashSet;
+import java.util.Collection;
 import java.util.Objects;
-import java.util.Set;
 
 @Entity
 @Table(name = "user", uniqueConstraints = {@UniqueConstraint(columnNames = "identityId")})
@@ -35,10 +34,10 @@ public class User extends BaseEntity{
     private String identityId;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private Set<Insurance> insurances = new HashSet<>();
+    private Collection<Insurance> insurances;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private Set<TemporalEntity> temporalEntities = new HashSet<>();
+    private Collection<TemporalEntity> temporalEntities;
 
     public String getFirstName() {
         return firstName;
@@ -89,20 +88,20 @@ public class User extends BaseEntity{
     }
 
     @XmlTransient
-    public Set<Insurance> getInsurances() {
+    public Collection<Insurance> getInsurances() {
         return insurances;
     }
 
-    public void setInsurances(Set<Insurance> insurances) {
+    public void setInsurances(Collection<Insurance> insurances) {
         this.insurances = insurances;
     }
 
     @XmlTransient
-    public Set<TemporalEntity> getTemporalEntities() {
+    public Collection<TemporalEntity> getTemporalEntities() {
         return temporalEntities;
     }
 
-    public void setTemporalEntities(final Set<TemporalEntity> temporalEntities) {
+    public void setTemporalEntities(final Collection<TemporalEntity> temporalEntities) {
         this.temporalEntities = temporalEntities;
     }
 
