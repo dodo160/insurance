@@ -2,11 +2,7 @@ package com.insurance.xml;
 
 import com.insurance.model.BaseEntity;
 
-import javax.xml.bind.ValidationException;
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.Marshaller;
-import javax.xml.bind.Unmarshaller;
+import javax.xml.bind.*;
 import javax.xml.transform.stream.StreamSource;
 import java.io.StringReader;
 import java.io.StringWriter;
@@ -26,7 +22,7 @@ public class XmlUtils {
         }
     }
 
-    public static Object toXml(final Class entityClass, final BaseEntity entity) throws ValidationException {
+    public static String toXml(final Class entityClass, final BaseEntity entity) throws ValidationException {
         try {
             final JAXBContext jaxbContext = JAXBContext.newInstance(entityClass);
             final Marshaller jaxbMarshaller = jaxbContext.createMarshaller();

@@ -1,12 +1,15 @@
 package com.insurance.service;
 
 import com.google.common.collect.ImmutableSet;
+import com.insurance.json.JsonUtils;
+import com.insurance.model.BaseEntity;
 import com.insurance.model.Insurance;
 import com.insurance.model.Tariff;
 import com.insurance.model.TemporalEntity;
 import com.insurance.repository.TemporalEntityRepository;
 import com.insurance.xml.XmlUtils;
 import com.insurance.xml.xmlvalidator.XmlValidator;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
@@ -53,7 +56,17 @@ public class TemporalEntityServiceImpl implements TemporalEntityService {
         Objects.nonNull(entity.getUser());
         Objects.nonNull(entity.getMediaType());
         Objects.nonNull(entity.getEntity());
-        xmlValidator.validateXml(entity.getEntity(), entity.getEntityClass());
+
+        switch (entity.getMediaType()) {
+            case MediaType.APPLICATION_XML_VALUE:
+                xmlValidator.validateXml(entity.getEntity(), entity.getEntityClass());
+                break;
+            case MediaType.APPLICATION_JSON_VALUE: JsonUtils.isValidJson(entity.getEntity());
+                break;
+            default:
+                throw new ValidationException("Not supported Media Type");
+        }
+
         return temporalEntityRepository.save(entity);
     }
 
@@ -79,8 +92,19 @@ public class TemporalEntityServiceImpl implements TemporalEntityService {
         try {
             if (ImmutableSet.of(Insurance.class.getSimpleName(), Tariff.class.getSimpleName()).contains(temporalEntity.getEntityClass())) {
                 final Class entityClass = Class.forName("com.insurance.model." + temporalEntity.getEntityClass());
-                xmlValidator.validateXml(temporalEntity.getEntity(), temporalEntity.getEntityClass());
-                final Object entity = XmlUtils.fromXml(entityClass, temporalEntity.getEntity());
+                BaseEntity entity =null;
+
+                switch (temporalEntity.getMediaType()) {
+                    case MediaType.APPLICATION_XML_VALUE:
+                        entity = createEntityFromTemporalXML(temporalEntity, entityClass);
+                        break;
+                    case MediaType.APPLICATION_JSON_VALUE:
+                        entity = createEntityFromTemporalJSON(temporalEntity, entityClass);
+                        break;
+                    default:
+                        throw new ValidationException("Not supported Media Type");
+                }
+
                 final BasicService basicService = services.getOrDefault(entityClass, null);
 
                 if (Objects.nonNull(entity) && Objects.nonNull(basicService)) {
@@ -88,10 +112,19 @@ public class TemporalEntityServiceImpl implements TemporalEntityService {
                     temporalEntityRepository.deleteById(temporalEntity.getId());
                 }
             }else{
-                throw new ValidationException("Not supproted entity.");
+                throw new ValidationException("Not supported entity.");
             }
         } catch (ClassNotFoundException e) {
             throw new ValidationException(e);
         }
+    }
+
+    private BaseEntity createEntityFromTemporalXML(final TemporalEntity temporalEntity, final Class entityClass) throws ValidationException {
+        xmlValidator.validateXml(temporalEntity.getEntity(), temporalEntity.getEntityClass());
+        return (BaseEntity) XmlUtils.fromXml(entityClass, temporalEntity.getEntity());
+    }
+
+    private BaseEntity createEntityFromTemporalJSON(final TemporalEntity temporalEntity, final Class entityClass) throws ValidationException {
+        return (BaseEntity) JsonUtils.fromJson(entityClass, temporalEntity.getEntity());
     }
 }

@@ -1,5 +1,6 @@
 package com.insurance.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.insurance.listener.BaseEntityListener;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -35,6 +36,7 @@ public class BaseEntity implements Serializable {
     }
 
     @XmlTransient
+    @JsonIgnore
     public LocalDateTime getCreatedDate() {
         return createdDate;
     }
@@ -44,6 +46,7 @@ public class BaseEntity implements Serializable {
     }
 
     @XmlTransient
+    @JsonIgnore
     public LocalDateTime getLastUpdatedDate() {
         return lastUpdatedDate;
     }
@@ -53,6 +56,7 @@ public class BaseEntity implements Serializable {
     }
 
     @XmlTransient
+    @JsonIgnore
     public LocalDateTime getDeletedDate() {
         return deletedDate;
     }
@@ -61,6 +65,8 @@ public class BaseEntity implements Serializable {
         this.deletedDate = deletedDate;
     }
 
+    @XmlTransient
+    @JsonIgnore
     public boolean isNew() {
         return Objects.isNull(id);
     }

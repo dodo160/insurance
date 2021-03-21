@@ -1,5 +1,6 @@
 package com.insurance.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.insurance.enums.UserType;
 import org.hibernate.annotations.Where;
 
@@ -9,6 +10,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Objects;
 
 @Entity
@@ -34,10 +36,10 @@ public class User extends BaseEntity{
     private String identityId;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private Collection<Insurance> insurances;
+    private Collection<Insurance> insurances = new HashSet<>();;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private Collection<TemporalEntity> temporalEntities;
+    private Collection<TemporalEntity> temporalEntities = new HashSet<>();;
 
     public String getFirstName() {
         return firstName;
@@ -88,6 +90,7 @@ public class User extends BaseEntity{
     }
 
     @XmlTransient
+    @JsonIgnore
     public Collection<Insurance> getInsurances() {
         return insurances;
     }
@@ -97,6 +100,7 @@ public class User extends BaseEntity{
     }
 
     @XmlTransient
+    @JsonIgnore
     public Collection<TemporalEntity> getTemporalEntities() {
         return temporalEntities;
     }
@@ -105,6 +109,7 @@ public class User extends BaseEntity{
         this.temporalEntities = temporalEntities;
     }
 
+    @JsonIgnore
     public UserType getUserType(){
         if(this instanceof Client){
             return UserType.CLIENT;

@@ -1,5 +1,6 @@
 package com.insurance.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.insurance.enums.ReinsuranceType;
 import org.hibernate.annotations.Where;
 
@@ -27,6 +28,7 @@ public class Reinsurance extends BaseEntity {
 	private ReinsuranceType reinsuranceType;
 
 	@XmlTransient
+	@JsonIgnore
 	public Insurance getInsurance() {
 		return insurance;
 	}

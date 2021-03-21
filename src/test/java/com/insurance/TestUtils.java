@@ -8,6 +8,7 @@ import com.insurance.model.*;
 import org.springframework.http.MediaType;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDate;
 
 public class TestUtils {
@@ -44,7 +45,7 @@ public class TestUtils {
         tariff.setId(1l);
         tariff.setInsuranceType(insuranceType);
         tariff.setPacket(Packet.BASIC);
-        tariff.setPrice(insuranceType == InsuranceType.YEAR ? new BigDecimal(39.0): new BigDecimal(1.2));
+        tariff.setPrice(insuranceType == InsuranceType.YEAR ? new BigDecimal(39.0).setScale(2, RoundingMode.HALF_UP): new BigDecimal(1.2).setScale(2, RoundingMode.HALF_UP));
         return tariff;
     }
 

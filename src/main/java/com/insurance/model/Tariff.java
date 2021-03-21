@@ -1,5 +1,6 @@
 package com.insurance.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.insurance.enums.InsuranceType;
 import com.insurance.enums.Packet;
 import org.hibernate.annotations.Where;
@@ -11,6 +12,7 @@ import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
 import java.math.BigDecimal;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Objects;
 
 @Entity
@@ -33,7 +35,7 @@ public class Tariff extends BaseEntity {
 	private BigDecimal price;
 
 	@OneToMany(mappedBy = "tariff", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	private Collection<Insurance> insurances;
+	private Collection<Insurance> insurances = new HashSet<>();;
 
 	public InsuranceType getInsuranceType() {
 		return insuranceType;
@@ -60,6 +62,7 @@ public class Tariff extends BaseEntity {
 	}
 
 	@XmlTransient
+	@JsonIgnore
 	public Collection<Insurance> getInsurances() {
 		return insurances;
 	}
