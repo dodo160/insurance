@@ -22,7 +22,7 @@ public class MQMessageReceiver {
                         @Headers MessageHeaders headers,
                         Message message) {
 
-        LOGGER.info("Message has been received from QUEUE: " + JmsConfig.QUEUE + " with UUID: " + mqMessage.getId() + " message: " + mqMessage);
+        LOGGER.debug("Message has been received from QUEUE: " + JmsConfig.QUEUE + " with UUID: " + mqMessage.getId() + " message: " + mqMessage);
 
     }
 }

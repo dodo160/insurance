@@ -27,8 +27,6 @@ import java.util.stream.Collectors;
 @Service
 public class InsuranceServiceImpl implements InsuranceService {
 
-	final Logger LOGGER = LogManager.getLogger(InsuranceServiceImpl.class);
-
 	private InsuranceRepository insuranceRepository;
 	private ConfigProperties configProperties;
 	private ValidatorFactory validatorFactory;

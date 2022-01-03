@@ -29,6 +29,6 @@ public class MQMessageSender {
 
         jmsTemplate.convertAndSend(JmsConfig.QUEUE, mqMessage);
 
-        LOGGER.info("Message has been sent to QUEUE: " + JmsConfig.QUEUE + " with UUID: " + mqMessage.getId());
+        LOGGER.debug("Message has been sent to QUEUE: " + JmsConfig.QUEUE + " with UUID: " + mqMessage.getId());
     }
 }
