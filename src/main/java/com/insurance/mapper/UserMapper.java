@@ -2,7 +2,6 @@ package com.insurance.mapper;
 
 import com.insurance.model.User;
 import com.insurance.modeldto.UserDTO;
-import org.mapstruct.Context;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
@@ -18,11 +17,9 @@ public interface UserMapper {
             @Mapping(target = "address", source = "entity.address"),
             @Mapping(target = "postCode", source = "entity.postCode"),
             @Mapping(target = "identityId", source = "entity.identityId"),
-            @Mapping(target = "userType", expression = "java(entity.getUserType())"),
-            @Mapping(target = "insurances", source = "entity.insurances"),
-            @Mapping(target = "temporalEntities", source = "entity.temporalEntities")
+            @Mapping(target = "userType", expression = "java(entity.getUserType())")
     })
-    UserDTO userToUserDTO(User entity, @Context CycleAvoidingMappingContext context);
+    UserDTO userToUserDTO(User entity);
 
     @Mappings({
             @Mapping(target = "id", source = "dto.id"),
@@ -31,9 +28,7 @@ public interface UserMapper {
             @Mapping(target = "city", source = "dto.city"),
             @Mapping(target = "address", source = "dto.address"),
             @Mapping(target = "postCode", source = "dto.postCode"),
-            @Mapping(target = "identityId", source = "dto.identityId"),
-            @Mapping(target = "insurances", source = "dto.insurances"),
-            @Mapping(target = "temporalEntities", source = "dto.temporalEntities")
+            @Mapping(target = "identityId", source = "dto.identityId")
     })
-    User userDTOtoUser(UserDTO dto, @Context CycleAvoidingMappingContext context);
+    User userDTOtoUser(UserDTO dto);
 }

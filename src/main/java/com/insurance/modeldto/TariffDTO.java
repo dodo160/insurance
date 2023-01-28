@@ -14,8 +14,6 @@ public class TariffDTO {
     private InsuranceType insuranceType;
     private Packet packet;
     private BigDecimal price;
-    @JsonIgnoreProperties({"user", "tariff"})
-    private Set<InsuranceDTO> insurances = new HashSet<>();
 
     public Long getId() {
         return id;
@@ -47,13 +45,5 @@ public class TariffDTO {
 
     public void setPrice(BigDecimal price) {
         this.price = price;
-    }
-
-    public Set<InsuranceDTO> getInsurances() {
-        return insurances;
-    }
-
-    public void setInsurances(Set<InsuranceDTO> insurances) {
-        this.insurances = insurances;
     }
 }

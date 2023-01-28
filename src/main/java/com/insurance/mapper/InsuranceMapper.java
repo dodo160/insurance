@@ -17,7 +17,7 @@ public interface InsuranceMapper {
             @Mapping(target = "person", source = "entity.person"),
             @Mapping(target = "price", source = "entity.price")
     })
-    InsuranceDTO insuranceToInsuranceDTO(Insurance entity, @Context CycleAvoidingMappingContext context);
+    InsuranceDTO insuranceToInsuranceDTO(Insurance entity);
 
     @Mappings({
             @Mapping(target = "id", source = "dto.id"),
@@ -30,6 +30,6 @@ public interface InsuranceMapper {
             @Mapping(target = "price", source = "dto.price")
 
     })
-    @InheritInverseConfiguration
-    Insurance insuranceDTOtoInsurance(InsuranceDTO dto, @Context CycleAvoidingMappingContext context);
+    //@InheritInverseConfiguration
+    Insurance insuranceDTOtoInsurance(InsuranceDTO dto);
 }

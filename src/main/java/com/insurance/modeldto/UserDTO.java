@@ -1,11 +1,6 @@
 package com.insurance.modeldto;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.insurance.enums.UserType;
-import com.insurance.model.TemporalEntity;
-
-import java.util.HashSet;
-import java.util.Set;
 
 public class UserDTO {
 
@@ -17,10 +12,6 @@ public class UserDTO {
     private String postCode;
     private String identityId;
     private UserType userType;
-    @JsonIgnoreProperties({"tariff","user"})
-    private Set<InsuranceDTO> insurances = new HashSet<>();
-    @JsonIgnoreProperties({"user"})
-    private Set<TemporalEntity> temporalEntities = new HashSet<>();
 
     public Long getId() {
         return id;
@@ -86,19 +77,4 @@ public class UserDTO {
         this.userType = userType;
     }
 
-    public Set<InsuranceDTO> getInsurances() {
-        return insurances;
-    }
-
-    public void setInsurances(Set<InsuranceDTO> insurances) {
-        this.insurances = insurances;
-    }
-
-    public Set<TemporalEntity> getTemporalEntities() {
-        return temporalEntities;
-    }
-
-    public void setTemporalEntities(Set<TemporalEntity> temporalEntities) {
-        this.temporalEntities = temporalEntities;
-    }
 }

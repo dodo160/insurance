@@ -12,16 +12,14 @@ public interface ReinsuranceMapper {
 
     @Mappings({
             @Mapping(target = "id", source = "entity.id"),
-            @Mapping(target = "insurance", source = "entity.insurance"),
             @Mapping(target = "reinsuranceType", source = "entity.reinsuranceType")
 
     })
-    ReinsuranceDTO reinsuranceToReinsuranceDTO(Reinsurance entity, @Context CycleAvoidingMappingContext context);
+    ReinsuranceDTO reinsuranceToReinsuranceDTO(Reinsurance entity);
 
     @Mappings({
             @Mapping(target = "id", source = "dto.id"),
-            @Mapping(target = "insurance", source = "dto.insurance"),
             @Mapping(target = "reinsuranceType", source = "dto.reinsuranceType")
                 })
-    Reinsurance reinsuranceDTOtoReinsurance(ReinsuranceDTO dto, @Context CycleAvoidingMappingContext context);
+    Reinsurance reinsuranceDTOtoReinsurance(ReinsuranceDTO dto);
 }

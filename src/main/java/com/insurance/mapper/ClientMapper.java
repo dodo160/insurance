@@ -17,8 +17,7 @@ public interface ClientMapper {
             @Mapping(target = "city", source = "dto.city"),
             @Mapping(target = "address", source = "dto.address"),
             @Mapping(target = "postCode", source = "dto.postCode"),
-            @Mapping(target = "identityId", source = "dto.identityId"),
-            @Mapping(target = "insurances", source = "dto.insurances")
+            @Mapping(target = "identityId", source = "dto.identityId")
     })
-    Client userDTOtoClient(UserDTO dto, @Context CycleAvoidingMappingContext context);
+    Client userDTOtoClient(UserDTO dto);
 }

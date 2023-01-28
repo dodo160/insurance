@@ -1,6 +1,5 @@
 package com.insurance.rest;
 
-import com.insurance.mapper.CycleAvoidingMappingContext;
 import com.insurance.mapper.TemporalEntityMapper;
 import com.insurance.modeldto.TemporalEntityDTO;
 import com.insurance.service.TemporalEntityService;
@@ -25,17 +24,17 @@ public class TemporalEntityRestController {
 
     @GetMapping("/temporalEntity/{id}")
     public ResponseEntity<TemporalEntityDTO> getById(@PathVariable final Long id) {
-        return new ResponseEntity<>(temporalEntityMapper.temporalEntityToTemporalEntityDTO(temporalEntityService.findById(id), new CycleAvoidingMappingContext()), HttpStatus.OK);
+        return new ResponseEntity<>(temporalEntityMapper.temporalEntityToTemporalEntityDTO(temporalEntityService.findById(id)), HttpStatus.OK);
     }
 
     @GetMapping("/temporalEntities")
     public ResponseEntity<Set<TemporalEntityDTO>> getAllTemporalEntities() {
-        return new ResponseEntity<>(temporalEntityService.findAll().stream().map(x-> temporalEntityMapper.temporalEntityToTemporalEntityDTO(x, new CycleAvoidingMappingContext())).collect(Collectors.toSet()), HttpStatus.OK);
+        return new ResponseEntity<>(temporalEntityService.findAll().stream().map(x-> temporalEntityMapper.temporalEntityToTemporalEntityDTO(x)).collect(Collectors.toSet()), HttpStatus.OK);
     }
 
     @PostMapping("/temporalEntity/add")
     public ResponseEntity<Void> addTemporalEntity(@RequestBody final TemporalEntityDTO temporalEntityDTO) throws ValidationException {
-        temporalEntityService.add(temporalEntityMapper.temporalEntityDTOtoTemporalEntity(temporalEntityDTO, new CycleAvoidingMappingContext()));
+        temporalEntityService.add(temporalEntityMapper.temporalEntityDTOtoTemporalEntity(temporalEntityDTO));
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 

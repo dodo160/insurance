@@ -17,8 +17,7 @@ public interface EmployeeMapper {
             @Mapping(target = "city", source = "dto.city"),
             @Mapping(target = "address", source = "dto.address"),
             @Mapping(target = "postCode", source = "dto.postCode"),
-            @Mapping(target = "identityId", source = "dto.identityId"),
-            @Mapping(target = "insurances", source = "dto.insurances")
+            @Mapping(target = "identityId", source = "dto.identityId")
     })
-    Employee userDTOtoEmployee(UserDTO dto, @Context CycleAvoidingMappingContext context);
+    Employee userDTOtoEmployee(UserDTO dto);
 }

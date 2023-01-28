@@ -2,7 +2,6 @@ package com.insurance.mapper;
 
 import com.insurance.model.TemporalEntity;
 import com.insurance.modeldto.TemporalEntityDTO;
-import org.mapstruct.Context;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
@@ -17,7 +16,7 @@ public interface TemporalEntityMapper {
             @Mapping(target = "mediaType", source = "entity.mediaType"),
             @Mapping(target = "entity", source = "entity.entity"),
     })
-    TemporalEntityDTO temporalEntityToTemporalEntityDTO(TemporalEntity entity, @Context CycleAvoidingMappingContext context);
+    TemporalEntityDTO temporalEntityToTemporalEntityDTO(TemporalEntity entity);
 
     @Mappings({
             @Mapping(target = "id", source = "dto.id"),
@@ -26,5 +25,5 @@ public interface TemporalEntityMapper {
             @Mapping(target = "mediaType", source = "dto.mediaType"),
             @Mapping(target = "entity", source = "dto.entity"),
     })
-    TemporalEntity temporalEntityDTOtoTemporalEntity(TemporalEntityDTO dto, @Context CycleAvoidingMappingContext context);
+    TemporalEntity temporalEntityDTOtoTemporalEntity(TemporalEntityDTO dto);
 }

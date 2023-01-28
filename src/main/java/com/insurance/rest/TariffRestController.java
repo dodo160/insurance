@@ -2,7 +2,6 @@ package com.insurance.rest;
 
 import com.insurance.enums.InsuranceType;
 import com.insurance.enums.Packet;
-import com.insurance.mapper.CycleAvoidingMappingContext;
 import com.insurance.mapper.TariffMapper;
 import com.insurance.modeldto.TariffDTO;
 import com.insurance.service.TariffService;
@@ -27,17 +26,17 @@ public class TariffRestController {
 
 	@GetMapping("/tariff/{id}")
 	public ResponseEntity<TariffDTO> getById(@PathVariable final Long id) {
-		return new ResponseEntity<>(tariffMapper.tariffToTariffDTO(tariffService.findById(id), new CycleAvoidingMappingContext()), HttpStatus.OK);
+		return new ResponseEntity<>(tariffMapper.tariffToTariffDTO(tariffService.findById(id)), HttpStatus.OK);
 	}
 
 	@GetMapping("/tariffs")
 	public ResponseEntity<Set<TariffDTO>> getAllTariffs() {
-		return new ResponseEntity<>(tariffService.findAll().stream().map(x->tariffMapper.tariffToTariffDTO(x, new CycleAvoidingMappingContext())).collect(Collectors.toSet()), HttpStatus.OK);
+		return new ResponseEntity<>(tariffService.findAll().stream().map(x->tariffMapper.tariffToTariffDTO(x)).collect(Collectors.toSet()), HttpStatus.OK);
 	}
 
 	@PostMapping("/tariff/add")
 	public ResponseEntity<Void> addTariff(@RequestBody final TariffDTO tariffDTO) throws ValidationException {
-		tariffService.add(tariffMapper.tariffDTOtoTariff(tariffDTO, new CycleAvoidingMappingContext()));
+		tariffService.add(tariffMapper.tariffDTOtoTariff(tariffDTO));
 		return new ResponseEntity<>(HttpStatus.CREATED);
 	}
 
@@ -55,6 +54,6 @@ public class TariffRestController {
 
 	@GetMapping("/tariffByInsuranceTypeAndPacket")
 	public ResponseEntity<TariffDTO> getTariffByInsuranceTypeAndPacket(@RequestParam InsuranceType insuranceType, @RequestParam Packet packet){
-		return new ResponseEntity<>(tariffMapper.tariffToTariffDTO(tariffService.getTariffInsuranceTypeAndPacket(insuranceType, packet), new CycleAvoidingMappingContext()), HttpStatus.OK);
+		return new ResponseEntity<>(tariffMapper.tariffToTariffDTO(tariffService.getTariffInsuranceTypeAndPacket(insuranceType, packet)), HttpStatus.OK);
 	}
 }

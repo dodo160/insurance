@@ -5,7 +5,6 @@ import com.insurance.enums.ReinsuranceType;
 public class ReinsuranceDTO {
 
     private Long id;
-    private InsuranceDTO insurance;
     private ReinsuranceType reinsuranceType;
 
     public Long getId() {
@@ -14,14 +13,6 @@ public class ReinsuranceDTO {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public InsuranceDTO getInsurance() {
-        return insurance;
-    }
-
-    public void setInsurance(InsuranceDTO insurance) {
-        this.insurance = insurance;
     }
 
     public ReinsuranceType getReinsuranceType() {
