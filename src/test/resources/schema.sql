@@ -19,7 +19,7 @@ create table IF NOT EXISTS TARIFF
    lastUpdatedDate      datetime,
    deletedDate          datetime,
    primary key (id),
-   UNIQUE KEY(insuranceType,packet,price)
+   UNIQUE (insuranceType,packet,price)
 );
 
 /*==============================================================*/
@@ -39,7 +39,7 @@ create table IF NOT EXISTS USER
    lastUpdatedDate      datetime,
    deletedDate          datetime,
    primary key (id),
-   UNIQUE KEY(identityId)
+   UNIQUE (identityId)
 );
 
 create table IF NOT EXISTS INSURANCE
@@ -72,7 +72,7 @@ create table IF NOT EXISTS REINSURANCE
    deletedDate          datetime,
    primary key (id),
    FOREIGN KEY (insurance_id) REFERENCES insurance(id) ON DELETE CASCADE,
-   UNIQUE KEY(insurance_id, reinsuranceType)
+   UNIQUE (insurance_id, reinsuranceType)
 );
 
 /*==============================================================*/
@@ -87,7 +87,7 @@ create table IF NOT EXISTS TEMPORAL_ENTITY
     entity               varchar(255) not null,
     primary key (id),
     FOREIGN KEY (user_id) REFERENCES user(id) ON DELETE CASCADE,
-    UNIQUE KEY(user_id, entityClass, mediaType, entity)
+    UNIQUE (user_id, entityClass, mediaType, entity)
 );
 
 
