@@ -47,7 +47,7 @@ public class TariffServiceMockTest {
 
         final Set<Tariff> result =tariffService.findAll();
 
-        Assert.assertTrue(result.size() == 1);
+        Assert.assertEquals(1, result.size());
     }
 
     @Test
@@ -129,7 +129,7 @@ public class TariffServiceMockTest {
             tariffService.update(buildTariff(InsuranceType.DAY));
             Assert.fail();
         } catch (ValidationException e) {
-            Assert.assertTrue("Tariff entity doesn't exist".equals(e.getMessage()));
+            Assert.assertEquals("Tariff entity doesn't exist", e.getMessage());
         }
     }
 

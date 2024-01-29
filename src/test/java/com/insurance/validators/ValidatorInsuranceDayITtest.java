@@ -31,7 +31,7 @@ public class ValidatorInsuranceDayITtest {
             validatorInsuranceDay.validate(null);
             Assert.fail();
         }catch (final IllegalArgumentException iae){
-            Assert.assertTrue("Missing Insurance".equals(iae.getMessage()));
+            Assert.assertEquals("Missing Insurance", iae.getMessage());
         }
     }
 
@@ -43,7 +43,7 @@ public class ValidatorInsuranceDayITtest {
             validatorInsuranceDay.validate(insurance);
             Assert.fail();
         }catch (final IllegalArgumentException iae){
-            Assert.assertTrue("Missing Tariff".equals(iae.getMessage()));
+            Assert.assertEquals("Missing Tariff", iae.getMessage());
         }
     }
 
@@ -55,7 +55,7 @@ public class ValidatorInsuranceDayITtest {
             validatorInsuranceDay.validate(insurance);
             Assert.fail();
         }catch (final IllegalArgumentException iae){
-            Assert.assertTrue("Empty InsuranceType".equals(iae.getMessage()));
+            Assert.assertEquals("Empty InsuranceType", iae.getMessage());
         }
     }
 
@@ -67,7 +67,7 @@ public class ValidatorInsuranceDayITtest {
             validatorInsuranceDay.validate(insurance);
             Assert.fail();
         }catch (final IllegalArgumentException iae){
-            Assert.assertTrue("Missing tariffPrice".equals(iae.getMessage()));
+            Assert.assertEquals("Missing tariffPrice", iae.getMessage());
         }
     }
 
@@ -79,7 +79,7 @@ public class ValidatorInsuranceDayITtest {
             validatorInsuranceDay.validate(insurance);
             Assert.fail();
         }catch (final IllegalArgumentException iae){
-            Assert.assertTrue("Empty StartDate".equals(iae.getMessage()));
+            Assert.assertEquals("Empty StartDate", iae.getMessage());
         }
     }
 
@@ -91,7 +91,7 @@ public class ValidatorInsuranceDayITtest {
             validatorInsuranceDay.validate(insurance);
             Assert.fail();
         }catch (final IllegalArgumentException iae){
-            Assert.assertTrue("Date before today".equals(iae.getMessage()));
+            Assert.assertEquals("Date before today",iae.getMessage());
         }
     }
 
@@ -103,7 +103,7 @@ public class ValidatorInsuranceDayITtest {
             validatorInsuranceDay.validate(insurance);
             Assert.fail();
         }catch (final IllegalArgumentException iae){
-            Assert.assertTrue("Empty Packet".equals(iae.getMessage()));
+            Assert.assertEquals("Empty Packet", iae.getMessage());
         }
     }
 
@@ -115,7 +115,7 @@ public class ValidatorInsuranceDayITtest {
             validatorInsuranceDay.validate(insurance);
             Assert.fail();
         }catch (final IllegalArgumentException iae){
-            Assert.assertTrue("Invalid Person range".equals(iae.getMessage()));
+            Assert.assertEquals("Invalid Person range", iae.getMessage());
         }
     }
 
@@ -128,7 +128,7 @@ public class ValidatorInsuranceDayITtest {
             validatorInsuranceDay.validate(insurance);
             Assert.fail();
         }catch (final IllegalArgumentException iae){
-            Assert.assertTrue("EndDate before StartDate".equals(iae.getMessage()));
+            Assert.assertEquals("EndDate before StartDate", iae.getMessage());
         }
     }
 }

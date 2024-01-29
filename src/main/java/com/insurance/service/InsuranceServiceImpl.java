@@ -8,8 +8,6 @@ import com.insurance.model.Tariff;
 import com.insurance.repository.InsuranceRepository;
 import com.insurance.validators.InsuranceValidator;
 import com.insurance.validators.ValidatorFactory;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 

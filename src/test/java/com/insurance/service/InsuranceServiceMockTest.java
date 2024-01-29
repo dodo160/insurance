@@ -63,7 +63,7 @@ public class InsuranceServiceMockTest {
 
         final Set<Insurance> result =insuranceService.findAll();
 
-        Assert.assertTrue(result.size() == 1);
+        Assert.assertEquals(1, result.size());
     }
 
     @Test
@@ -104,7 +104,7 @@ public class InsuranceServiceMockTest {
             insuranceService.calculateInsurance(insurance);
             Assert.fail("ValidationException should thrown");
         } catch (ValidationException e) {
-            Assert.assertTrue("Tarif doesn't exist".equals(e.getMessage()));
+            Assert.assertEquals("Tarif doesn't exist", e.getMessage());
         }
     }
 
@@ -117,7 +117,7 @@ public class InsuranceServiceMockTest {
             insuranceService.calculateInsurance(insurance);
             Assert.fail("ValidationException should thrown");
         } catch (Exception e) {
-            Assert.assertTrue("Missing Tariff".equals(e.getMessage()));
+            Assert.assertEquals("Missing Tariff",e.getMessage());
         }
     }
 
@@ -127,7 +127,7 @@ public class InsuranceServiceMockTest {
             insuranceService.calculateInsurance(null);
             Assert.fail("ValidationException should thrown");
         } catch (Exception e) {
-            Assert.assertTrue("Missing Insurance".equals(e.getMessage()));
+            Assert.assertEquals("Missing Insurance", e.getMessage());
         }
     }
 
@@ -225,7 +225,7 @@ public class InsuranceServiceMockTest {
             insuranceService.update(insurance);
             Assert.fail();
         } catch (ValidationException e) {
-            Assert.assertTrue("Insurance entity doesn't exist".equals(e.getMessage()));
+            Assert.assertEquals("Insurance entity doesn't exist", e.getMessage());
         }
     }
 }

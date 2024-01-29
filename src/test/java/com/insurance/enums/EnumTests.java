@@ -9,21 +9,21 @@ public class EnumTests {
 
     @Test
     public void userTypeEnumSizeTest(){
-        Assert.assertTrue(UserType.values().length == 2);
+        Assert.assertEquals(2,UserType.values().length);
     }
 
     @Test
     public void reinsurenceTypeEnumSizeTest(){
-        Assert.assertTrue(ReinsuranceType.values().length == 2);
+        Assert.assertEquals(2,ReinsuranceType.values().length);
     }
 
     @Test
     public void packetEnumSizeTest(){
-        Assert.assertTrue(Packet.values().length == 3);
+        Assert.assertEquals(3, Packet.values().length);
     }
 
     @Test
     public void insurenceEnumSizeTest(){
-        Assert.assertTrue(InsuranceType.values().length == 2);
+        Assert.assertEquals(2, InsuranceType.values().length);
     }
 }

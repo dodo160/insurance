@@ -2,7 +2,6 @@ package com.insurance.mapper;
 
 import com.insurance.model.Client;
 import com.insurance.modeldto.UserDTO;
-import org.mapstruct.Context;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;

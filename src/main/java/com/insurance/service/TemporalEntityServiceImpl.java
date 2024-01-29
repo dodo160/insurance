@@ -90,7 +90,7 @@ public class TemporalEntityServiceImpl implements TemporalEntityService {
         final TemporalEntity temporalEntity = findById(id);
         Assert.notNull(temporalEntity, "Temporal entity not found.");
         try {
-            if (ImmutableSet.of(Insurance.class.getSimpleName(), Tariff.class.getSimpleName()).contains(temporalEntity.getEntityClass())) {
+            if (Set.of(Insurance.class.getSimpleName(), Tariff.class.getSimpleName()).contains(temporalEntity.getEntityClass())) {
                 final Class entityClass = Class.forName("com.insurance.model." + temporalEntity.getEntityClass());
                 BaseEntity entity =null;
 

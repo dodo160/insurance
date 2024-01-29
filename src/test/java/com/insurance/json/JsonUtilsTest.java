@@ -16,7 +16,7 @@ public class JsonUtilsTest {
     public void jsonUtilsTest(){
         final Insurance insurance = TestUtils.buildInsurance(InsuranceType.DAY);
         try {
-            final String jsonString = JsonUtils.toJson(Insurance.class, insurance);
+            final String jsonString = JsonUtils.toJson(insurance);
             Assert.assertNotNull(jsonString);
 
             final Insurance insuranceFromJson = (Insurance) JsonUtils.fromJson(Insurance.class, jsonString);

@@ -40,7 +40,7 @@ public class InsuranceRepositoryTestDB {
         Assert.assertNotNull(savedInsurance.getUser());
         Assert.assertNotNull(savedInsurance.getUser().getId());
         Assert.assertNotNull(savedInsurance.getReinsurances());
-        Assert.assertTrue(insurance.getReinsurances().size() == 2);
+        Assert.assertEquals(2,insurance.getReinsurances().size());
         Assert.assertEquals(insurance.getPrice(), savedInsurance.getPrice());
         Assert.assertEquals(insurance.getPerson(), savedInsurance.getPerson());
     }

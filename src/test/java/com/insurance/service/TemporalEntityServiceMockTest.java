@@ -41,7 +41,7 @@ public class TemporalEntityServiceMockTest {
 
         final Set<TemporalEntity> result = temporalEntityService.findAll();
 
-        Assert.assertTrue(result.size() == 1);
+        Assert.assertEquals(1, result.size());
     }
 
     @Test

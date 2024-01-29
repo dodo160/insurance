@@ -35,7 +35,7 @@ public class Tariff extends BaseEntity {
 	private BigDecimal price;
 
 	@OneToMany(mappedBy = "tariff", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	private Collection<Insurance> insurances = new HashSet<>();;
+	private Collection<Insurance> insurances = new HashSet<>();
 
 	public InsuranceType getInsuranceType() {
 		return insuranceType;

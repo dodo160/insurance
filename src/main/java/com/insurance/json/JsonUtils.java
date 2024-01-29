@@ -2,7 +2,6 @@ package com.insurance.json;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.insurance.model.BaseEntity;
 
 import javax.xml.bind.ValidationException;
 
@@ -20,7 +19,7 @@ public class JsonUtils {
         }
     }
 
-    public static String toJson(final Class entityClass,  final BaseEntity entity) throws ValidationException {
+    public static String toJson(final Object entity) throws ValidationException {
         final ObjectMapper mapper = new ObjectMapper();
         try {
             return mapper.writeValueAsString(entity);

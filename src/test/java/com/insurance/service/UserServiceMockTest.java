@@ -43,7 +43,7 @@ public class UserServiceMockTest {
 
         final Set<User> result = userService.findAll();
 
-        Assert.assertTrue(result.size() == 1);
+        Assert.assertEquals(1, result.size());
     }
 
     @Test
@@ -127,7 +127,7 @@ public class UserServiceMockTest {
             userService.update(buildUser(UserType.CLIENT));
             Assert.fail();
         } catch (ValidationException e) {
-            Assert.assertTrue("User entity doesn't exist".equals(e.getMessage()));
+            Assert.assertEquals("User entity doesn't exist", e.getMessage());
         }
     }
 }

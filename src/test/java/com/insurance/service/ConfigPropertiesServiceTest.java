@@ -37,6 +37,6 @@ public class ConfigPropertiesServiceTest {
 
         final String result = configProperties.getConfigValue(STORNO);
 
-        Assert.assertTrue("1.5".equals(result));
+        Assert.assertEquals("1.5",result);
     }
 }

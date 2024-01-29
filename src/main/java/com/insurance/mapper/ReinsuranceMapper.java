@@ -2,7 +2,6 @@ package com.insurance.mapper;
 
 import com.insurance.model.Reinsurance;
 import com.insurance.modeldto.ReinsuranceDTO;
-import org.mapstruct.Context;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;

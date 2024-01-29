@@ -36,10 +36,10 @@ public class User extends BaseEntity{
     private String identityId;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private Collection<Insurance> insurances = new HashSet<>();;
+    private Collection<Insurance> insurances = new HashSet<>();
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private Collection<TemporalEntity> temporalEntities = new HashSet<>();;
+    private Collection<TemporalEntity> temporalEntities = new HashSet<>();
 
     public String getFirstName() {
         return firstName;

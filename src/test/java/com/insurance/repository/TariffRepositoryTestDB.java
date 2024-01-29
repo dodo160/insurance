@@ -15,6 +15,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 
 @RunWith(SpringRunner.class)
@@ -29,7 +30,7 @@ public class TariffRepositoryTestDB {
     public void testFindById(){
         final Tariff tariff = tariffRepository.findById(1L).orElse(null);
         Assert.assertNotNull(tariff);
-        Assert.assertTrue(1L == tariff.getId());
+        Assert.assertEquals(Long.valueOf(1), tariff.getId());
         Assert.assertEquals(InsuranceType.DAY, tariff.getInsuranceType());
         Assert.assertEquals(Packet.BASIC, tariff.getPacket());
         Assert.assertEquals(new BigDecimal(1.20).setScale(2, RoundingMode.HALF_UP), tariff.getPrice().setScale(2, RoundingMode.HALF_UP));
