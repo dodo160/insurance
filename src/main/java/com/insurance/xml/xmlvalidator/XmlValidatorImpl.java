@@ -20,6 +20,7 @@ public class XmlValidatorImpl implements XmlValidator {
     @Value("${xsd.schema.path}")
     private String xsdPath;
 
+    @Override
     public void validateXml(final String xml, final String className) throws ValidationException {
         try {
             final SchemaFactory factory =

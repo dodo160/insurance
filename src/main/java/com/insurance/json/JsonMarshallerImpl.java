@@ -2,15 +2,14 @@ package com.insurance.json;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.stereotype.Component;
 
 import javax.xml.bind.ValidationException;
 
-public class JsonUtils {
+@Component
+public class JsonMarshallerImpl implements JsonMarshaller{
 
-    private JsonUtils() {
-    }
-
-    public static Object fromJson(final Class entityClass, final String jsonString) throws ValidationException {
+       public  Object fromJson(final Class entityClass, final String jsonString) throws ValidationException {
         final ObjectMapper mapper = new ObjectMapper();
         try {
             return mapper.readValue(jsonString, entityClass);
@@ -19,7 +18,7 @@ public class JsonUtils {
         }
     }
 
-    public static String toJson(final Object entity) throws ValidationException {
+    public  String toJson(final Object entity) throws ValidationException {
         final ObjectMapper mapper = new ObjectMapper();
         try {
             return mapper.writeValueAsString(entity);
@@ -28,7 +27,7 @@ public class JsonUtils {
         }
     }
 
-    public static boolean isValidJson(final String jsonString) {
+    public boolean isValidJson(final String jsonString) {
         try{
             final ObjectMapper mapper = new ObjectMapper();
             mapper.readTree(jsonString);

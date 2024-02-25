@@ -5,21 +5,28 @@ import com.insurance.enums.InsuranceType;
 import com.insurance.model.Insurance;
 import org.junit.Assert;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.xml.bind.ValidationException;
 
 @SpringBootTest
-public class JsonUtilsTest {
+@RunWith(SpringRunner.class)
+public class JsonMarshallerTest {
+
+    @Autowired
+    private JsonMarshaller jsonMarshaller;
 
     @Test
     public void jsonUtilsTest(){
         final Insurance insurance = TestUtils.buildInsurance(InsuranceType.DAY);
         try {
-            final String jsonString = JsonUtils.toJson(insurance);
+            final String jsonString = jsonMarshaller.toJson(insurance);
             Assert.assertNotNull(jsonString);
 
-            final Insurance insuranceFromJson = (Insurance) JsonUtils.fromJson(Insurance.class, jsonString);
+            final Insurance insuranceFromJson = (Insurance) jsonMarshaller.fromJson(Insurance.class, jsonString);
             Assert.assertNotNull(insuranceFromJson);
             Assert.assertEquals(insurance.getId(),insuranceFromJson.getId());
             Assert.assertEquals(insurance.getStartDate(), insuranceFromJson.getStartDate());
@@ -35,13 +42,13 @@ public class JsonUtilsTest {
 
     @Test
     public void isValidJsonTest(){
-        final boolean result = JsonUtils.isValidJson("dasdaojopjo");
+        final boolean result = jsonMarshaller.isValidJson("dasdaojopjo");
         Assert.assertFalse(result);
     }
 
     @Test
     public void isInValidJsonTest(){
-        final boolean result = JsonUtils.isValidJson("{\"insuranceType\":\"DAY\",\"packet\":\"BASIC\",\"price\":1.20}");
+        final boolean result = jsonMarshaller.isValidJson("{\"insuranceType\":\"DAY\",\"packet\":\"BASIC\",\"price\":1.20}");
         Assert.assertTrue(result);
     }
 }

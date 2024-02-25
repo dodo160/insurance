@@ -3,7 +3,7 @@ package com.insurance.rest;
 import com.insurance.TestUtils;
 import com.insurance.enums.InsuranceType;
 import com.insurance.enums.Packet;
-import com.insurance.json.JsonUtils;
+import com.insurance.json.JsonMarshaller;
 import com.insurance.mapper.TariffMapper;
 import com.insurance.model.Tariff;
 import com.insurance.modeldto.TariffDTO;
@@ -37,6 +37,9 @@ public class TariffRestControllerTest {
 
     @Autowired
     private TariffMapper tariffMapper;
+
+    @Autowired
+    private JsonMarshaller jsonMarshaller;
 
     @Test
     public void getByIdTest() throws Exception {
@@ -72,7 +75,7 @@ public class TariffRestControllerTest {
         mockMvc.perform(post("/app/tariff/add")
                         .accept(MediaType.APPLICATION_JSON_VALUE)
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
-                        .content(JsonUtils.toJson(tariffDTO)))
+                        .content(jsonMarshaller.toJson(tariffDTO)))
                 .andExpect(status().isCreated());
     }
 

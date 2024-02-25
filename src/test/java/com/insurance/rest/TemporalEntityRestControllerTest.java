@@ -1,7 +1,7 @@
 package com.insurance.rest;
 
 import com.insurance.TestUtils;
-import com.insurance.json.JsonUtils;
+import com.insurance.json.JsonMarshaller;
 import com.insurance.mapper.TemporalEntityMapper;
 import com.insurance.model.TemporalEntity;
 import com.insurance.modeldto.TemporalEntityDTO;
@@ -37,6 +37,9 @@ public class TemporalEntityRestControllerTest {
     @Autowired
     private TemporalEntityMapper temporalEntityMapper;
 
+    @Autowired
+    private JsonMarshaller jsonMarshaller;
+
     @Test
     public void getByIdTest() throws Exception {
         when(temporalEntityService.findById(1l)).thenReturn(TestUtils.buildTemporalEntity());
@@ -68,7 +71,7 @@ public class TemporalEntityRestControllerTest {
         mockMvc.perform(post("/app/temporalEntity/add")
                         .accept(MediaType.APPLICATION_JSON_VALUE)
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
-                        .content(JsonUtils.toJson(temporalEntityDTO)))
+                        .content(jsonMarshaller.toJson(temporalEntityDTO)))
                 .andExpect(status().isCreated());
     }
 

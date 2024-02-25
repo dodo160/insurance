@@ -1,13 +1,12 @@
 package com.insurance.service;
 
-import com.google.common.collect.ImmutableSet;
-import com.insurance.json.JsonUtils;
+import com.insurance.json.JsonMarshaller;
 import com.insurance.model.BaseEntity;
 import com.insurance.model.Insurance;
 import com.insurance.model.Tariff;
 import com.insurance.model.TemporalEntity;
 import com.insurance.repository.TemporalEntityRepository;
-import com.insurance.xml.XmlUtils;
+import com.insurance.xml.XmlMarshaller;
 import com.insurance.xml.xmlvalidator.XmlValidator;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
@@ -25,12 +24,19 @@ public class TemporalEntityServiceImpl implements TemporalEntityService {
 
     private XmlValidator xmlValidator;
 
+    private XmlMarshaller xmlMarshaller;
+
+    private JsonMarshaller jsonMarshaller;
+
     private final Map<Class, BasicService> services = new HashMap<>();
 
-    public TemporalEntityServiceImpl(final TemporalEntityRepository temporalEntityRepository, final XmlValidator xmlValidator, final Set<BasicService> services) {
+    public TemporalEntityServiceImpl(final TemporalEntityRepository temporalEntityRepository, final XmlValidator xmlValidator,
+                                     final XmlMarshaller xmlMarshaller, final JsonMarshaller jsonMarshaller, final Set<BasicService> services) {
         this.temporalEntityRepository = temporalEntityRepository;
         this.xmlValidator = xmlValidator;
         this.services.putAll(services.stream().collect(Collectors.toMap(BasicService::getEntityServiceClass, Function.identity())));
+        this.xmlMarshaller = xmlMarshaller;
+        this.jsonMarshaller = jsonMarshaller;
     }
 
     public Class getEntityServiceClass() {
@@ -61,7 +67,7 @@ public class TemporalEntityServiceImpl implements TemporalEntityService {
             case MediaType.APPLICATION_XML_VALUE:
                 xmlValidator.validateXml(entity.getEntity(), entity.getEntityClass());
                 break;
-            case MediaType.APPLICATION_JSON_VALUE: JsonUtils.isValidJson(entity.getEntity());
+            case MediaType.APPLICATION_JSON_VALUE: jsonMarshaller.isValidJson(entity.getEntity());
                 break;
             default:
                 throw new ValidationException("Not supported Media Type");
@@ -121,10 +127,10 @@ public class TemporalEntityServiceImpl implements TemporalEntityService {
 
     private BaseEntity createEntityFromTemporalXML(final TemporalEntity temporalEntity, final Class entityClass) throws ValidationException {
         xmlValidator.validateXml(temporalEntity.getEntity(), temporalEntity.getEntityClass());
-        return (BaseEntity) XmlUtils.fromXml(entityClass, temporalEntity.getEntity());
+        return (BaseEntity) xmlMarshaller.fromXml(entityClass, temporalEntity.getEntity());
     }
 
     private BaseEntity createEntityFromTemporalJSON(final TemporalEntity temporalEntity, final Class entityClass) throws ValidationException {
-        return (BaseEntity) JsonUtils.fromJson(entityClass, temporalEntity.getEntity());
+        return (BaseEntity) jsonMarshaller.fromJson(entityClass, temporalEntity.getEntity());
     }
 }

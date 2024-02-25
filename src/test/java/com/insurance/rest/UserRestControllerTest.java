@@ -2,7 +2,7 @@ package com.insurance.rest;
 
 import com.insurance.TestUtils;
 import com.insurance.enums.UserType;
-import com.insurance.json.JsonUtils;
+import com.insurance.json.JsonMarshaller;
 import com.insurance.mapper.UserMapper;
 import com.insurance.model.User;
 import com.insurance.modeldto.UserDTO;
@@ -38,6 +38,9 @@ public class UserRestControllerTest {
     @Autowired
     private UserMapper userMapper;
 
+    @Autowired
+    private JsonMarshaller jsonMarshaller;
+
     @Test
     public void getByIdTest() throws Exception {
         when(userService.findById(1l)).thenReturn(TestUtils.buildUser(UserType.CLIENT));
@@ -69,7 +72,7 @@ public class UserRestControllerTest {
         mockMvc.perform(post("/app/user/add")
                         .accept(MediaType.APPLICATION_JSON_VALUE)
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
-                        .content(JsonUtils.toJson(userDTO)))
+                        .content(jsonMarshaller.toJson(userDTO)))
                 .andExpect(status().isCreated());
     }
 
@@ -83,7 +86,7 @@ public class UserRestControllerTest {
         mockMvc.perform(post("/app/user/add")
                         .accept(MediaType.APPLICATION_JSON_VALUE)
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
-                        .content(JsonUtils.toJson(userDTO)))
+                        .content(jsonMarshaller.toJson(userDTO)))
                 .andExpect(status().isCreated());
     }
 

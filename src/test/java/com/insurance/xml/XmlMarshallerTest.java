@@ -5,21 +5,28 @@ import com.insurance.enums.InsuranceType;
 import com.insurance.model.Insurance;
 import org.junit.Assert;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.xml.bind.ValidationException;
 
 @SpringBootTest
-public class XmlUtilsTest {
+@RunWith(SpringRunner.class)
+public class XmlMarshallerTest {
+
+    @Autowired
+    private XmlMarshaller xmlMarshaller;
 
     @Test
     public void xmlUtilsTest(){
         final Insurance insurance = TestUtils.buildInsurance(InsuranceType.DAY);
         try {
-            final String xmlString = XmlUtils.toXml(Insurance.class, insurance);
+            final String xmlString = xmlMarshaller.toXml(Insurance.class, insurance);
             Assert.assertNotNull(xmlString);
 
-            final Insurance insuranceFromXML = (Insurance) XmlUtils.fromXml(Insurance.class, xmlString);
+            final Insurance insuranceFromXML = (Insurance) xmlMarshaller.fromXml(Insurance.class, xmlString);
             Assert.assertNotNull(insuranceFromXML);
             Assert.assertEquals(insurance.getId(),insuranceFromXML.getId());
             Assert.assertEquals(insurance.getStartDate(), insuranceFromXML.getStartDate());

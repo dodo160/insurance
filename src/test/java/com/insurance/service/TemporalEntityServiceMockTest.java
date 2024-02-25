@@ -1,13 +1,14 @@
 package com.insurance.service;
 
+import com.insurance.json.JsonMarshallerImpl;
 import com.insurance.model.TemporalEntity;
 import com.insurance.repository.TemporalEntityRepository;
+import com.insurance.xml.XmlMarshallerImpl;
 import com.insurance.xml.xmlvalidator.XmlValidatorImpl;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.MockitoJUnitRunner;
@@ -29,10 +30,16 @@ public class TemporalEntityServiceMockTest {
     @Mock
     private TemporalEntityRepository temporalEntityRepository;
 
+    @Mock
+    private XmlMarshallerImpl xmlMarshaller;
+
+    @Mock
+    private JsonMarshallerImpl jsonMarshaller;
+
     @Before
     public void init() {
         MockitoAnnotations.openMocks(this);
-        temporalEntityService = new TemporalEntityServiceImpl(temporalEntityRepository, new XmlValidatorImpl(), Set.of());
+        temporalEntityService = new TemporalEntityServiceImpl(temporalEntityRepository, new XmlValidatorImpl(), xmlMarshaller, jsonMarshaller, Set.of());
     }
 
     @Test
