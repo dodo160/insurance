@@ -20,6 +20,7 @@ import javax.validation.ConstraintViolationException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
@@ -46,7 +47,7 @@ public class InsuranceServiceTestIT {
     public void findAllTest() {
         when(insuranceRepository.findAll()).thenReturn(Set.of(new Insurance()));
 
-        final Set<Insurance> result = insuranceService.findAll();
+        final List<Insurance> result = insuranceService.findAll();
 
         Assert.assertEquals(1, result.size());
     }

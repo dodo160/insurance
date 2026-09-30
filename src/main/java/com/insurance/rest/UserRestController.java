@@ -68,7 +68,7 @@ public class UserRestController {
         if (UserType.EMPLOYEE == userDTO.getUserType()) {
             body = employeeMapper.toDto((Employee) userService.update(employeeMapper.fromDto(userDTO)));
         }
-        return ResponseEntity.status(HttpStatus.CREATED).body(body);
+        return ResponseEntity.ok(body);
 
     }
 
@@ -78,7 +78,7 @@ public class UserRestController {
         return ResponseEntity.noContent().build();
     }
 
-    @DeleteMapping("/softDelete/{id}")
+    @PutMapping("/softDelete/{id}")
     public ResponseEntity<Void> softDeleteUser(@PathVariable("id") final Long id) {
         userService.softDeleteById(id);
         return ResponseEntity.noContent().build();

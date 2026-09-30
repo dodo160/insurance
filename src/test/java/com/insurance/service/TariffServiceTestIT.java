@@ -15,11 +15,11 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
 import static com.insurance.TestUtils.buildTariff;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 @SpringBootTest
@@ -36,7 +36,7 @@ public class TariffServiceTestIT {
     public void findAllTest() {
         when(tariffRepository.findAll()).thenReturn(Set.of(new Tariff()));
 
-        final Set<Tariff> result = tariffService.findAll();
+        final List<Tariff> result = tariffService.findAll();
 
         Assert.assertEquals(1, result.size());
     }

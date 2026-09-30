@@ -13,10 +13,7 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -38,8 +35,8 @@ public class InsuranceServiceImpl implements InsuranceService {
     }
 
     @Override
-    public Set<Insurance> findAll() {
-        final Set<Insurance> insurances = new HashSet<>();
+    public List<Insurance> findAll() {
+        final List<Insurance> insurances = new ArrayList<>();
         insuranceRepository.findAll().forEach(insurances::add);
         if (insurances.isEmpty()) {
             throw new NotFoundException("No insurances found");

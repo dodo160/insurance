@@ -48,8 +48,8 @@ public class TemporalEntityServiceImpl implements TemporalEntityService {
     }
 
     @Override
-    public Set<TemporalEntity> findAll() {
-        final Set<TemporalEntity> temporalEntities = new HashSet<>();
+    public List<TemporalEntity> findAll() {
+        final List<TemporalEntity> temporalEntities = new ArrayList<>();
         temporalEntityRepository.findAll().forEach(temporalEntities::add);
         return temporalEntities;
     }

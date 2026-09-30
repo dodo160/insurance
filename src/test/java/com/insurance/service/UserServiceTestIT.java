@@ -13,11 +13,11 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
 import static com.insurance.TestUtils.buildUser;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 @SpringBootTest
@@ -34,7 +34,7 @@ public class UserServiceTestIT {
     public void findAllTest() {
         when(userRepository.findAll()).thenReturn(Set.of(new User()));
 
-        final Set<User> result = userService.findAll();
+        final List<User> result = userService.findAll();
 
         Assert.assertEquals(1, result.size());
     }

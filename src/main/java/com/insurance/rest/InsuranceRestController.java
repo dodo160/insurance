@@ -43,7 +43,7 @@ public class InsuranceRestController {
 
     @PutMapping(produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<InsuranceDTO> updateInsurance(@Valid @RequestBody final InsuranceDTO insuranceDTO) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(insuranceMapper.toDto(insuranceService.update(insuranceMapper.fromDto(insuranceDTO))));
+        return ResponseEntity.ok(insuranceMapper.toDto(insuranceService.update(insuranceMapper.fromDto(insuranceDTO))));
     }
 
     @DeleteMapping("/{id}")
@@ -52,13 +52,13 @@ public class InsuranceRestController {
         return ResponseEntity.noContent().build();
     }
 
-    @DeleteMapping("/softDelete/{id}")
+    @PutMapping("/softDelete/{id}")
     public ResponseEntity<Void> softDeleteInsuracnce(@PathVariable("id") final Long id) {
         insuranceService.softDeleteById(id);
         return ResponseEntity.noContent().build();
     }
 
-    @GetMapping(value = "/calculate", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/calculate", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<BigDecimal> calculateInsurance(@Valid @RequestBody final InsuranceDTO insuranceDTO) {
         return ResponseEntity.ok(insuranceService.calculateInsurance(insuranceMapper.fromDto(insuranceDTO)));
     }

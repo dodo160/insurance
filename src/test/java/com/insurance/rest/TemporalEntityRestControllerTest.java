@@ -16,7 +16,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
-import java.util.Set;
+import java.util.List;
 
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -52,7 +52,7 @@ public class TemporalEntityRestControllerTest {
 
     @Test
     public void getAllTemporalEntitiesTest() throws Exception {
-        when(temporalEntityService.findAll()).thenReturn(Set.of(TestUtils.buildTemporalEntity()));
+        when(temporalEntityService.findAll()).thenReturn(List.of(TestUtils.buildTemporalEntity()));
 
         mockMvc.perform(get("/temporalEntity")
                         .accept(MediaType.APPLICATION_JSON)
@@ -84,7 +84,7 @@ public class TemporalEntityRestControllerTest {
 
     @Test
     public void createEntityFromTemporalTest() throws Exception {
-        mockMvc.perform(put("/temporalEntity/createEntityFromTemporal/{id}", 1)
+        mockMvc.perform(post("/temporalEntity/createEntityFromTemporal/{id}", 1)
                         .accept(MediaType.APPLICATION_JSON_VALUE)
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isCreated());

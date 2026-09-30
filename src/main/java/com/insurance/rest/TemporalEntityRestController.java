@@ -45,7 +45,7 @@ public class TemporalEntityRestController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    @PutMapping("/createEntityFromTemporal/{id}")
+    @PostMapping("/createEntityFromTemporal/{id}")
     public ResponseEntity<Void> createEntityFromTemporal(@PathVariable("id") final Long id) {
         temporalEntityService.createEntityFromTemporal(id);
         return new ResponseEntity<>(HttpStatus.CREATED);

@@ -17,7 +17,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
-import java.util.Set;
+import java.util.List;
 
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -53,7 +53,7 @@ public class UserRestControllerTest {
 
     @Test
     public void getAllUsersTest() throws Exception {
-        when(userService.findAll()).thenReturn(Set.of(TestUtils.buildUser(UserType.CLIENT)));
+        when(userService.findAll()).thenReturn(List.of(TestUtils.buildUser(UserType.CLIENT)));
 
         mockMvc.perform(get("/user")
                         .accept(MediaType.APPLICATION_JSON)
@@ -87,7 +87,7 @@ public class UserRestControllerTest {
                         .accept(MediaType.APPLICATION_JSON_VALUE)
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
                         .content(jsonMarshaller.toJson(userDTO)))
-                .andExpect(status().isCreated());
+                .andExpect(status().isOk());
     }
 
     @Test
@@ -115,7 +115,7 @@ public class UserRestControllerTest {
                         .accept(MediaType.APPLICATION_JSON_VALUE)
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
                         .content(jsonMarshaller.toJson(userDTO)))
-                .andExpect(status().isCreated());
+                .andExpect(status().isOk());
     }
 
     @Test
@@ -126,7 +126,7 @@ public class UserRestControllerTest {
 
     @Test
     public void softDeleteUserTest() throws Exception {
-        mockMvc.perform(delete("/user/softDelete/{id}", 1))
+        mockMvc.perform(put("/user/softDelete/{id}", 1))
                 .andExpect(status().isNoContent());
     }
 }

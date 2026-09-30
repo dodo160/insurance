@@ -42,7 +42,7 @@ public class TariffRestController {
 
     @PutMapping()
     public ResponseEntity<TariffDTO> updateTariff(@RequestBody final TariffDTO tariffDTO) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(tariffMapper.toDto(tariffService.update(tariffMapper.fromDto(tariffDTO))));
+        return ResponseEntity.ok(tariffMapper.toDto(tariffService.update(tariffMapper.fromDto(tariffDTO))));
     }
 
     @DeleteMapping("/{id}")

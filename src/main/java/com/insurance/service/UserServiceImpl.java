@@ -6,10 +6,8 @@ import com.insurance.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -25,8 +23,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Set<User> findAll() {
-        final Set<User> users = new HashSet<>();
+    public List<User> findAll() {
+        final List<User> users = new ArrayList<>();
         userRepository.findAll().forEach(users::add);
         if (users.isEmpty()) {
             throw new NotFoundException("No users found");

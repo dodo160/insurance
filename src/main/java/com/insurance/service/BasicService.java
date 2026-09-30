@@ -4,12 +4,12 @@ import org.springframework.validation.annotation.Validated;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
-import java.util.Set;
+import java.util.List;
 
 @Validated
 public interface BasicService<T, ID> {
 
-    Set<T> findAll();
+    List<T> findAll();
 
     T findById(@NotNull ID id);
 

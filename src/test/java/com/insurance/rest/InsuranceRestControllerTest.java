@@ -18,7 +18,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.math.BigDecimal;
-import java.util.Set;
+import java.util.List;
 
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -55,7 +55,7 @@ public class InsuranceRestControllerTest {
 
     @Test
     public void getAllInsurancesTest() throws Exception {
-        when(insuranceService.findAll()).thenReturn(Set.of(TestUtils.buildInsurance(InsuranceType.YEAR)));
+        when(insuranceService.findAll()).thenReturn(List.of(TestUtils.buildInsurance(InsuranceType.YEAR)));
 
         mockMvc.perform(get("/insurance").accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
@@ -86,7 +86,7 @@ public class InsuranceRestControllerTest {
                         .accept(MediaType.APPLICATION_JSON_VALUE)
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
                         .content(jsonMarshaller.toJson(insuranceDTO)))
-                .andExpect(status().isCreated())
+                .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(1));
     }
 
@@ -98,7 +98,7 @@ public class InsuranceRestControllerTest {
 
     @Test
     public void softDeleteInsuracnceTest() throws Exception {
-        mockMvc.perform(delete("/insurance/softDelete/{id}", 1))
+        mockMvc.perform(put("/insurance/softDelete/{id}", 1))
                 .andExpect(status().isNoContent());
     }
 
@@ -109,7 +109,7 @@ public class InsuranceRestControllerTest {
 
         when(insuranceService.calculateInsurance(insurance)).thenReturn(BigDecimal.TEN);
 
-        mockMvc.perform(get("/insurance/calculate")
+        mockMvc.perform(post("/insurance/calculate")
                         .accept(MediaType.APPLICATION_JSON_VALUE)
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
                         .content(jsonMarshaller.toJson(insuranceDTO)))

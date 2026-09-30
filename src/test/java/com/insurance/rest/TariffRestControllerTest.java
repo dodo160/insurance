@@ -18,7 +18,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
-import java.util.Set;
+import java.util.List;
 
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -56,7 +56,7 @@ public class TariffRestControllerTest {
 
     @Test
     public void getAllTariffsTest() throws Exception {
-        when(tariffService.findAll()).thenReturn(Set.of(TestUtils.buildTariff(InsuranceType.YEAR)));
+        when(tariffService.findAll()).thenReturn(List.of(TestUtils.buildTariff(InsuranceType.YEAR)));
 
         mockMvc.perform(get("/tariff")
                         .accept(MediaType.APPLICATION_JSON)
@@ -90,7 +90,7 @@ public class TariffRestControllerTest {
                         .accept(MediaType.APPLICATION_JSON_VALUE)
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
                         .content(jsonMarshaller.toJson(tariffDTO)))
-                .andExpect(status().isCreated());
+                .andExpect(status().isOk());
     }
 
     @Test
