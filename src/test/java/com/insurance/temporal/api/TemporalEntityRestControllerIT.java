@@ -1,0 +1,92 @@
+package com.insurance.temporal.api;
+
+import com.insurance.TestUtils;
+import com.insurance.common.json.JsonMarshaller;
+import com.insurance.temporal.dto.TemporalEntityDTO;
+import com.insurance.temporal.mapper.TemporalEntityMapper;
+import com.insurance.temporal.model.TemporalEntity;
+import com.insurance.temporal.service.TemporalEntityService;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.MediaType;
+import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.web.servlet.MockMvc;
+
+import java.util.List;
+
+import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+@SpringBootTest
+@AutoConfigureMockMvc
+@RunWith(SpringRunner.class)
+public class TemporalEntityRestControllerIT {
+
+    @Autowired
+    private MockMvc mockMvc;
+
+    @MockBean
+    private TemporalEntityService temporalEntityService;
+
+    @Autowired
+    private TemporalEntityMapper temporalEntityMapper;
+
+    @Autowired
+    private JsonMarshaller jsonMarshaller;
+
+    @Test
+    public void getByIdTest() throws Exception {
+        when(temporalEntityService.findById(1l)).thenReturn(TestUtils.buildTemporalEntity());
+
+        mockMvc.perform(get("/temporalEntity/{id}", 1))
+                .andExpect(status().isOk())
+                .andExpect(content().json("{\"id\":1,\"user\":{\"id\":1,\"firstName\":\"FIRST_NAME\",\"lastName\":\"LAST_NAME\",\"city\":\"CITY\",\"address\":\"ADDRESS\",\"postCode\":\"1111\",\"identityId\":\"2222\",\"userType\":\"CLIENT\"},\"entityClass\":\"Insurance\",\"mediaType\":\"application/xml\",\"entity\":\"XML_STRING\"}"));
+
+    }
+
+    @Test
+    public void getAllTemporalEntitiesTest() throws Exception {
+        when(temporalEntityService.findAll()).thenReturn(List.of(TestUtils.buildTemporalEntity()));
+
+        mockMvc.perform(get("/temporalEntity")
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON_VALUE))
+                .andExpect(status().isOk())
+                .andExpect(content().json("[{\"id\":1,\"user\":{\"id\":1,\"firstName\":\"FIRST_NAME\",\"lastName\":\"LAST_NAME\",\"city\":\"CITY\",\"address\":\"ADDRESS\",\"postCode\":\"1111\",\"identityId\":\"2222\",\"userType\":\"CLIENT\"},\"entityClass\":\"Insurance\",\"mediaType\":\"application/xml\",\"entity\":\"XML_STRING\"}]"));
+    }
+
+    @Test
+    public void addTemporalEntityTest() throws Exception {
+        final TemporalEntity temporalEntity = TestUtils.buildTemporalEntity();
+        final TemporalEntityDTO temporalEntityDTO = temporalEntityMapper.toDto(temporalEntity);
+
+        when(temporalEntityService.add(temporalEntity)).thenReturn(temporalEntity);
+
+        mockMvc.perform(post("/temporalEntity")
+                        .accept(MediaType.APPLICATION_JSON_VALUE)
+                        .contentType(MediaType.APPLICATION_JSON_VALUE)
+                        .content(jsonMarshaller.toJson(temporalEntityDTO)))
+                .andExpect(status().isCreated());
+    }
+
+
+    @Test
+    public void deleteTemporalEntityTest() throws Exception {
+        mockMvc.perform(delete("/temporalEntity/{id}", 1))
+                .andExpect(status().isNoContent());
+    }
+
+    @Test
+    public void createEntityFromTemporalTest() throws Exception {
+        mockMvc.perform(post("/temporalEntity/createEntityFromTemporal/{id}", 1)
+                        .accept(MediaType.APPLICATION_JSON_VALUE)
+                        .contentType(MediaType.APPLICATION_JSON_VALUE))
+                .andExpect(status().isCreated());
+    }
+}

@@ -1,11 +1,15 @@
 package com.insurance;
 
-import com.insurance.repository.InsuranceRepository;
-import com.insurance.repository.TariffRepository;
-import com.insurance.repository.TemporalEntityRepository;
-import com.insurance.repository.UserRepository;
-import com.insurance.service.*;
-import com.insurance.xml.xmlvalidator.XmlValidator;
+import com.insurance.common.xml.xmlvalidator.XmlValidator;
+import com.insurance.insurance.config.ReinsuranceConfigProperties;
+import com.insurance.insurance.repository.InsuranceRepository;
+import com.insurance.insurance.service.InsuranceService;
+import com.insurance.tariff.repository.TariffRepository;
+import com.insurance.tariff.service.TariffService;
+import com.insurance.temporal.repository.TemporalEntityRepository;
+import com.insurance.temporal.service.TemporalEntityService;
+import com.insurance.user.repository.UserRepository;
+import com.insurance.user.service.UserService;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
