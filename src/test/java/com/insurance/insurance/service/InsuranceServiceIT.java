@@ -1,11 +1,10 @@
 package com.insurance.insurance.service;
 
 import com.insurance.common.exception.NotFoundException;
-import com.insurance.insurance.config.ReinsuranceConfigProperties;
 import com.insurance.insurance.enums.InsuranceType;
-import com.insurance.insurance.enums.ReinsuranceType;
 import com.insurance.insurance.model.Insurance;
 import com.insurance.insurance.repository.InsuranceRepository;
+import com.insurance.insurance.service.calculator.InsurancePriceCalculator;
 import com.insurance.tariff.enums.Packet;
 import com.insurance.tariff.service.TariffService;
 import org.junit.Assert;
@@ -36,14 +35,14 @@ public class InsuranceServiceIT {
     @Autowired
     private InsuranceService insuranceService;
 
+    @Autowired
+    private InsurancePriceCalculator insurancePriceCalculator;
+
     @MockBean
     private InsuranceRepository insuranceRepository;
 
     @MockBean
     private TariffService tariffService;
-
-    @MockBean
-    private ReinsuranceConfigProperties reinsuranceConfigProperties;
 
     @Test
     public void findAllTest() {
@@ -71,13 +70,21 @@ public class InsuranceServiceIT {
         final Insurance insurance = buildInsurance(InsuranceType.DAY);
 
         when(tariffService.getTariffByInsuranceTypeAndPacketAndActiveTrue(InsuranceType.DAY, Packet.BASIC)).thenReturn(insurance.getTariff());
-        when(reinsuranceConfigProperties.get(InsuranceType.DAY, ReinsuranceType.STORNO)).thenReturn(new BigDecimal(1.5));
-        when(reinsuranceConfigProperties.get(InsuranceType.DAY, ReinsuranceType.SPORTS_ACTIVITY)).thenReturn(new BigDecimal(1.3));
 
         final BigDecimal result = insuranceService.calculateInsurance(insurance);
 
         Assert.assertNotNull(result);
         Assert.assertEquals(new BigDecimal(14.04).setScale(2, RoundingMode.HALF_UP), result);
+    }
+
+    @Test
+    public void calculateInsuranceNullTest() {
+        try {
+            insuranceService.calculateInsurance(null);
+            Assert.fail();
+        } catch (ConstraintViolationException e) {
+            Assert.assertTrue("Insurance must not be null", e.getConstraintViolations().stream().anyMatch(x -> x.getMessage().equals("Insurance must not be null")));
+        }
     }
 
     @Test
@@ -124,8 +131,6 @@ public class InsuranceServiceIT {
         final Insurance insurance = buildInsurance(InsuranceType.YEAR);
 
         when(tariffService.getTariffByInsuranceTypeAndPacketAndActiveTrue(InsuranceType.YEAR, Packet.BASIC)).thenReturn(insurance.getTariff());
-        when(reinsuranceConfigProperties.get(InsuranceType.YEAR, ReinsuranceType.STORNO)).thenReturn(new BigDecimal(1.2));
-        when(reinsuranceConfigProperties.get(InsuranceType.YEAR, ReinsuranceType.SPORTS_ACTIVITY)).thenReturn(new BigDecimal(1.1));
 
         final BigDecimal result = insuranceService.calculateInsurance(insurance);
 
@@ -136,9 +141,8 @@ public class InsuranceServiceIT {
     @Test
     public void addTest() {
         final Insurance insurance = buildInsurance(InsuranceType.DAY);
+
         when(tariffService.getTariffByInsuranceTypeAndPacketAndActiveTrue(InsuranceType.DAY, Packet.BASIC)).thenReturn(insurance.getTariff());
-        when(reinsuranceConfigProperties.get(InsuranceType.DAY, ReinsuranceType.STORNO)).thenReturn(new BigDecimal(1.5));
-        when(reinsuranceConfigProperties.get(InsuranceType.DAY, ReinsuranceType.SPORTS_ACTIVITY)).thenReturn(new BigDecimal(1.3));
 
         Assert.assertNull(insurance.getPrice());
 
@@ -179,9 +183,6 @@ public class InsuranceServiceIT {
         insurance.setPerson(3);
 
         when(tariffService.getTariffByInsuranceTypeAndPacketAndActiveTrue(InsuranceType.DAY, Packet.BASIC)).thenReturn(insurance.getTariff());
-        when(reinsuranceConfigProperties.get(InsuranceType.DAY, ReinsuranceType.STORNO)).thenReturn(new BigDecimal(1.5));
-        when(reinsuranceConfigProperties.get(InsuranceType.DAY, ReinsuranceType.SPORTS_ACTIVITY)).thenReturn(new BigDecimal(1.3));
-
         when(insuranceRepository.findById(insurance.getId())).thenReturn(Optional.of(buildInsurance(InsuranceType.DAY)));
 
         final ArgumentCaptor<Insurance> insuranceArgumentCaptor = ArgumentCaptor.forClass(Insurance.class);

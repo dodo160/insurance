@@ -32,13 +32,9 @@ public class TestUtils {
         final Tariff tariff = buildTariff(insuranceType);
         final User user = buildUser(UserType.CLIENT);
 
-        final Reinsurance reinsuranceStorno = new Reinsurance();
-        reinsuranceStorno.setId(1l);
-        reinsuranceStorno.setReinsuranceType(ReinsuranceType.STORNO);
+        final Reinsurance reinsuranceStorno = buildReinsurance(ReinsuranceType.STORNO);
 
-        final Reinsurance reinsuranceSportsActivity = new Reinsurance();
-        reinsuranceSportsActivity.setId(2l);
-        reinsuranceSportsActivity.setReinsuranceType(ReinsuranceType.SPORTS_ACTIVITY);
+        final Reinsurance reinsuranceSportsActivity = buildReinsurance(ReinsuranceType.SPORTS_ACTIVITY);
 
         final Insurance insurance = new Insurance();
         insurance.setId(1l);
@@ -70,6 +66,18 @@ public class TestUtils {
         user.setPostCode("1111");
         user.setIdentityId("2222");
         return user;
+    }
+
+    public static Reinsurance buildReinsurance(final ReinsuranceType reinsuranceType) {
+        final Reinsurance reinsurance = new Reinsurance();
+        switch (reinsuranceType) {
+            case STORNO:
+                reinsurance.setId(1l);
+            case SPORTS_ACTIVITY:
+                reinsurance.setId(2l);
+        }
+        reinsurance.setReinsuranceType(reinsuranceType);
+        return reinsurance;
     }
 
     public static TemporalEntity buildTemporalEntity() {
