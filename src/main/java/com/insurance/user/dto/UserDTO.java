@@ -4,6 +4,7 @@ import com.insurance.user.enums.UserType;
 import lombok.*;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 @Getter
 @Setter
@@ -25,7 +26,7 @@ public class UserDTO {
     private String postCode;
     @NotBlank(message = "Missing identity id")
     private String identityId;
-    @NotBlank(message = "Missing user type")
+    @NotNull(message = "Missing packet")
     private UserType userType;
 
 }

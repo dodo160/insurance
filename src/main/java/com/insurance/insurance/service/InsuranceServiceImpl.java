@@ -50,8 +50,8 @@ public class InsuranceServiceImpl implements InsuranceService {
     }
 
     @Override
-    public Insurance update(final Insurance insurance) {
-        final Insurance ins = findById(insurance.getId());
+    public Insurance update(final Long id, final Insurance insurance) {
+        final Insurance ins = findById(id);
         ins.setTariff(insurance.getTariff());
         ins.setUser(insurance.getUser());
         ins.setStartDate(insurance.getStartDate());

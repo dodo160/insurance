@@ -96,7 +96,7 @@ public class TariffServiceIT {
         final ArgumentCaptor<Tariff> tariffArgumentCaptor = ArgumentCaptor.forClass(Tariff.class);
 
         try {
-            tariffService.update(tariff);
+            tariffService.update(tariff.getId(), tariff);
         } catch (NotFoundException nfe) {
             Assert.fail();
         }
@@ -113,8 +113,10 @@ public class TariffServiceIT {
     public void updateTariffDoesntExistTest() {
         when(tariffRepository.findById(1L)).thenReturn(Optional.empty());
 
+        final Tariff tariff = buildTariff(InsuranceType.DAY);
+
         try {
-            tariffService.update(buildTariff(InsuranceType.DAY));
+            tariffService.update(tariff.getId(), tariff);
             Assert.fail();
         } catch (NotFoundException nfe) {
             Assert.assertEquals("Tariff not found", nfe.getMessage());

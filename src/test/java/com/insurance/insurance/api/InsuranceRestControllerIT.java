@@ -80,14 +80,28 @@ public class InsuranceRestControllerIT {
         final Insurance insurance = TestUtils.buildInsurance(InsuranceType.YEAR);
         final InsuranceDTO insuranceDTO = insuranceMapper.toDto(insurance);
 
-        when(insuranceService.update(insurance)).thenReturn(insurance);
+        when(insuranceService.update(insurance.getId(), insurance)).thenReturn(insurance);
 
-        mockMvc.perform(put("/insurance")
+        mockMvc.perform(put("/insurance/1")
                         .accept(MediaType.APPLICATION_JSON_VALUE)
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
                         .content(jsonMarshaller.toJson(insuranceDTO)))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(1));
+    }
+
+    @Test
+    public void updateInsuranceRequestMismatchExceptionTest() throws Exception {
+        final Insurance insurance = TestUtils.buildInsurance(InsuranceType.YEAR);
+        final InsuranceDTO insuranceDTO = insuranceMapper.toDto(insurance);
+
+        when(insuranceService.update(insurance.getId(), insurance)).thenReturn(insurance);
+
+        mockMvc.perform(put("/insurance/2")
+                        .accept(MediaType.APPLICATION_JSON_VALUE)
+                        .contentType(MediaType.APPLICATION_JSON_VALUE)
+                        .content(jsonMarshaller.toJson(insuranceDTO)))
+                .andExpect(status().isBadRequest());
     }
 
     @Test

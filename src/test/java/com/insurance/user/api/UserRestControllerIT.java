@@ -81,9 +81,9 @@ public class UserRestControllerIT {
         final User user = TestUtils.buildUser(UserType.CLIENT);
         final UserDTO userDTO = userMapper.toDto(user);
 
-        when(userService.update(user)).thenReturn(user);
+        when(userService.update(user.getId(), user)).thenReturn(user);
 
-        mockMvc.perform(put("/user")
+        mockMvc.perform(put("/user/1")
                         .accept(MediaType.APPLICATION_JSON_VALUE)
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
                         .content(jsonMarshaller.toJson(userDTO)))
@@ -109,13 +109,27 @@ public class UserRestControllerIT {
         final User user = TestUtils.buildUser(UserType.EMPLOYEE);
         final UserDTO userDTO = userMapper.toDto(user);
 
-        when(userService.update(user)).thenReturn(user);
+        when(userService.update(user.getId(), user)).thenReturn(user);
 
-        mockMvc.perform(put("/user")
+        mockMvc.perform(put("/user/1")
                         .accept(MediaType.APPLICATION_JSON_VALUE)
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
                         .content(jsonMarshaller.toJson(userDTO)))
                 .andExpect(status().isOk());
+    }
+
+    @Test
+    public void updateUserEmployeeRequestMismatchExceptionTest() throws Exception {
+        final User user = TestUtils.buildUser(UserType.EMPLOYEE);
+        final UserDTO userDTO = userMapper.toDto(user);
+
+        when(userService.update(user.getId(), user)).thenReturn(user);
+
+        mockMvc.perform(put("/user/3")
+                        .accept(MediaType.APPLICATION_JSON_VALUE)
+                        .contentType(MediaType.APPLICATION_JSON_VALUE)
+                        .content(jsonMarshaller.toJson(userDTO)))
+                .andExpect(status().isBadRequest());
     }
 
     @Test

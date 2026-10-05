@@ -1,5 +1,6 @@
 package com.insurance.insurance.api;
 
+import com.insurance.common.exception.RequestMismatchException;
 import com.insurance.insurance.dto.InsuranceDTO;
 import com.insurance.insurance.mapper.InsuranceMapper;
 import com.insurance.insurance.service.InsuranceService;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @RestController
@@ -26,39 +28,43 @@ public class InsuranceRestController {
         this.insuranceMapper = insuranceMapper;
     }
 
-    @GetMapping("/{id}")
+    @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<InsuranceDTO> getInsuranceById(@PathVariable("id") final Long id) {
         return ResponseEntity.ok(insuranceMapper.toDto(insuranceService.findById(id)));
     }
 
-    @GetMapping()
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<InsuranceDTO>> getAllInsurances() {
         return ResponseEntity.ok(insuranceService.findAll().stream().map(insuranceMapper::toDto).collect(Collectors.toList()));
     }
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<InsuranceDTO> addInsuracnce(@Valid @RequestBody final InsuranceDTO insuranceDTO) {
+    public ResponseEntity<InsuranceDTO> addInsurance(@Valid @RequestBody final InsuranceDTO insuranceDTO) {
         return ResponseEntity.status(HttpStatus.CREATED).body(insuranceMapper.toDto(insuranceService.add(insuranceMapper.fromDto(insuranceDTO))));
     }
 
-    @PutMapping(produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<InsuranceDTO> updateInsurance(@Valid @RequestBody final InsuranceDTO insuranceDTO) {
-        return ResponseEntity.ok(insuranceMapper.toDto(insuranceService.update(insuranceMapper.fromDto(insuranceDTO))));
+    @PutMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<InsuranceDTO> updateInsurance(@PathVariable("id") final Long id, @Valid @RequestBody final InsuranceDTO insuranceDTO) {
+        if (Objects.nonNull(insuranceDTO.getId()) && !id.equals(insuranceDTO.getId())) {
+            throw new RequestMismatchException(
+                    "Insurance ID in path does not match user ID in request body");
+        }
+        return ResponseEntity.ok(insuranceMapper.toDto(insuranceService.update(id, insuranceMapper.fromDto(insuranceDTO))));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteInsuracnce(@PathVariable("id") final Long id) {
+    public ResponseEntity<Void> deleteInsurance(@PathVariable("id") final Long id) {
         insuranceService.deleteById(id);
         return ResponseEntity.noContent().build();
     }
 
     @PutMapping("/softDelete/{id}")
-    public ResponseEntity<Void> softDeleteInsuracnce(@PathVariable("id") final Long id) {
+    public ResponseEntity<Void> softDeleteInsurance(@PathVariable("id") final Long id) {
         insuranceService.softDeleteById(id);
         return ResponseEntity.noContent().build();
     }
 
-    @PostMapping(value = "/calculate", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/calculate", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<BigDecimal> calculateInsurance(@Valid @RequestBody final InsuranceDTO insuranceDTO) {
         return ResponseEntity.ok(insuranceService.calculateInsurance(insuranceMapper.fromDto(insuranceDTO)));
     }

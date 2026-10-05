@@ -50,6 +50,11 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR.value(), List.of(exception.getMessage()), exception.getClass().getSimpleName()));
     }
 
+    @ExceptionHandler({RequestMismatchException.class})
+    public ResponseEntity<ErrorResponse> handleRequestMismatchException(final RequestMismatchException exception) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorResponse(HttpStatus.BAD_REQUEST.value(), List.of(exception.getMessage()), exception.getClass().getSimpleName()));
+    }
+
     @ExceptionHandler({ConstraintViolationException.class})
     public ResponseEntity<ErrorResponse> handleConstraintViolationException(final ConstraintViolationException exception) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorResponse(HttpStatus.BAD_REQUEST.value(),

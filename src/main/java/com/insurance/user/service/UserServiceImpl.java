@@ -43,8 +43,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User update(final User user) {
-        final User userDB = findById(user.getId());
+    public User update(final Long id, final User user) {
+        final User userDB = findById(id);
         userDB.setFirstName(user.getFirstName());
         userDB.setLastName(user.getLastName());
         userDB.setAddress(user.getAddress());

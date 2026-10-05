@@ -15,7 +15,7 @@ public interface BasicService<T, ID> {
 
     T add(@Valid @NotNull T entity);
 
-    T update(@Valid @NotNull T entity);
+    T update(@NotNull ID id, @Valid @NotNull T entity);
 
     void deleteById(@NotNull ID id);
 

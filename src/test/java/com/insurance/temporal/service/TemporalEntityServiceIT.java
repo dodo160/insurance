@@ -60,6 +60,6 @@ public class TemporalEntityServiceIT {
     @Test(expected = UnsupportedOperationException.class)
     public void updateTest() {
         final TemporalEntity temporalEntity = buildTemporalEntity();
-        temporalEntityService.update(temporalEntity);
+        temporalEntityService.update(temporalEntity.getId(), temporalEntity);
     }
 }

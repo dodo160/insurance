@@ -1,5 +1,6 @@
 package com.insurance.user.api;
 
+import com.insurance.common.exception.RequestMismatchException;
 import com.insurance.user.dto.UserDTO;
 import com.insurance.user.enums.UserType;
 import com.insurance.user.mapper.ClientMapper;
@@ -9,10 +10,13 @@ import com.insurance.user.model.Client;
 import com.insurance.user.model.Employee;
 import com.insurance.user.service.UserService;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @RestController
@@ -34,18 +38,18 @@ public class UserRestController {
         this.employeeMapper = employeeMapper;
     }
 
-    @GetMapping("/{id}")
+    @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<UserDTO> getById(@PathVariable final Long id) {
         return ResponseEntity.ok(userMapper.toDto(userService.findById(id)));
     }
 
-    @GetMapping()
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<UserDTO>> getAllUsers() {
         return ResponseEntity.ok(userService.findAll().stream().map(userMapper::toDto).collect(Collectors.toList()));
     }
 
-    @PostMapping()
-    public ResponseEntity<UserDTO> addUser(@RequestBody final UserDTO userDTO) {
+    @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<UserDTO> addUser(@Valid @RequestBody final UserDTO userDTO) {
         UserDTO body = null;
         if (UserType.CLIENT == userDTO.getUserType()) {
             body = clientMapper.toDto((Client) userService.add(clientMapper.fromDto(userDTO)));
@@ -57,16 +61,20 @@ public class UserRestController {
         return ResponseEntity.status(HttpStatus.CREATED).body(body);
     }
 
-    @PutMapping()
-    public ResponseEntity<UserDTO> updateUser(@RequestBody final UserDTO userDTO) {
+    @PutMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<UserDTO> updateUser(@PathVariable final Long id, @Valid @RequestBody final UserDTO userDTO) {
+        if (Objects.nonNull(userDTO.getId()) && !id.equals(userDTO.getId())) {
+            throw new RequestMismatchException(
+                    "User ID in path does not match user ID in request body");
+        }
         UserDTO body = null;
 
         if (UserType.CLIENT == userDTO.getUserType()) {
-            body = clientMapper.toDto((Client) userService.update(clientMapper.fromDto(userDTO)));
+            body = clientMapper.toDto((Client) userService.update(id, clientMapper.fromDto(userDTO)));
         }
 
         if (UserType.EMPLOYEE == userDTO.getUserType()) {
-            body = employeeMapper.toDto((Employee) userService.update(employeeMapper.fromDto(userDTO)));
+            body = employeeMapper.toDto((Employee) userService.update(id, employeeMapper.fromDto(userDTO)));
         }
         return ResponseEntity.ok(body);
 

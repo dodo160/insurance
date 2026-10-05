@@ -96,7 +96,7 @@ public class UserServiceIT {
         final ArgumentCaptor<User> userArgumentCaptor = ArgumentCaptor.forClass(User.class);
 
         try {
-            userService.update(user);
+            userService.update(user.getId(), user);
         } catch (Exception e) {
             Assert.fail();
         }
@@ -114,8 +114,10 @@ public class UserServiceIT {
     public void updateTariffDoesntExistTest() {
         when(userRepository.findById(1L)).thenReturn(Optional.empty());
 
+        final User user = buildUser(UserType.CLIENT);
+
         try {
-            userService.update(buildUser(UserType.CLIENT));
+            userService.update(user.getId(), user);
             Assert.fail();
         } catch (NotFoundException nfe) {
             Assert.assertEquals("User not found", nfe.getMessage());

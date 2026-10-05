@@ -50,8 +50,8 @@ public class TariffServiceImpl implements TariffService {
     }
 
     @Override
-    public Tariff update(final Tariff tariff) {
-        final Tariff tar = findById(tariff.getId());
+    public Tariff update(final Long id, final Tariff tariff) {
+        final Tariff tar = findById(id);
         tar.setInsuranceType(tariff.getInsuranceType());
         tar.setPacket(tariff.getPacket());
         tar.setPrice(tariff.getPrice());

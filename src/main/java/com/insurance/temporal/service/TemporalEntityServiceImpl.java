@@ -76,7 +76,7 @@ public class TemporalEntityServiceImpl implements TemporalEntityService {
     }
 
     @Override
-    public TemporalEntity update(final TemporalEntity entity) {
+    public TemporalEntity update(final Long id, final TemporalEntity entity) {
         throw new UnsupportedOperationException("Not supported action.");
     }
 

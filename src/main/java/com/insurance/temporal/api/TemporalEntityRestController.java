@@ -4,6 +4,7 @@ import com.insurance.temporal.dto.TemporalEntityDTO;
 import com.insurance.temporal.mapper.TemporalEntityMapper;
 import com.insurance.temporal.service.TemporalEntityService;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,17 +24,17 @@ public class TemporalEntityRestController {
         this.temporalEntityMapper = temporalEntityMapper;
     }
 
-    @GetMapping("/{id}")
+    @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<TemporalEntityDTO> getById(@PathVariable final Long id) {
         return ResponseEntity.ok(temporalEntityMapper.toDto(temporalEntityService.findById(id)));
     }
 
-    @GetMapping()
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<TemporalEntityDTO>> getAllTemporalEntities() {
         return ResponseEntity.ok(temporalEntityService.findAll().stream().map(temporalEntityMapper::toDto).collect(Collectors.toList()));
     }
 
-    @PostMapping()
+    @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<TemporalEntityDTO> addTemporalEntity(@RequestBody final TemporalEntityDTO temporalEntityDTO) {
         final TemporalEntityDTO body = temporalEntityMapper.toDto(temporalEntityService.add(temporalEntityMapper.fromDto(temporalEntityDTO)));
         return ResponseEntity.status(HttpStatus.CREATED).body(body);
@@ -42,7 +43,7 @@ public class TemporalEntityRestController {
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteTemporalEntity(@PathVariable("id") final Long id) {
         temporalEntityService.deleteById(id);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        return ResponseEntity.noContent().build();
     }
 
     @PostMapping("/createEntityFromTemporal/{id}")

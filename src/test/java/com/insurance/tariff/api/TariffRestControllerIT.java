@@ -84,13 +84,27 @@ public class TariffRestControllerIT {
         final Tariff tariff = TestUtils.buildTariff(InsuranceType.YEAR);
         final TariffDTO tariffDTO = tariffMapper.toDto(tariff);
 
-        when(tariffService.update(tariff)).thenReturn(tariff);
+        when(tariffService.update(tariff.getId(), tariff)).thenReturn(tariff);
 
-        mockMvc.perform(put("/tariff")
+        mockMvc.perform(put("/tariff/1")
                         .accept(MediaType.APPLICATION_JSON_VALUE)
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
                         .content(jsonMarshaller.toJson(tariffDTO)))
                 .andExpect(status().isOk());
+    }
+
+    @Test
+    public void updateTariffRequestMismatchExceptionTest() throws Exception {
+        final Tariff tariff = TestUtils.buildTariff(InsuranceType.YEAR);
+        final TariffDTO tariffDTO = tariffMapper.toDto(tariff);
+
+        when(tariffService.update(tariff.getId(), tariff)).thenReturn(tariff);
+
+        mockMvc.perform(put("/tariff/2")
+                        .accept(MediaType.APPLICATION_JSON_VALUE)
+                        .contentType(MediaType.APPLICATION_JSON_VALUE)
+                        .content(jsonMarshaller.toJson(tariffDTO)))
+                .andExpect(status().isBadRequest());
     }
 
     @Test

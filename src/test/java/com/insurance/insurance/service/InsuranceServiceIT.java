@@ -188,7 +188,7 @@ public class InsuranceServiceIT {
         final ArgumentCaptor<Insurance> insuranceArgumentCaptor = ArgumentCaptor.forClass(Insurance.class);
 
         try {
-            insuranceService.update(insurance);
+            insuranceService.update(insurance.getId(), insurance);
         } catch (Exception e) {
             Assert.fail();
         }
@@ -207,7 +207,7 @@ public class InsuranceServiceIT {
         when(insuranceRepository.findById(insurance.getId())).thenReturn(Optional.empty());
 
         try {
-            insuranceService.update(insurance);
+            insuranceService.update(insurance.getId(), insurance);
             Assert.fail();
         } catch (Exception e) {
             Assert.assertEquals("No insurance found", e.getMessage());
