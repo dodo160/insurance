@@ -3,13 +3,22 @@ package com.insurance.temporal.mapper;
 import com.insurance.TestUtils;
 import com.insurance.temporal.dto.TemporalEntityDTO;
 import com.insurance.temporal.model.TemporalEntity;
+import com.insurance.user.mapper.UserMapper;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 import org.mapstruct.factory.Mappers;
 
 public class TemporalEntityMapperTest {
 
-    private final TemporalEntityMapper temporalEntityMapper = Mappers.getMapper(TemporalEntityMapper.class);
+    private TemporalEntityMapper temporalEntityMapper;
+
+    @Before
+    public void setUpTest() {
+        UserMapper userMapper = Mappers.getMapper(UserMapper.class);
+
+        temporalEntityMapper = new TemporalEntityMapperImpl(userMapper);
+    }
 
     @Test
     public void fromDtoTest() {

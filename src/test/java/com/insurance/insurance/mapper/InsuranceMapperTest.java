@@ -5,7 +5,10 @@ import com.insurance.insurance.dto.InsuranceDTO;
 import com.insurance.insurance.enums.InsuranceType;
 import com.insurance.insurance.model.Insurance;
 import com.insurance.insurance.model.Reinsurance;
+import com.insurance.tariff.mapper.TariffMapper;
+import com.insurance.user.mapper.UserMapper;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 import org.mapstruct.factory.Mappers;
 
@@ -13,7 +16,16 @@ import java.util.List;
 
 public class InsuranceMapperTest {
 
-    private final InsuranceMapper insuranceMapper = Mappers.getMapper(InsuranceMapper.class);
+    private InsuranceMapper insuranceMapper;
+
+    @Before
+    public void setUp() {
+        UserMapper userMapper = Mappers.getMapper(UserMapper.class);
+        ReinsuranceMapper reinsuranceMapper = Mappers.getMapper(ReinsuranceMapper.class);
+        TariffMapper tariffMapper = Mappers.getMapper(TariffMapper.class);
+
+        insuranceMapper = new InsuranceMapperImpl(tariffMapper, userMapper, reinsuranceMapper);
+    }
 
     @Test
     public void toDtoTest() {
