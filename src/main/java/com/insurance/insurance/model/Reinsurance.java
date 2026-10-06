@@ -15,7 +15,7 @@ import java.util.Objects;
 @Table(name = "reinsurance", uniqueConstraints = {@UniqueConstraint(columnNames = "insurance_id"),
         @UniqueConstraint(columnNames = "reinsuranceType")})
 @XmlRootElement()
-@XmlType(namespace = "/insurance/model/reinsurance")
+@XmlType(namespace = "/insurance/reinsurance")
 public class Reinsurance extends AuditEntity {
 
     private static final long serialVersionUID = -4854797535664095284L;

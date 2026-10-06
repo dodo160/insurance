@@ -1,7 +1,6 @@
 package com.insurance.tariff.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.google.common.base.Objects;
 import com.insurance.common.model.AuditEntity;
 import com.insurance.insurance.enums.InsuranceType;
 import com.insurance.insurance.model.Insurance;
@@ -16,11 +15,12 @@ import javax.xml.bind.annotation.XmlType;
 import java.math.BigDecimal;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.Objects;
 
 @Entity
 @Table(name = "tariff")
 @XmlRootElement()
-@XmlType(namespace = "/insurance/model/tariff")
+@XmlType(namespace = "/insurance/tariff")
 public class Tariff extends AuditEntity {
 
     private static final long serialVersionUID = 1679630365453455649L;
@@ -88,12 +88,12 @@ public class Tariff extends AuditEntity {
         if (o == null || getClass() != o.getClass()) return false;
         if (!super.equals(o)) return false;
         Tariff tariff = (Tariff) o;
-        return insuranceType == tariff.insuranceType && packet == tariff.packet && Objects.equal(price, tariff.price) && Objects.equal(active, tariff.active);
+        return insuranceType == tariff.insuranceType && packet == tariff.packet && Objects.equals(price, tariff.price) && Objects.equals(active, tariff.active);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(super.hashCode(), insuranceType, packet, price, active);
+        return Objects.hash(super.hashCode(), insuranceType, packet, price, active, insurances);
     }
 
     @Override

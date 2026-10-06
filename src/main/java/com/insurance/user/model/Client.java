@@ -8,7 +8,7 @@ import javax.xml.bind.annotation.XmlType;
 @Entity
 @DiscriminatorValue("CLIENT")
 @XmlRootElement()
-@XmlType(namespace = "/insurance/model/client")
+@XmlType(namespace = "/insurance/client")
 public class Client extends User {
 
     private static final long serialVersionUID = -5043763575578833675L;

@@ -1,7 +1,6 @@
 package com.insurance.common.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.google.common.base.Objects;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -9,6 +8,7 @@ import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
 import javax.xml.bind.annotation.XmlTransient;
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 @MappedSuperclass
 public class AuditEntity extends BaseEntity {
@@ -59,7 +59,7 @@ public class AuditEntity extends BaseEntity {
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(super.hashCode());
+        return Objects.hash(super.hashCode(), createdDate, lastUpdatedDate, deletedDate);
     }
 
     @Override

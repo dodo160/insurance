@@ -20,7 +20,7 @@ import java.util.Objects;
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "userType", discriminatorType = DiscriminatorType.STRING)
 @XmlRootElement()
-@XmlType(namespace = "/insurance/model/user")
+@XmlType(namespace = "/insurance/user")
 public class User extends AuditEntity {
 
     private static final long serialVersionUID = 2780692101712032399L;

@@ -1,29 +1,29 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:client="/insurance/model/client" xmlns:employee="/insurance/model/employee" xmlns:insurance="/insurance/model/insurance" xmlns:reinsurance="/insurance/model/reinsurance" xmlns:tariff="/insurance/model/tariff" xmlns:user="/insurance/model/user" version="1.0">
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:client="/insurance/client" xmlns:employee="/insurance/employee" xmlns:insurance="/insurance/insurance" xmlns:reinsurance="/insurance/reinsurance" xmlns:tariff="/insurance/tariff" xmlns:user="/insurance/user" version="1.0">
         
   
   
-  <xs:import namespace="/insurance/model/client" schemaLocation="Client.xsd"/>
+  <xs:import namespace="/insurance/insurance" schemaLocation="Insurance.xsd"/>
         
   
   
-  <xs:import namespace="/insurance/model/user" schemaLocation="User.xsd"/>
+  <xs:import namespace="/insurance/reinsurance" schemaLocation="Reinsurance.xsd"/>
         
   
   
-  <xs:import namespace="/insurance/model/employee" schemaLocation="Employee.xsd"/>
+  <xs:import namespace="/insurance/tariff" schemaLocation="Tariff.xsd"/>
         
   
   
-  <xs:import namespace="/insurance/model/insurance" schemaLocation="Insurance.xsd"/>
+  <xs:import namespace="/insurance/user" schemaLocation="User.xsd"/>
         
   
   
-  <xs:import namespace="/insurance/model/reinsurance" schemaLocation="Reinsurance.xsd"/>
+  <xs:import namespace="/insurance/client" schemaLocation="Client.xsd"/>
         
   
   
-  <xs:import namespace="/insurance/model/tariff" schemaLocation="Tariff.xsd"/>
+  <xs:import namespace="/insurance/employee" schemaLocation="Employee.xsd"/>
         
   
   
@@ -99,35 +99,11 @@
         
   
   
-  <xs:complexType name="temporalEntity">
+  <xs:complexType name="baseEntityListener">
                 
     
     
-    <xs:sequence>
-                        
-      
-      
-      <xs:element minOccurs="0" name="entity" type="xs:string"/>
-                        
-      
-      
-      <xs:element minOccurs="0" name="entityClass" type="xs:string"/>
-                        
-      
-      
-      <xs:element minOccurs="0" name="id" type="xs:long"/>
-                        
-      
-      
-      <xs:element minOccurs="0" name="mediaType" type="xs:string"/>
-                        
-      
-      
-      <xs:element minOccurs="0" ref="user"/>
-                      
-    
-    
-    </xs:sequence>
+    <xs:sequence/>
               
   
   

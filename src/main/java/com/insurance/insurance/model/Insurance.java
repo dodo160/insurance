@@ -31,7 +31,7 @@ import java.util.Objects;
 @Entity
 @Table(name = "insurance")
 @XmlRootElement()
-@XmlType(namespace = "/insurance/model/insurance")
+@XmlType(namespace = "/insurance/insurance")
 public class Insurance extends AuditEntity {
 
     private static final long serialVersionUID = -2917439034407858747L;

@@ -8,7 +8,7 @@ import javax.xml.bind.annotation.XmlType;
 @Entity
 @DiscriminatorValue("EMPLOYEE")
 @XmlRootElement()
-@XmlType(namespace = "/insurance/model/employee")
+@XmlType(namespace = "/insurance/employee")
 public class Employee extends User {
 
     private static final long serialVersionUID = 6805141899916830921L;
