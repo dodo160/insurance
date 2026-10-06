@@ -31,6 +31,7 @@ public class TemporalEntity implements Serializable {
     @NotBlank(message = "Missing media type")
     private String mediaType;
 
+    @Lob
     @NotBlank(message = "Missing entity")
     private String entity;
 

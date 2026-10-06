@@ -11,7 +11,7 @@ drop table if exists USER;
 /*==============================================================*/
 create table IF NOT EXISTS TARIFF
 (
-   id                   int not null AUTO_INCREMENT,
+   id                   BIGINT not null AUTO_INCREMENT,
    insuranceType        varchar(255) NOT NULL,
    packet               varchar(255) NOT NULL,
    price                decimal(10,2) NOT NULL,
@@ -27,7 +27,7 @@ create table IF NOT EXISTS TARIFF
 /*==============================================================*/
 create table IF NOT EXISTS USER
 (
-   id               int not null AUTO_INCREMENT,
+   id               BIGINT not null AUTO_INCREMENT,
    firstName            varchar(255) NOT NULL,
    lastName             varchar(255) NOT NULL,
    userType             varchar(255) NOT NULL,
@@ -44,11 +44,11 @@ create table IF NOT EXISTS USER
 
 create table IF NOT EXISTS INSURANCE
 (
-   id                   int not null AUTO_INCREMENT,
-   tariff_id            int not null,
-   user_id              int not null,
-   startDate            datetime not null,
-   endDate              datetime not null,
+   id                   BIGINT not null AUTO_INCREMENT,
+   tariff_id            BIGINT not null,
+   user_id              BIGINT not null,
+   startDate            DATE not null,
+   endDate              DATE not null,
    person               int not null,
    price                decimal(10,2) not null,
    createdDate          datetime not null,
@@ -64,8 +64,8 @@ create table IF NOT EXISTS INSURANCE
 /*==============================================================*/
 create table IF NOT EXISTS REINSURANCE
 (
-   id                   int not null AUTO_INCREMENT,
-   insurance_id         int NOT NULL,
+   id                   BIGINT not null AUTO_INCREMENT,
+   insurance_id         BIGINT NOT NULL,
    reinsuranceType      varchar(255) NOT NULL,
    createdDate          datetime NOT NULL,
    lastUpdatedDate      datetime,
@@ -80,8 +80,8 @@ create table IF NOT EXISTS REINSURANCE
 /*==============================================================*/
 create table IF NOT EXISTS TEMPORAL_ENTITY
 (
-    id                   int not null AUTO_INCREMENT,
-    user_id              int not null,
+    id                   BIGINT not null AUTO_INCREMENT,
+    user_id              BIGINT not null,
     entityClass          varchar(255) not null,
     mediaType            varchar(255) not null,
     entity               varchar(255) not null,

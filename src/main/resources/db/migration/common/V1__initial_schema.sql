@@ -1,19 +1,11 @@
-/*
-drop table if exists REINSURANCE;
-drop table if exists INSURANCE;
-drop table if exists TARIFF;
-drop table if exists TEMPORAL_ENTITY;
-drop table if exists USER;
-*/
-
 /*==============================================================*/
 /* Table: TARIFF                                                */
 /*==============================================================*/
 create table IF NOT EXISTS TARIFF
 (
-   id                   int not null AUTO_INCREMENT,
-   insuranceType        varchar(255) NOT NULL,
-   packet               varchar(255) NOT NULL,
+   id                   BIGINT not null AUTO_INCREMENT,
+   insuranceType        VARCHAR(255) NOT NULL,
+   packet               VARCHAR(255) NOT NULL,
    price                decimal(10,2) NOT NULL,
    active               BOOLEAN NOT NULL,
    createdDate          datetime NOT NULL,
@@ -27,14 +19,14 @@ create table IF NOT EXISTS TARIFF
 /*==============================================================*/
 create table IF NOT EXISTS USER
 (
-   id               int not null AUTO_INCREMENT,
-   firstName            varchar(255) NOT NULL,
-   lastName             varchar(255) NOT NULL,
-   userType             varchar(255) NOT NULL,
-   city                 varchar(255) NOT NULL,
-   address              varchar(255) NOT NULL,
-   postCode             varchar(255) NOT NULL,
-   identityId           varchar(255) NOT NULL,
+   id               BIGINT not null AUTO_INCREMENT,
+   firstName            VARCHAR(255) NOT NULL,
+   lastName             VARCHAR(255) NOT NULL,
+   userType             VARCHAR(255) NOT NULL,
+   city                 VARCHAR(255) NOT NULL,
+   address              VARCHAR(255) NOT NULL,
+   postCode             VARCHAR(255) NOT NULL,
+   identityId           VARCHAR(255) NOT NULL,
    createdDate          datetime NOT NULL,
    lastUpdatedDate      datetime,
    deletedDate          datetime,
@@ -44,12 +36,12 @@ create table IF NOT EXISTS USER
 
 create table IF NOT EXISTS INSURANCE
 (
-   id                   int not null AUTO_INCREMENT,
-   tariff_id            int not null,
-   user_id              int not null,
-   startDate            datetime not null,
-   endDate              datetime not null,
-   person               int not null,
+   id                   BIGINT not null AUTO_INCREMENT,
+   tariff_id            BIGINT not null,
+   user_id              BIGINT not null,
+   startDate            DATE not null,
+   endDate              DATE not null,
+   person               INT not null,
    price                decimal(10,2) not null,
    createdDate          datetime not null,
    lastupdatedDate      datetime,
@@ -64,9 +56,9 @@ create table IF NOT EXISTS INSURANCE
 /*==============================================================*/
 create table IF NOT EXISTS REINSURANCE
 (
-   id                   int not null AUTO_INCREMENT,
-   insurance_id         int NOT NULL,
-   reinsuranceType      varchar(255) NOT NULL,
+   id                   BIGINT not null AUTO_INCREMENT,
+   insurance_id         BIGINT NOT NULL,
+   reinsuranceType      VARCHAR(255) NOT NULL,
    createdDate          datetime NOT NULL,
    lastUpdatedDate      datetime,
    deletedDate          datetime,
@@ -80,10 +72,10 @@ create table IF NOT EXISTS REINSURANCE
 /*==============================================================*/
 create table IF NOT EXISTS TEMPORAL_ENTITY
 (
-   id                   int not null AUTO_INCREMENT,
-   user_id              int not null,
-   entityClass          varchar(255) not null,
-   mediaType            varchar(255) not null,
+   id                   BIGINT not null AUTO_INCREMENT,
+   user_id              BIGINT not null,
+   entityClass          VARCHAR(255) not null,
+   mediaType            VARCHAR(255) not null,
    entity               LONGTEXT not null,
    primary key (id),
    FOREIGN KEY (user_id) REFERENCES user(id) ON DELETE CASCADE,
