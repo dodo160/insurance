@@ -1,28 +1,18 @@
 package com.insurance.common.exception;
 
+import lombok.Builder;
+import lombok.Getter;
+
+import java.time.Instant;
 import java.util.List;
 
+@Getter
+@Builder
 public class ErrorResponse {
 
+    private final Instant timestamp;
     private final int status;
-    private final String className;
+    private final String error;
     private final List<String> messages;
-
-    public ErrorResponse(int status, List<String> messages, String className) {
-        this.status = status;
-        this.className = className;
-        this.messages = messages;
-    }
-
-    public int getStatus() {
-        return status;
-    }
-
-    public List<String> getMessages() {
-        return messages;
-    }
-
-    public String getClassName() {
-        return className;
-    }
+    private final String path;
 }
