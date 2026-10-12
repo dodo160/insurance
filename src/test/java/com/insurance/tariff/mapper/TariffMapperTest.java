@@ -1,9 +1,9 @@
 package com.insurance.tariff.mapper;
 
-import com.insurance.TestUtils;
 import com.insurance.insurance.enums.InsuranceType;
 import com.insurance.tariff.dto.TariffDTO;
 import com.insurance.tariff.model.Tariff;
+import com.insurance.utils.TestUtils;
 import org.junit.Assert;
 import org.junit.Test;
 import org.mapstruct.factory.Mappers;

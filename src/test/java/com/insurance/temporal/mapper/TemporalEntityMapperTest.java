@@ -1,9 +1,9 @@
 package com.insurance.temporal.mapper;
 
-import com.insurance.TestUtils;
 import com.insurance.temporal.dto.TemporalEntityDTO;
 import com.insurance.temporal.model.TemporalEntity;
 import com.insurance.user.mapper.UserMapper;
+import com.insurance.utils.TestUtils;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;

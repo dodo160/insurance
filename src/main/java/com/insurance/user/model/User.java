@@ -16,7 +16,7 @@ import java.util.HashSet;
 import java.util.Objects;
 
 @Entity
-@Table(name = "user", uniqueConstraints = {@UniqueConstraint(columnNames = "identityId")})
+@Table(name = "USER", uniqueConstraints = {@UniqueConstraint(columnNames = "identityId")})
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "userType", discriminatorType = DiscriminatorType.STRING)
 @XmlRootElement()

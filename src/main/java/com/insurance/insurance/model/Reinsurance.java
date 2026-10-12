@@ -12,7 +12,7 @@ import javax.xml.bind.annotation.XmlType;
 import java.util.Objects;
 
 @Entity
-@Table(name = "reinsurance", uniqueConstraints = {@UniqueConstraint(columnNames = "insurance_id"),
+@Table(name = "REINSURANCE", uniqueConstraints = {@UniqueConstraint(columnNames = "insurance_id"),
         @UniqueConstraint(columnNames = "reinsuranceType")})
 @XmlRootElement()
 @XmlType(namespace = "/insurance/reinsurance")

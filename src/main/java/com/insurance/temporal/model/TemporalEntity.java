@@ -10,7 +10,7 @@ import java.io.Serializable;
 import java.util.Objects;
 
 @Entity
-@Table(name = "temporal_entity")
+@Table(name = "TEMPORAL_ENTITY")
 public class TemporalEntity implements Serializable {
 
     private static final long serialVersionUID = 4981381595897438184L;

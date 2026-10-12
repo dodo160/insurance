@@ -1,6 +1,5 @@
 package com.insurance.tariff.api;
 
-import com.insurance.TestUtils;
 import com.insurance.common.json.JsonMarshaller;
 import com.insurance.insurance.enums.InsuranceType;
 import com.insurance.tariff.dto.TariffDTO;
@@ -8,6 +7,7 @@ import com.insurance.tariff.enums.Packet;
 import com.insurance.tariff.mapper.TariffMapper;
 import com.insurance.tariff.model.Tariff;
 import com.insurance.tariff.service.TariffService;
+import com.insurance.utils.TestUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

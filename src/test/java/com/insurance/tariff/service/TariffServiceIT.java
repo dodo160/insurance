@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
-import static com.insurance.TestUtils.buildTariff;
+import static com.insurance.utils.TestUtils.buildTariff;
 import static org.mockito.Mockito.*;
 
 @SpringBootTest

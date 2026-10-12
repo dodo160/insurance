@@ -1,10 +1,10 @@
 package com.insurance.insurance.service.calculator;
 
-import com.insurance.TestUtils;
 import com.insurance.insurance.config.ReinsuranceConfigProperties;
 import com.insurance.insurance.enums.InsuranceType;
 import com.insurance.insurance.enums.ReinsuranceType;
 import com.insurance.insurance.model.Reinsurance;
+import com.insurance.utils.TestUtils;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;

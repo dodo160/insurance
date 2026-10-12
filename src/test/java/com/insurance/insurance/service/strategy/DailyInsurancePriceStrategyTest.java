@@ -1,8 +1,8 @@
 package com.insurance.insurance.service.strategy;
 
-import com.insurance.TestUtils;
 import com.insurance.insurance.enums.InsuranceType;
 import com.insurance.insurance.model.Insurance;
+import com.insurance.utils.TestUtils;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;

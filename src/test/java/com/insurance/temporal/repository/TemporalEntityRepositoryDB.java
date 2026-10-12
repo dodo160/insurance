@@ -1,23 +1,21 @@
 package com.insurance.temporal.repository;
 
+import com.insurance.integration.AbstractMySqlIntegrationTest;
 import com.insurance.temporal.model.TemporalEntity;
 import org.junit.Assert;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.HashSet;
 import java.util.Set;
 
-import static com.insurance.TestUtils.buildTemporalEntity;
+import static com.insurance.utils.TestUtils.buildTemporalEntity;
 
-@RunWith(SpringRunner.class)
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-public class TemporalEntityRepositoryDB {
+public class TemporalEntityRepositoryDB  extends AbstractMySqlIntegrationTest {
 
     @Autowired
     private TemporalEntityRepository temporalEntityRepository;

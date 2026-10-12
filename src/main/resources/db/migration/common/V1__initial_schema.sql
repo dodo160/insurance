@@ -63,7 +63,7 @@ create table IF NOT EXISTS REINSURANCE
    lastUpdatedDate      datetime,
    deletedDate          datetime,
    primary key (id),
-   FOREIGN KEY (insurance_id) REFERENCES insurance(id) ON DELETE CASCADE,
+   FOREIGN KEY (insurance_id) REFERENCES INSURANCE(id) ON DELETE CASCADE,
    UNIQUE KEY(insurance_id, reinsuranceType)
 );
 
@@ -78,7 +78,7 @@ create table IF NOT EXISTS TEMPORAL_ENTITY
    mediaType            VARCHAR(255) not null,
    entity               LONGTEXT not null,
    primary key (id),
-   FOREIGN KEY (user_id) REFERENCES user(id) ON DELETE CASCADE,
+   FOREIGN KEY (user_id) REFERENCES USER(id) ON DELETE CASCADE,
    UNIQUE KEY(user_id, entityClass, mediaType, entity(255)),
    FULLTEXT(entity)
 );

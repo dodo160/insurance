@@ -1,12 +1,12 @@
 package com.insurance.insurance.mapper;
 
-import com.insurance.TestUtils;
 import com.insurance.insurance.dto.InsuranceDTO;
 import com.insurance.insurance.enums.InsuranceType;
 import com.insurance.insurance.model.Insurance;
 import com.insurance.insurance.model.Reinsurance;
 import com.insurance.tariff.mapper.TariffMapper;
 import com.insurance.user.mapper.UserMapper;
+import com.insurance.utils.TestUtils;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;

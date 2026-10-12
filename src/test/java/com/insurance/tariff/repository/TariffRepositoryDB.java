@@ -1,26 +1,24 @@
 package com.insurance.tariff.repository;
 
-import com.insurance.TestUtils;
 import com.insurance.insurance.enums.InsuranceType;
+import com.insurance.integration.AbstractMySqlIntegrationTest;
 import com.insurance.tariff.enums.Packet;
 import com.insurance.tariff.model.Tariff;
+import com.insurance.utils.TestUtils;
 import org.junit.Assert;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.test.context.junit4.SpringRunner;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.HashSet;
 import java.util.Set;
 
-@RunWith(SpringRunner.class)
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-public class TariffRepositoryDB {
+public class TariffRepositoryDB extends AbstractMySqlIntegrationTest {
 
     @Autowired
     private TariffRepository tariffRepository;

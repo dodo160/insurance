@@ -1,9 +1,9 @@
 package com.insurance.user.mapper;
 
-import com.insurance.TestUtils;
 import com.insurance.user.dto.UserDTO;
 import com.insurance.user.enums.UserType;
 import com.insurance.user.model.User;
+import com.insurance.utils.TestUtils;
 import org.junit.Assert;
 import org.junit.Test;
 import org.mapstruct.factory.Mappers;

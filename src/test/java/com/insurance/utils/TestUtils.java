@@ -1,4 +1,4 @@
-package com.insurance;
+package com.insurance.utils;
 
 import com.insurance.insurance.dto.InsuranceDTO;
 import com.insurance.insurance.dto.ReinsuranceDTO;

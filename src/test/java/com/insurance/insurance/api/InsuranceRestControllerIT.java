@@ -1,12 +1,12 @@
 package com.insurance.insurance.api;
 
-import com.insurance.TestUtils;
 import com.insurance.common.json.JsonMarshaller;
 import com.insurance.insurance.dto.InsuranceDTO;
 import com.insurance.insurance.enums.InsuranceType;
 import com.insurance.insurance.mapper.InsuranceMapper;
 import com.insurance.insurance.model.Insurance;
 import com.insurance.insurance.service.InsuranceService;
+import com.insurance.utils.TestUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

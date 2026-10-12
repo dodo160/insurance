@@ -18,7 +18,7 @@ import java.util.HashSet;
 import java.util.Objects;
 
 @Entity
-@Table(name = "tariff")
+@Table(name = "TARIFF")
 @XmlRootElement()
 @XmlType(namespace = "/insurance/tariff")
 public class Tariff extends AuditEntity {

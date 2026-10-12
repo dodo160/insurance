@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
-import static com.insurance.TestUtils.buildUser;
+import static com.insurance.utils.TestUtils.buildUser;
 import static org.mockito.Mockito.*;
 
 @SpringBootTest

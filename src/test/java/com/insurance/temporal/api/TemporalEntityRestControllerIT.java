@@ -1,11 +1,11 @@
 package com.insurance.temporal.api;
 
-import com.insurance.TestUtils;
 import com.insurance.common.json.JsonMarshaller;
 import com.insurance.temporal.dto.TemporalEntityDTO;
 import com.insurance.temporal.mapper.TemporalEntityMapper;
 import com.insurance.temporal.model.TemporalEntity;
 import com.insurance.temporal.service.TemporalEntityService;
+import com.insurance.utils.TestUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

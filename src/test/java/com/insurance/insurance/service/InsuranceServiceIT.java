@@ -25,7 +25,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
-import static com.insurance.TestUtils.buildInsurance;
+import static com.insurance.utils.TestUtils.buildInsurance;
 import static org.mockito.Mockito.*;
 
 @SpringBootTest

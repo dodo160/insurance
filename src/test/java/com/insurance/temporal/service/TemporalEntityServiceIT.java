@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
-import static com.insurance.TestUtils.buildTemporalEntity;
+import static com.insurance.utils.TestUtils.buildTemporalEntity;
 import static org.mockito.Mockito.*;
 
 @SpringBootTest

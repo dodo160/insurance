@@ -1,26 +1,24 @@
 package com.insurance.user.repository;
 
+import com.insurance.integration.AbstractMySqlIntegrationTest;
 import com.insurance.user.enums.UserType;
 import com.insurance.user.model.Client;
 import com.insurance.user.model.Employee;
 import com.insurance.user.model.User;
 import org.junit.Assert;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.HashSet;
 import java.util.Set;
 
-import static com.insurance.TestUtils.buildUser;
+import static com.insurance.utils.TestUtils.buildUser;
 
-@RunWith(SpringRunner.class)
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-public class UserRepositoryDB {
+public class UserRepositoryDB extends AbstractMySqlIntegrationTest {
 
     @Autowired
     private UserRepository userRepository;

@@ -29,7 +29,7 @@ import java.util.HashSet;
 import java.util.Objects;
 
 @Entity
-@Table(name = "insurance")
+@Table(name = "INSURANCE")
 @XmlRootElement()
 @XmlType(namespace = "/insurance/insurance")
 public class Insurance extends AuditEntity {

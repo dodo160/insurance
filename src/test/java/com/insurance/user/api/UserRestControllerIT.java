@@ -1,12 +1,12 @@
 package com.insurance.user.api;
 
-import com.insurance.TestUtils;
 import com.insurance.common.json.JsonMarshaller;
 import com.insurance.user.dto.UserDTO;
 import com.insurance.user.enums.UserType;
 import com.insurance.user.mapper.UserMapper;
 import com.insurance.user.model.User;
 import com.insurance.user.service.UserService;
+import com.insurance.utils.TestUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

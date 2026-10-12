@@ -1,6 +1,5 @@
 package com.insurance.insurance.service.calculator;
 
-import com.insurance.TestUtils;
 import com.insurance.common.exception.NotFoundException;
 import com.insurance.insurance.enums.InsuranceType;
 import com.insurance.insurance.model.Insurance;
@@ -8,6 +7,7 @@ import com.insurance.insurance.service.strategy.DailyInsurancePriceStrategy;
 import com.insurance.insurance.service.strategy.YearlyInsurancePriceStrategy;
 import com.insurance.tariff.model.Tariff;
 import com.insurance.tariff.service.TariffService;
+import com.insurance.utils.TestUtils;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
