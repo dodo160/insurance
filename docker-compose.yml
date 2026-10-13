@@ -1,0 +1,50 @@
+services:
+  mysql:
+    image: mysql:8.0.46
+    container_name: insurance-mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: insurance
+      MYSQL_USER: admin
+      MYSQL_PASSWORD: admin
+      MYSQL_ROOT_PASSWORD: root
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uadmin", "-padmin"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 20s
+
+  activemq:
+    image: apache/activemq-classic:5.18.7
+    container_name: insurance-activemq
+    restart: unless-stopped
+    ports:
+      - "61616:61616"
+      - "8161:8161"
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: insurance-app
+    restart: unless-stopped
+    depends_on:
+      mysql:
+        condition: service_healthy
+      activemq:
+        condition: service_started
+    environment:
+      DB_URL: jdbc:mysql://mysql:3306/insurance?serverTimezone=Europe/Bratislava&useSSL=false
+      DB_USERNAME: admin
+      DB_PASSWORD: admin
+      ACTIVEMQ_BROKER_URL: tcp://activemq:61616
+    ports:
+      - "8080:8080"
+
+volumes:
+  mysql_data:
