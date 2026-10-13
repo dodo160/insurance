@@ -52,6 +52,9 @@ public class TemporalEntityServiceImpl implements TemporalEntityService {
     public List<TemporalEntity> findAll() {
         final List<TemporalEntity> temporalEntities = new ArrayList<>();
         temporalEntityRepository.findAll().forEach(temporalEntities::add);
+        if (temporalEntities.isEmpty()) {
+            new NotFoundException("Temporal entities not found");
+        }
         return temporalEntities;
     }
 
@@ -82,6 +85,7 @@ public class TemporalEntityServiceImpl implements TemporalEntityService {
 
     @Override
     public void deleteById(final Long id) {
+        findById(id);
         temporalEntityRepository.deleteById(id);
     }
 

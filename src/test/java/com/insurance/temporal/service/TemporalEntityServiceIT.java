@@ -1,5 +1,6 @@
 package com.insurance.temporal.service;
 
+import com.insurance.common.exception.NotFoundException;
 import com.insurance.integration.AbstractMySqlIntegrationTest;
 import com.insurance.temporal.model.TemporalEntity;
 import com.insurance.temporal.repository.TemporalEntityRepository;
@@ -13,8 +14,7 @@ import java.util.Optional;
 import java.util.Set;
 
 import static com.insurance.utils.TestUtils.buildTemporalEntity;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 @SpringBootTest
@@ -47,8 +47,22 @@ public class TemporalEntityServiceIT extends AbstractMySqlIntegrationTest {
 
     @Test
     public void deleteByIdTest() {
-        temporalEntityService.deleteById(1L);
+        when(temporalEntityRepository.findById(1l)).thenReturn(Optional.of(buildTemporalEntity()));
+        try {
+            temporalEntityService.deleteById(1L);
+        } catch (NotFoundException e) {
+            fail();
+        }
         verify(temporalEntityRepository, times(1)).deleteById(1L);
+    }
+
+    @Test
+    public void deleteByIdExceptionTest() {
+        try {
+            temporalEntityService.deleteById(1L);
+        } catch (NotFoundException e) {
+            assertEquals("Temporal entity doesn't exist", e.getMessage());
+        }
     }
 
     @Test()

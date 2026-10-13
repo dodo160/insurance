@@ -49,8 +49,22 @@ public class UserServiceIT extends AbstractMySqlIntegrationTest {
 
     @Test
     public void deleteByIdTest() {
-        userService.deleteById(1L);
+        when(userRepository.findById(1l)).thenReturn(Optional.of(buildUser(UserType.CLIENT)));
+        try {
+            userService.deleteById(1L);
+        } catch (NotFoundException e) {
+            fail();
+        }
         verify(userRepository, times(1)).deleteById(1L);
+    }
+
+    @Test
+    public void deleteByIdExceptionTest() {
+        try {
+            userService.deleteById(1L);
+        } catch (NotFoundException e) {
+            assertEquals("User not found", e.getMessage());
+        }
     }
 
     @Test

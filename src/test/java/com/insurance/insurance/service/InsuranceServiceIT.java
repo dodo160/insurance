@@ -8,6 +8,7 @@ import com.insurance.insurance.service.calculator.InsurancePriceCalculator;
 import com.insurance.integration.AbstractMySqlIntegrationTest;
 import com.insurance.tariff.enums.Packet;
 import com.insurance.tariff.service.TariffService;
+import com.insurance.utils.TestUtils;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -95,7 +96,7 @@ public class InsuranceServiceIT extends AbstractMySqlIntegrationTest {
             insuranceService.calculateInsurance(insurance);
             fail("ValidationException should thrown");
         } catch (Exception e) {
-            assertEquals("Tarif doesn't exist", e.getMessage());
+            assertEquals("Tariff doesn't exist", e.getMessage());
         }
     }
 
@@ -153,8 +154,22 @@ public class InsuranceServiceIT extends AbstractMySqlIntegrationTest {
     }
 
     @Test
+    public void deleteByIdExceptionTest() {
+        try {
+            insuranceService.deleteById(1L);
+        } catch (NotFoundException e) {
+            assertEquals("Insurance not found", e.getMessage());
+        }
+    }
+
+    @Test
     public void deleteByIdTest() {
-        insuranceService.deleteById(1L);
+        when(insuranceRepository.findById(1l)).thenReturn(Optional.of(TestUtils.buildInsurance(InsuranceType.YEAR)));
+        try {
+            insuranceService.deleteById(1L);
+        } catch (NotFoundException e) {
+            fail();
+        }
         verify(insuranceRepository, times(1)).deleteById(1L);
     }
 
@@ -176,7 +191,7 @@ public class InsuranceServiceIT extends AbstractMySqlIntegrationTest {
         try {
             insuranceService.softDeleteById(1L);
         } catch (NotFoundException e) {
-            assertEquals("Insurance entity doesn't exist", e.getMessage());
+            assertEquals("Insurance not found", e.getMessage());
         }
     }
 
@@ -214,7 +229,7 @@ public class InsuranceServiceIT extends AbstractMySqlIntegrationTest {
             insuranceService.update(insurance.getId(), insurance);
             fail();
         } catch (Exception e) {
-            assertEquals("No insurance found", e.getMessage());
+            assertEquals("Insurance not found", e.getMessage());
         }
     }
 }

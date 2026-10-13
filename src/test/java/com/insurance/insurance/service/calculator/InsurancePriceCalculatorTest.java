@@ -202,7 +202,7 @@ public class InsurancePriceCalculatorTest {
         try {
             insurancePriceCalculator.calculateInsurance(insurance);
         }catch (NotFoundException e){
-            assertEquals("Tarif doesn't exist", e.getMessage());
+            assertEquals("Tariff doesn't exist", e.getMessage());
         }
 
     }

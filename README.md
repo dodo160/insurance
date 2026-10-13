@@ -85,6 +85,23 @@ REST errors use a standardized response format:
   "path": "/insurance"
 }
 ```
+
+## API documentation
+
+OpenAPI documentation is generated using Springdoc OpenAPI.
+
+After starting the application:
+
+Swagger UI:
+
+```text
+http://localhost:8080/swagger-ui.html
+```
+OpenAPI specification:
+```text
+http://localhost:8080/v3/api-docs
+```
+
 ## Environment variables
 
 Configure the database connection using environment variables:

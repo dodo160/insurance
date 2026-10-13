@@ -61,6 +61,7 @@ public class TariffServiceImpl implements TariffService {
 
     @Override
     public void deleteById(final Long id) {
+        findById(id);
         tariffRepository.deleteById(id);
     }
 

@@ -31,7 +31,7 @@ public class InsurancePriceCalculator {
     public BigDecimal calculateInsurance(final Insurance insurance) {
         final Tariff tariffDB = tariffService.getTariffByInsuranceTypeAndPacketAndActiveTrue(insurance.getTariff().getInsuranceType(), insurance.getTariff().getPacket());
         if (Objects.isNull(tariffDB)) {
-            throw new NotFoundException("Tarif doesn't exist");
+            throw new NotFoundException("Tariff doesn't exist");
         }
         final BigDecimal tariffPrice = tariffDB.getPrice();
 

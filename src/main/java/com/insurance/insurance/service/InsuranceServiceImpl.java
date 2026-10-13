@@ -39,7 +39,7 @@ public class InsuranceServiceImpl implements InsuranceService {
 
     @Override
     public Insurance findById(final Long id) {
-        return insuranceRepository.findById(id).orElseThrow(() -> new NotFoundException("No insurance found"));
+        return insuranceRepository.findById(id).orElseThrow(() -> new NotFoundException("Insurance not found"));
     }
 
     @Override
@@ -65,12 +65,13 @@ public class InsuranceServiceImpl implements InsuranceService {
 
     @Override
     public void deleteById(final Long id) {
+        findById(id);
         insuranceRepository.deleteById(id);
     }
 
     @Override
     public void softDeleteById(Long id) {
-        final Insurance insurance = insuranceRepository.findById(id).orElseThrow(() -> new NotFoundException("Insurance entity doesn't exist"));
+        final Insurance insurance = findById(id);
         insurance.setDeletedDate(LocalDateTime.now());
         insuranceRepository.save(insurance);
     }

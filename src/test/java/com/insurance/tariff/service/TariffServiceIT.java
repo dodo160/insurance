@@ -53,8 +53,22 @@ public class TariffServiceIT extends AbstractMySqlIntegrationTest {
 
     @Test
     public void deleteByIdTest() {
-        tariffService.deleteById(1L);
+        when(tariffRepository.findById(1l)).thenReturn(Optional.of(buildTariff(InsuranceType.DAY)));
+        try {
+            tariffService.deleteById(1L);
+        }catch (NotFoundException e) {
+            fail();
+        }
         verify(tariffRepository, times(1)).deleteById(1L);
+    }
+
+    @Test
+    public void deleteByIdExceptionTest() {
+        try {
+            tariffService.deleteById(1L);
+        }catch (NotFoundException e) {
+            assertEquals("Tariff not found", e.getMessage());
+        }
     }
 
     @Test
