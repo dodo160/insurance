@@ -3,20 +3,21 @@ package com.insurance.insurance.service.strategy;
 import com.insurance.insurance.enums.InsuranceType;
 import com.insurance.insurance.model.Insurance;
 import com.insurance.utils.TestUtils;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.math.BigDecimal;
 
-@RunWith(MockitoJUnitRunner.class)
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+@ExtendWith(MockitoExtension.class)
 public class YearlyInsurancePriceStrategyTest {
 
     private YearlyInsurancePriceStrategy yearlyInsurancePriceStrategy;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         yearlyInsurancePriceStrategy = new YearlyInsurancePriceStrategy();
     }
@@ -27,7 +28,7 @@ public class YearlyInsurancePriceStrategyTest {
 
         final BigDecimal result = yearlyInsurancePriceStrategy.calculateInsurance(insurance, new BigDecimal("1.95"), new BigDecimal("20.00"));
 
-        Assert.assertEquals(0, result.compareTo(new BigDecimal("78.00")));
+        assertEquals(0, result.compareTo(new BigDecimal("78.00")));
     }
 
     @Test
@@ -37,7 +38,7 @@ public class YearlyInsurancePriceStrategyTest {
 
         final BigDecimal result = yearlyInsurancePriceStrategy.calculateInsurance(insurance, BigDecimal.ZERO, new BigDecimal("20.00"));
 
-        Assert.assertEquals(0, result.compareTo(new BigDecimal("40.00")));
+        assertEquals(0, result.compareTo(new BigDecimal("40.00")));
     }
 
     @Test
@@ -47,6 +48,6 @@ public class YearlyInsurancePriceStrategyTest {
 
         final BigDecimal result = yearlyInsurancePriceStrategy.calculateInsurance(insurance, null, new BigDecimal("20.00"));
 
-        Assert.assertEquals(0, result.compareTo(new BigDecimal("40.00")));
+        assertEquals(0, result.compareTo(new BigDecimal("40.00")));
     }
 }

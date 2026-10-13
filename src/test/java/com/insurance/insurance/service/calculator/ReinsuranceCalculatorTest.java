@@ -5,26 +5,26 @@ import com.insurance.insurance.enums.InsuranceType;
 import com.insurance.insurance.enums.ReinsuranceType;
 import com.insurance.insurance.model.Reinsurance;
 import com.insurance.utils.TestUtils;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.math.BigDecimal;
 import java.util.Set;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoExtension.class)
 public class ReinsuranceCalculatorTest {
 
     private ReinsuranceCalculator reinsuranceCalculator;
     @Mock
     private ReinsuranceConfigProperties reinsuranceConfigProperties;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         reinsuranceCalculator = new ReinsuranceCalculator(reinsuranceConfigProperties);
     }
@@ -39,7 +39,7 @@ public class ReinsuranceCalculatorTest {
 
         final BigDecimal result = reinsuranceCalculator.calculateReinsurance(Set.of(reinsuranceStorno, reinsuranceSports), InsuranceType.YEAR);
 
-        Assert.assertEquals(0, new BigDecimal("1.32").compareTo(result));
+        assertEquals(0, new BigDecimal("1.32").compareTo(result));
     }
 
     @Test
@@ -50,7 +50,7 @@ public class ReinsuranceCalculatorTest {
 
         final BigDecimal result = reinsuranceCalculator.calculateReinsurance(Set.of(reinsuranceStorno), InsuranceType.YEAR);
 
-        Assert.assertEquals(0, new BigDecimal("1.20").compareTo(result));
+        assertEquals(0, new BigDecimal("1.20").compareTo(result));
     }
 
     @Test
@@ -61,7 +61,7 @@ public class ReinsuranceCalculatorTest {
 
         final BigDecimal result = reinsuranceCalculator.calculateReinsurance(Set.of(reinsuranceStorno), InsuranceType.DAY);
 
-        Assert.assertEquals(0, new BigDecimal("1.50").compareTo(result));
+        assertEquals(0, new BigDecimal("1.50").compareTo(result));
     }
 
     @Test
@@ -74,7 +74,7 @@ public class ReinsuranceCalculatorTest {
 
         final BigDecimal result = reinsuranceCalculator.calculateReinsurance(Set.of(reinsuranceStorno, reinsuranceSports), InsuranceType.DAY);
 
-        Assert.assertEquals(0, new BigDecimal("1.95").compareTo(result));
+        assertEquals(0, new BigDecimal("1.95").compareTo(result));
     }
 
     @Test
@@ -85,6 +85,6 @@ public class ReinsuranceCalculatorTest {
 
         final BigDecimal result = reinsuranceCalculator.calculateReinsurance(Set.of(reinsuranceStorno), InsuranceType.DAY);
 
-        Assert.assertEquals(0, new BigDecimal("1").compareTo(result));
+        assertEquals(0, new BigDecimal("1").compareTo(result));
     }
 }

@@ -1,21 +1,20 @@
 package com.insurance.tariff.api;
 
-import com.insurance.common.json.JsonMarshaller;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.insurance.insurance.enums.InsuranceType;
 import com.insurance.tariff.dto.TariffDTO;
 import com.insurance.tariff.enums.Packet;
 import com.insurance.tariff.mapper.TariffMapper;
+import com.insurance.tariff.mapper.TariffMapperImpl;
 import com.insurance.tariff.model.Tariff;
 import com.insurance.tariff.service.TariffService;
 import com.insurance.utils.TestUtils;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.List;
@@ -24,10 +23,9 @@ import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-@SpringBootTest
-@AutoConfigureMockMvc
-@RunWith(SpringRunner.class)
-public class TariffRestControllerIT {
+@WebMvcTest(TariffRestController.class)
+@Import(TariffMapperImpl.class)
+public class TariffRestControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
@@ -39,7 +37,7 @@ public class TariffRestControllerIT {
     private TariffMapper tariffMapper;
 
     @Autowired
-    private JsonMarshaller jsonMarshaller;
+    private ObjectMapper objectMapper;
 
     @Test
     public void getByIdTest() throws Exception {
@@ -75,7 +73,7 @@ public class TariffRestControllerIT {
         mockMvc.perform(post("/tariff")
                         .accept(MediaType.APPLICATION_JSON_VALUE)
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
-                        .content(jsonMarshaller.toJson(tariffDTO)))
+                        .content(objectMapper.writeValueAsString(tariffDTO)))
                 .andExpect(status().isCreated());
     }
 
@@ -89,7 +87,7 @@ public class TariffRestControllerIT {
         mockMvc.perform(put("/tariff/1")
                         .accept(MediaType.APPLICATION_JSON_VALUE)
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
-                        .content(jsonMarshaller.toJson(tariffDTO)))
+                        .content(objectMapper.writeValueAsString(tariffDTO)))
                 .andExpect(status().isOk());
     }
 
@@ -103,7 +101,7 @@ public class TariffRestControllerIT {
         mockMvc.perform(put("/tariff/2")
                         .accept(MediaType.APPLICATION_JSON_VALUE)
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
-                        .content(jsonMarshaller.toJson(tariffDTO)))
+                        .content(objectMapper.writeValueAsString(tariffDTO)))
                 .andExpect(status().isBadRequest());
     }
 

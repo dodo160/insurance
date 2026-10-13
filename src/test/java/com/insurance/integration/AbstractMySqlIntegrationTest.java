@@ -5,7 +5,7 @@ import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
 import org.testcontainers.containers.MySQLContainer;
 
-@ActiveProfiles("db")
+@ActiveProfiles("it")
 public abstract class AbstractMySqlIntegrationTest {
 
     protected static final MySQLContainer<?> mysql =

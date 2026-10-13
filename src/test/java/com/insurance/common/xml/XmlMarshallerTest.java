@@ -3,38 +3,32 @@ package com.insurance.common.xml;
 import com.insurance.insurance.enums.InsuranceType;
 import com.insurance.insurance.model.Insurance;
 import com.insurance.utils.TestUtils;
-import org.junit.Assert;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.junit.jupiter.api.Test;
 
-@SpringBootTest
-@RunWith(SpringRunner.class)
+import static org.junit.jupiter.api.Assertions.*;
+
 public class XmlMarshallerTest {
 
-    @Autowired
-    private XmlMarshaller xmlMarshaller;
+    private XmlMarshaller xmlMarshaller = new XmlMarshallerImpl();
 
     @Test
     public void xmlUtilsTest() {
         final Insurance insurance = TestUtils.buildInsurance(InsuranceType.DAY);
         try {
             final String xmlString = xmlMarshaller.toXml(Insurance.class, insurance);
-            Assert.assertNotNull(xmlString);
+            assertNotNull(xmlString);
 
-            final Insurance insuranceFromXML = (Insurance) xmlMarshaller.fromXml(Insurance.class, xmlString);
-            Assert.assertNotNull(insuranceFromXML);
-            Assert.assertEquals(insurance.getId(), insuranceFromXML.getId());
-            Assert.assertEquals(insurance.getStartDate(), insuranceFromXML.getStartDate());
-            Assert.assertEquals(insurance.getEndDate(), insuranceFromXML.getEndDate());
-            Assert.assertEquals(insurance.getReinsurances().size(), insuranceFromXML.getReinsurances().size());
-            Assert.assertEquals(insurance.getPerson(), insuranceFromXML.getPerson());
-            Assert.assertEquals(insurance.getTariff(), insuranceFromXML.getTariff());
-            Assert.assertEquals(insurance.getUser(), insuranceFromXML.getUser());
+            final Insurance insuranceFromXML = xmlMarshaller.fromXml(Insurance.class, xmlString);
+            assertNotNull(insuranceFromXML);
+            assertEquals(insurance.getId(), insuranceFromXML.getId());
+            assertEquals(insurance.getStartDate(), insuranceFromXML.getStartDate());
+            assertEquals(insurance.getEndDate(), insuranceFromXML.getEndDate());
+            assertEquals(insurance.getReinsurances().size(), insuranceFromXML.getReinsurances().size());
+            assertEquals(insurance.getPerson(), insuranceFromXML.getPerson());
+            assertEquals(insurance.getTariff(), insuranceFromXML.getTariff());
+            assertEquals(insurance.getUser(), insuranceFromXML.getUser());
         } catch (RuntimeException e) {
-            Assert.fail();
+            fail();
         }
     }
 }

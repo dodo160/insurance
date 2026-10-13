@@ -1,20 +1,22 @@
 package com.insurance.insurance.api;
 
-import com.insurance.common.json.JsonMarshaller;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.insurance.insurance.dto.InsuranceDTO;
 import com.insurance.insurance.enums.InsuranceType;
 import com.insurance.insurance.mapper.InsuranceMapper;
+import com.insurance.insurance.mapper.InsuranceMapperImpl;
+import com.insurance.insurance.mapper.ReinsuranceMapperImpl;
 import com.insurance.insurance.model.Insurance;
 import com.insurance.insurance.service.InsuranceService;
+import com.insurance.tariff.mapper.TariffMapperImpl;
+import com.insurance.user.mapper.UserMapperImpl;
 import com.insurance.utils.TestUtils;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.math.BigDecimal;
@@ -24,10 +26,9 @@ import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-@SpringBootTest
-@AutoConfigureMockMvc
-@RunWith(SpringRunner.class)
-public class InsuranceRestControllerIT {
+@WebMvcTest(InsuranceRestController.class)
+@Import({InsuranceMapperImpl.class, TariffMapperImpl.class, UserMapperImpl.class, ReinsuranceMapperImpl.class})
+public class InsuranceRestControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
@@ -39,7 +40,7 @@ public class InsuranceRestControllerIT {
     private InsuranceMapper insuranceMapper;
 
     @Autowired
-    private JsonMarshaller jsonMarshaller;
+    private ObjectMapper objectMapper;
 
     @Test
     public void getInsuranceByIdTest() throws Exception {
@@ -71,7 +72,7 @@ public class InsuranceRestControllerIT {
         mockMvc.perform(post("/insurance")
                         .accept(MediaType.APPLICATION_JSON_VALUE)
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
-                        .content(jsonMarshaller.toJson(insuranceDTO)))
+                        .content(objectMapper.writeValueAsString(insuranceDTO)))
                 .andExpect(status().isCreated());
     }
 
@@ -85,7 +86,7 @@ public class InsuranceRestControllerIT {
         mockMvc.perform(put("/insurance/1")
                         .accept(MediaType.APPLICATION_JSON_VALUE)
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
-                        .content(jsonMarshaller.toJson(insuranceDTO)))
+                        .content(objectMapper.writeValueAsString(insuranceDTO)))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(1));
     }
@@ -100,7 +101,7 @@ public class InsuranceRestControllerIT {
         mockMvc.perform(put("/insurance/2")
                         .accept(MediaType.APPLICATION_JSON_VALUE)
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
-                        .content(jsonMarshaller.toJson(insuranceDTO)))
+                        .content(objectMapper.writeValueAsString(insuranceDTO)))
                 .andExpect(status().isBadRequest());
     }
 
@@ -126,7 +127,7 @@ public class InsuranceRestControllerIT {
         mockMvc.perform(post("/insurance/calculate")
                         .accept(MediaType.APPLICATION_JSON_VALUE)
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
-                        .content(jsonMarshaller.toJson(insuranceDTO)))
+                        .content(objectMapper.writeValueAsString(insuranceDTO)))
                 .andExpect(status().isOk())
                 .andExpect(content().string(BigDecimal.TEN.toString()));
     }

@@ -2,7 +2,6 @@ package com.insurance.temporal.repository;
 
 import com.insurance.integration.AbstractMySqlIntegrationTest;
 import com.insurance.temporal.model.TemporalEntity;
-import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
@@ -12,10 +11,11 @@ import java.util.HashSet;
 import java.util.Set;
 
 import static com.insurance.utils.TestUtils.buildTemporalEntity;
+import static org.junit.jupiter.api.Assertions.*;
 
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-public class TemporalEntityRepositoryDB  extends AbstractMySqlIntegrationTest {
+public class TemporalEntityRepositoryIT extends AbstractMySqlIntegrationTest {
 
     @Autowired
     private TemporalEntityRepository temporalEntityRepository;
@@ -29,16 +29,16 @@ public class TemporalEntityRepositoryDB  extends AbstractMySqlIntegrationTest {
 
         final TemporalEntity temporalEntityDB = temporalEntityRepository.findById(savedTemporalEntity.getId()).orElse(null);
 
-        Assert.assertNotNull(temporalEntityDB);
-        Assert.assertEquals(newTemporalEntity.getEntityClass(), temporalEntityDB.getEntityClass());
-        Assert.assertEquals(newTemporalEntity.getMediaType(), temporalEntityDB.getMediaType());
-        Assert.assertNotNull(newTemporalEntity.getUser());
-        Assert.assertNotNull(newTemporalEntity.getEntity());
+        assertNotNull(temporalEntityDB);
+        assertEquals(newTemporalEntity.getEntityClass(), temporalEntityDB.getEntityClass());
+        assertEquals(newTemporalEntity.getMediaType(), temporalEntityDB.getMediaType());
+        assertNotNull(newTemporalEntity.getUser());
+        assertNotNull(newTemporalEntity.getEntity());
 
         final Set<TemporalEntity> temporalEntities = new HashSet<>();
         temporalEntityRepository.findAll().forEach(temporalEntities::add);
 
-        Assert.assertFalse(temporalEntities.isEmpty());
-        Assert.assertEquals(1, temporalEntities.size());
+        assertFalse(temporalEntities.isEmpty());
+        assertEquals(1, temporalEntities.size());
     }
 }

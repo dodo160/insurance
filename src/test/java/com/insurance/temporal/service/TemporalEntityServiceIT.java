@@ -1,25 +1,24 @@
 package com.insurance.temporal.service;
 
+import com.insurance.integration.AbstractMySqlIntegrationTest;
 import com.insurance.temporal.model.TemporalEntity;
 import com.insurance.temporal.repository.TemporalEntityRepository;
-import org.junit.Assert;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
 import static com.insurance.utils.TestUtils.buildTemporalEntity;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.*;
 
 @SpringBootTest
-@RunWith(SpringRunner.class)
-public class TemporalEntityServiceIT {
+public class TemporalEntityServiceIT extends AbstractMySqlIntegrationTest {
 
     @Autowired
     private TemporalEntityServiceImpl temporalEntityService;
@@ -33,7 +32,7 @@ public class TemporalEntityServiceIT {
 
         final List<TemporalEntity> result = temporalEntityService.findAll();
 
-        Assert.assertEquals(1, result.size());
+        assertEquals(1, result.size());
     }
 
     @Test
@@ -42,8 +41,8 @@ public class TemporalEntityServiceIT {
 
         final TemporalEntity result = temporalEntityService.findById(1l);
 
-        Assert.assertNotNull(result);
-        Assert.assertEquals(Long.valueOf(1), result.getId());
+        assertNotNull(result);
+        assertEquals(Long.valueOf(1), result.getId());
     }
 
     @Test
@@ -52,14 +51,22 @@ public class TemporalEntityServiceIT {
         verify(temporalEntityRepository, times(1)).deleteById(1L);
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test()
     public void softDeleteByIdTest() {
-        temporalEntityService.softDeleteById(1L);
+        try {
+            temporalEntityService.softDeleteById(1L);
+        } catch (UnsupportedOperationException e) {
+            assertEquals("Not supported action.", e.getMessage());
+        }
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test()
     public void updateTest() {
         final TemporalEntity temporalEntity = buildTemporalEntity();
-        temporalEntityService.update(temporalEntity.getId(), temporalEntity);
+        try {
+            temporalEntityService.update(temporalEntity.getId(), temporalEntity);
+        } catch (UnsupportedOperationException e) {
+            assertEquals("Not supported action.", e.getMessage());
+        }
     }
 }

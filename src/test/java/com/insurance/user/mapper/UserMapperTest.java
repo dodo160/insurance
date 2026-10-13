@@ -4,9 +4,11 @@ import com.insurance.user.dto.UserDTO;
 import com.insurance.user.enums.UserType;
 import com.insurance.user.model.User;
 import com.insurance.utils.TestUtils;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.mapstruct.factory.Mappers;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 public class UserMapperTest {
 
@@ -18,15 +20,15 @@ public class UserMapperTest {
 
         final UserDTO userDTO = userMapper.toDto(user);
 
-        Assert.assertNotNull(userDTO);
-        Assert.assertEquals(user.getId(), userDTO.getId());
-        Assert.assertEquals(user.getFirstName(), userDTO.getFirstName());
-        Assert.assertEquals(user.getLastName(), userDTO.getLastName());
-        Assert.assertEquals(user.getAddress(), userDTO.getAddress());
-        Assert.assertEquals(user.getCity(), userDTO.getCity());
-        Assert.assertEquals(user.getPostCode(), userDTO.getPostCode());
-        Assert.assertEquals(user.getUserType(), userDTO.getUserType());
-        Assert.assertEquals(user.getIdentityId(), userDTO.getIdentityId());
+        assertNotNull(userDTO);
+        assertEquals(user.getId(), userDTO.getId());
+        assertEquals(user.getFirstName(), userDTO.getFirstName());
+        assertEquals(user.getLastName(), userDTO.getLastName());
+        assertEquals(user.getAddress(), userDTO.getAddress());
+        assertEquals(user.getCity(), userDTO.getCity());
+        assertEquals(user.getPostCode(), userDTO.getPostCode());
+        assertEquals(user.getUserType(), userDTO.getUserType());
+        assertEquals(user.getIdentityId(), userDTO.getIdentityId());
     }
 
     @Test
@@ -35,13 +37,13 @@ public class UserMapperTest {
 
         final User user = userMapper.fromDto(userDTO);
 
-        Assert.assertNotNull(user);
-        Assert.assertEquals(userDTO.getId(), user.getId());
-        Assert.assertEquals(userDTO.getFirstName(), user.getFirstName());
-        Assert.assertEquals(userDTO.getLastName(), user.getLastName());
-        Assert.assertEquals(userDTO.getAddress(), user.getAddress());
-        Assert.assertEquals(userDTO.getCity(), user.getCity());
-        Assert.assertEquals(userDTO.getPostCode(), user.getPostCode());
-        Assert.assertEquals(userDTO.getIdentityId(), user.getIdentityId());
+        assertNotNull(user);
+        assertEquals(userDTO.getId(), user.getId());
+        assertEquals(userDTO.getFirstName(), user.getFirstName());
+        assertEquals(userDTO.getLastName(), user.getLastName());
+        assertEquals(userDTO.getAddress(), user.getAddress());
+        assertEquals(userDTO.getCity(), user.getCity());
+        assertEquals(userDTO.getPostCode(), user.getPostCode());
+        assertEquals(userDTO.getIdentityId(), user.getIdentityId());
     }
 }

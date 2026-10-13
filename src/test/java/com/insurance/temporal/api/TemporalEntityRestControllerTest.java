@@ -1,19 +1,19 @@
 package com.insurance.temporal.api;
 
-import com.insurance.common.json.JsonMarshaller;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.insurance.temporal.dto.TemporalEntityDTO;
 import com.insurance.temporal.mapper.TemporalEntityMapper;
+import com.insurance.temporal.mapper.TemporalEntityMapperImpl;
 import com.insurance.temporal.model.TemporalEntity;
 import com.insurance.temporal.service.TemporalEntityService;
+import com.insurance.user.mapper.UserMapperImpl;
 import com.insurance.utils.TestUtils;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.List;
@@ -23,10 +23,9 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@SpringBootTest
-@AutoConfigureMockMvc
-@RunWith(SpringRunner.class)
-public class TemporalEntityRestControllerIT {
+@WebMvcTest(TemporalEntityRestController.class)
+@Import({TemporalEntityMapperImpl.class, UserMapperImpl.class})
+public class TemporalEntityRestControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
@@ -38,7 +37,7 @@ public class TemporalEntityRestControllerIT {
     private TemporalEntityMapper temporalEntityMapper;
 
     @Autowired
-    private JsonMarshaller jsonMarshaller;
+    private ObjectMapper objectMapper;
 
     @Test
     public void getByIdTest() throws Exception {
@@ -71,7 +70,7 @@ public class TemporalEntityRestControllerIT {
         mockMvc.perform(post("/temporalEntity")
                         .accept(MediaType.APPLICATION_JSON_VALUE)
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
-                        .content(jsonMarshaller.toJson(temporalEntityDTO)))
+                        .content(objectMapper.writeValueAsString(temporalEntityDTO)))
                 .andExpect(status().isCreated());
     }
 

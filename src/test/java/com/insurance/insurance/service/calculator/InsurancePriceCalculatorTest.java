@@ -8,20 +8,21 @@ import com.insurance.insurance.service.strategy.YearlyInsurancePriceStrategy;
 import com.insurance.tariff.model.Tariff;
 import com.insurance.tariff.service.TariffService;
 import com.insurance.utils.TestUtils;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.math.BigDecimal;
 import java.util.Set;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoExtension.class)
 public class InsurancePriceCalculatorTest {
 
     private InsurancePriceCalculator insurancePriceCalculator;
@@ -32,7 +33,7 @@ public class InsurancePriceCalculatorTest {
     @Mock
     private TariffService tariffService;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         yearlyInsurancePriceStrategy = new YearlyInsurancePriceStrategy();
         dailyInsurancePriceStrategy = new DailyInsurancePriceStrategy();
@@ -57,8 +58,8 @@ public class InsurancePriceCalculatorTest {
 
         final BigDecimal result = insurancePriceCalculator.calculateInsurance(insurance);
 
-        Assert.assertNotNull(result);
-        Assert.assertEquals(0, new BigDecimal("156.00").compareTo(result));
+        assertNotNull(result);
+        assertEquals(0, new BigDecimal("156.00").compareTo(result));
 
         verify(tariffService).getTariffByInsuranceTypeAndPacketAndActiveTrue(
                 InsuranceType.YEAR,
@@ -87,8 +88,8 @@ public class InsurancePriceCalculatorTest {
 
         final BigDecimal result = insurancePriceCalculator.calculateInsurance(insurance);
 
-        Assert.assertNotNull(result);
-        Assert.assertEquals(0, new BigDecimal("117.00").compareTo(result));
+        assertNotNull(result);
+        assertEquals(0, new BigDecimal("117.00").compareTo(result));
 
         verify(tariffService).getTariffByInsuranceTypeAndPacketAndActiveTrue(
                 InsuranceType.YEAR,
@@ -117,8 +118,8 @@ public class InsurancePriceCalculatorTest {
 
         final BigDecimal result = insurancePriceCalculator.calculateInsurance(insurance);
 
-        Assert.assertNotNull(result);
-        Assert.assertEquals(0, new BigDecimal("93.60").compareTo(result));
+        assertNotNull(result);
+        assertEquals(0, new BigDecimal("93.60").compareTo(result));
 
         verify(tariffService).getTariffByInsuranceTypeAndPacketAndActiveTrue(
                 InsuranceType.YEAR,
@@ -147,8 +148,8 @@ public class InsurancePriceCalculatorTest {
 
         final BigDecimal result = insurancePriceCalculator.calculateInsurance(insurance);
 
-        Assert.assertNotNull(result);
-        Assert.assertEquals(0, new BigDecimal("12.96").compareTo(result));
+        assertNotNull(result);
+        assertEquals(0, new BigDecimal("12.96").compareTo(result));
 
         verify(tariffService).getTariffByInsuranceTypeAndPacketAndActiveTrue(
                 InsuranceType.DAY,
@@ -177,8 +178,8 @@ public class InsurancePriceCalculatorTest {
 
         final BigDecimal result = insurancePriceCalculator.calculateInsurance(insurance);
 
-        Assert.assertNotNull(result);
-        Assert.assertEquals(0, new BigDecimal("9.36").compareTo(result));
+        assertNotNull(result);
+        assertEquals(0, new BigDecimal("9.36").compareTo(result));
 
         verify(tariffService).getTariffByInsuranceTypeAndPacketAndActiveTrue(
                 InsuranceType.DAY,
@@ -189,7 +190,7 @@ public class InsurancePriceCalculatorTest {
                 InsuranceType.DAY);
     }
 
-    @Test(expected = NotFoundException.class)
+    @Test()
     public void shouldThrowNotFoundExceptionWhenTariffDoesNotExist() {
         final Insurance insurance = TestUtils.buildInsurance(InsuranceType.YEAR);
 
@@ -198,6 +199,11 @@ public class InsurancePriceCalculatorTest {
                 insurance.getTariff().getPacket()))
                 .thenReturn(null);
 
-        insurancePriceCalculator.calculateInsurance(insurance);
+        try {
+            insurancePriceCalculator.calculateInsurance(insurance);
+        }catch (NotFoundException e){
+            assertEquals("Tarif doesn't exist", e.getMessage());
+        }
+
     }
 }

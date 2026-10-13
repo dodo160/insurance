@@ -1,12 +1,14 @@
 package com.insurance.tariff.enums;
 
-import org.junit.Assert;
-import org.junit.Test;
+
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class PacketTest {
 
     @Test
     public void packetEnumSizeTest() {
-        Assert.assertEquals(3, Packet.values().length);
+        assertEquals(3, Packet.values().length);
     }
 }

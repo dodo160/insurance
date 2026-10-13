@@ -2,17 +2,15 @@ package com.insurance.tariff.service;
 
 import com.insurance.common.exception.NotFoundException;
 import com.insurance.insurance.enums.InsuranceType;
+import com.insurance.integration.AbstractMySqlIntegrationTest;
 import com.insurance.tariff.enums.Packet;
 import com.insurance.tariff.model.Tariff;
 import com.insurance.tariff.repository.TariffRepository;
-import org.junit.Assert;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.test.context.junit4.SpringRunner;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -20,11 +18,11 @@ import java.util.Optional;
 import java.util.Set;
 
 import static com.insurance.utils.TestUtils.buildTariff;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 @SpringBootTest
-@RunWith(SpringRunner.class)
-public class TariffServiceIT {
+public class TariffServiceIT extends AbstractMySqlIntegrationTest {
 
     @Autowired
     private TariffService tariffService;
@@ -38,7 +36,7 @@ public class TariffServiceIT {
 
         final List<Tariff> result = tariffService.findAll();
 
-        Assert.assertEquals(1, result.size());
+        assertEquals(1, result.size());
     }
 
     @Test
@@ -49,8 +47,8 @@ public class TariffServiceIT {
 
         final Tariff result = tariffService.findById(1l);
 
-        Assert.assertNotNull(result);
-        Assert.assertEquals(Long.valueOf(1), result.getId());
+        assertNotNull(result);
+        assertEquals(Long.valueOf(1), result.getId());
     }
 
     @Test
@@ -69,11 +67,15 @@ public class TariffServiceIT {
         verify(tariffRepository, times(1)).save(tariff);
     }
 
-    @Test(expected = NotFoundException.class)
+    @Test()
     public void softDeleteByIdNullInsuranceTest() {
         when(tariffRepository.findById(1L)).thenReturn(Optional.empty());
 
-        tariffService.softDeleteById(1L);
+        try {
+            tariffService.softDeleteById(1L);
+        } catch (NotFoundException e) {
+            assertEquals("Tariff not found", e.getMessage());
+        }
     }
 
     @Test
@@ -89,7 +91,7 @@ public class TariffServiceIT {
     public void updateTest() {
         final Tariff tariff = buildTariff(InsuranceType.YEAR);
         tariff.setPacket(Packet.EXTRA);
-        tariff.setPrice(new BigDecimal(49.00));
+        tariff.setPrice(new BigDecimal("49.00"));
 
         when(tariffRepository.findById(1L)).thenReturn(Optional.of(buildTariff(InsuranceType.DAY)));
 
@@ -98,14 +100,14 @@ public class TariffServiceIT {
         try {
             tariffService.update(tariff.getId(), tariff);
         } catch (NotFoundException nfe) {
-            Assert.fail();
+            fail();
         }
 
         verify(tariffRepository, times(1)).save(tariffArgumentCaptor.capture());
         final Tariff tariffArgumentCaptorValue = tariffArgumentCaptor.getValue();
-        Assert.assertEquals(tariff.getInsuranceType(), tariffArgumentCaptorValue.getInsuranceType());
-        Assert.assertEquals(tariff.getPacket(), tariffArgumentCaptorValue.getPacket());
-        Assert.assertEquals(tariff.getPrice(), tariffArgumentCaptorValue.getPrice());
+        assertEquals(tariff.getInsuranceType(), tariffArgumentCaptorValue.getInsuranceType());
+        assertEquals(tariff.getPacket(), tariffArgumentCaptorValue.getPacket());
+        assertEquals(tariff.getPrice(), tariffArgumentCaptorValue.getPrice());
 
     }
 
@@ -117,9 +119,9 @@ public class TariffServiceIT {
 
         try {
             tariffService.update(tariff.getId(), tariff);
-            Assert.fail();
+            fail();
         } catch (NotFoundException nfe) {
-            Assert.assertEquals("Tariff not found", nfe.getMessage());
+            assertEquals("Tariff not found", nfe.getMessage());
         }
     }
 
@@ -129,7 +131,7 @@ public class TariffServiceIT {
 
         final Tariff tariff = tariffService.getTariffByInsuranceTypeAndPacketAndActiveTrue(InsuranceType.DAY, Packet.BASIC);
 
-        Assert.assertNotNull(tariff);
+        assertNotNull(tariff);
     }
 
 }

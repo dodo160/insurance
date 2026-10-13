@@ -1,20 +1,24 @@
 package com.insurance.user.api;
 
-import com.insurance.common.json.JsonMarshaller;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.insurance.insurance.mapper.InsuranceMapperImpl;
+import com.insurance.insurance.mapper.ReinsuranceMapperImpl;
+import com.insurance.tariff.mapper.TariffMapperImpl;
 import com.insurance.user.dto.UserDTO;
 import com.insurance.user.enums.UserType;
+import com.insurance.user.mapper.ClientMapperImpl;
+import com.insurance.user.mapper.EmployeeMapperImpl;
 import com.insurance.user.mapper.UserMapper;
+import com.insurance.user.mapper.UserMapperImpl;
 import com.insurance.user.model.User;
 import com.insurance.user.service.UserService;
 import com.insurance.utils.TestUtils;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.List;
@@ -24,10 +28,10 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@SpringBootTest
-@AutoConfigureMockMvc
-@RunWith(SpringRunner.class)
-public class UserRestControllerIT {
+@WebMvcTest(UserRestController.class)
+@Import({InsuranceMapperImpl.class, UserMapperImpl.class, ClientMapperImpl.class, EmployeeMapperImpl.class,
+        TariffMapperImpl.class, ReinsuranceMapperImpl.class})
+public class UserRestControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
@@ -39,7 +43,7 @@ public class UserRestControllerIT {
     private UserMapper userMapper;
 
     @Autowired
-    private JsonMarshaller jsonMarshaller;
+    private ObjectMapper objectMapper;
 
     @Test
     public void getByIdTest() throws Exception {
@@ -72,7 +76,7 @@ public class UserRestControllerIT {
         mockMvc.perform(post("/user")
                         .accept(MediaType.APPLICATION_JSON_VALUE)
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
-                        .content(jsonMarshaller.toJson(userDTO)))
+                        .content(objectMapper.writeValueAsString(userDTO)))
                 .andExpect(status().isCreated());
     }
 
@@ -86,7 +90,7 @@ public class UserRestControllerIT {
         mockMvc.perform(put("/user/1")
                         .accept(MediaType.APPLICATION_JSON_VALUE)
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
-                        .content(jsonMarshaller.toJson(userDTO)))
+                        .content(objectMapper.writeValueAsString(userDTO)))
                 .andExpect(status().isOk());
     }
 
@@ -100,7 +104,7 @@ public class UserRestControllerIT {
         mockMvc.perform(post("/user")
                         .accept(MediaType.APPLICATION_JSON_VALUE)
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
-                        .content(jsonMarshaller.toJson(userDTO)))
+                        .content(objectMapper.writeValueAsString(userDTO)))
                 .andExpect(status().isCreated());
     }
 
@@ -114,7 +118,7 @@ public class UserRestControllerIT {
         mockMvc.perform(put("/user/1")
                         .accept(MediaType.APPLICATION_JSON_VALUE)
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
-                        .content(jsonMarshaller.toJson(userDTO)))
+                        .content(objectMapper.writeValueAsString(userDTO)))
                 .andExpect(status().isOk());
     }
 
@@ -128,7 +132,7 @@ public class UserRestControllerIT {
         mockMvc.perform(put("/user/3")
                         .accept(MediaType.APPLICATION_JSON_VALUE)
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
-                        .content(jsonMarshaller.toJson(userDTO)))
+                        .content(objectMapper.writeValueAsString(userDTO)))
                 .andExpect(status().isBadRequest());
     }
 

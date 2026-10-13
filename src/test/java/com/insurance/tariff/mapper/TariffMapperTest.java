@@ -4,9 +4,11 @@ import com.insurance.insurance.enums.InsuranceType;
 import com.insurance.tariff.dto.TariffDTO;
 import com.insurance.tariff.model.Tariff;
 import com.insurance.utils.TestUtils;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.mapstruct.factory.Mappers;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 public class TariffMapperTest {
 
@@ -18,11 +20,11 @@ public class TariffMapperTest {
 
         final TariffDTO tariffDTO = tariffMapper.toDto(tariff);
 
-        Assert.assertNotNull(tariffDTO);
-        Assert.assertEquals(tariff.getId(), tariffDTO.getId());
-        Assert.assertEquals(tariff.getInsuranceType(), tariffDTO.getInsuranceType());
-        Assert.assertEquals(tariff.getPacket(), tariffDTO.getPacket());
-        Assert.assertEquals(tariff.getPrice(), tariffDTO.getPrice());
+        assertNotNull(tariffDTO);
+        assertEquals(tariff.getId(), tariffDTO.getId());
+        assertEquals(tariff.getInsuranceType(), tariffDTO.getInsuranceType());
+        assertEquals(tariff.getPacket(), tariffDTO.getPacket());
+        assertEquals(tariff.getPrice(), tariffDTO.getPrice());
     }
 
     @Test
@@ -31,10 +33,10 @@ public class TariffMapperTest {
 
         final Tariff tariff = tariffMapper.fromDto(tariffDTO);
 
-        Assert.assertNotNull(tariff);
-        Assert.assertEquals(tariffDTO.getId(), tariff.getId());
-        Assert.assertEquals(tariffDTO.getInsuranceType(), tariff.getInsuranceType());
-        Assert.assertEquals(tariffDTO.getPacket(), tariff.getPacket());
-        Assert.assertEquals(tariffDTO.getPrice(), tariff.getPrice());
+        assertNotNull(tariff);
+        assertEquals(tariffDTO.getId(), tariff.getId());
+        assertEquals(tariffDTO.getInsuranceType(), tariff.getInsuranceType());
+        assertEquals(tariffDTO.getPacket(), tariff.getPacket());
+        assertEquals(tariffDTO.getPrice(), tariff.getPrice());
     }
 }

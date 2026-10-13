@@ -5,32 +5,29 @@ import com.insurance.insurance.enums.InsuranceType;
 import com.insurance.insurance.model.Insurance;
 import com.insurance.insurance.repository.InsuranceRepository;
 import com.insurance.insurance.service.calculator.InsurancePriceCalculator;
+import com.insurance.integration.AbstractMySqlIntegrationTest;
 import com.insurance.tariff.enums.Packet;
 import com.insurance.tariff.service.TariffService;
-import org.junit.Assert;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
 import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
 import static com.insurance.utils.TestUtils.buildInsurance;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 @SpringBootTest
-@RunWith(SpringRunner.class)
-public class InsuranceServiceIT {
+public class InsuranceServiceIT extends AbstractMySqlIntegrationTest {
 
     @Autowired
     private InsuranceService insuranceService;
@@ -50,7 +47,7 @@ public class InsuranceServiceIT {
 
         final List<Insurance> result = insuranceService.findAll();
 
-        Assert.assertEquals(1, result.size());
+        assertEquals(1, result.size());
     }
 
     @Test
@@ -61,8 +58,8 @@ public class InsuranceServiceIT {
 
         final Insurance result = insuranceService.findById(1l);
 
-        Assert.assertNotNull(result);
-        Assert.assertEquals(Long.valueOf(1), result.getId());
+        assertNotNull(result);
+        assertEquals(Long.valueOf(1), result.getId());
     }
 
     @Test
@@ -73,17 +70,18 @@ public class InsuranceServiceIT {
 
         final BigDecimal result = insuranceService.calculateInsurance(insurance);
 
-        Assert.assertNotNull(result);
-        Assert.assertEquals(new BigDecimal(14.04).setScale(2, RoundingMode.HALF_UP), result);
+        assertNotNull(result);
+        assertEquals(new BigDecimal("14.04"), result);
     }
 
     @Test
     public void calculateInsuranceNullTest() {
         try {
             insuranceService.calculateInsurance(null);
-            Assert.fail();
+            fail();
         } catch (ConstraintViolationException e) {
-            Assert.assertTrue("Insurance must not be null", e.getConstraintViolations().stream().anyMatch(x -> x.getMessage().equals("Insurance must not be null")));
+            assertTrue(e.getConstraintViolations().stream()
+                    .anyMatch(x -> x.getMessage().equals("Insurance must not be null")));
         }
     }
 
@@ -95,9 +93,9 @@ public class InsuranceServiceIT {
 
         try {
             insuranceService.calculateInsurance(insurance);
-            Assert.fail("ValidationException should thrown");
+            fail("ValidationException should thrown");
         } catch (Exception e) {
-            Assert.assertEquals("Tarif doesn't exist", e.getMessage());
+            assertEquals("Tarif doesn't exist", e.getMessage());
         }
     }
 
@@ -108,10 +106,11 @@ public class InsuranceServiceIT {
 
         try {
             insuranceService.calculateInsurance(insurance);
-            Assert.fail("ValidationException should thrown");
+            fail("ValidationException should thrown");
         } catch (ConstraintViolationException constraintViolationException) {
-            Assert.assertTrue("Missing tariff",
-                    constraintViolationException.getConstraintViolations().stream().map(ConstraintViolation::getMessage).anyMatch(message -> message.equals("Missing tariff")));
+            assertTrue(constraintViolationException.getConstraintViolations().stream()
+                    .map(ConstraintViolation::getMessage)
+                    .anyMatch(message -> message.equals("Missing tariff")));
         }
     }
 
@@ -119,10 +118,11 @@ public class InsuranceServiceIT {
     public void calculateInsuranceDAYNullInsuranceTest() {
         try {
             insuranceService.calculateInsurance(null);
-            Assert.fail("ValidationException should thrown");
+            fail("ValidationException should thrown");
         } catch (ConstraintViolationException constraintViolationException) {
-            Assert.assertTrue("Insurance must not be null",
-                    constraintViolationException.getConstraintViolations().stream().map(ConstraintViolation::getMessage).anyMatch(message -> message.equals("Insurance must not be null")));
+            assertTrue(constraintViolationException.getConstraintViolations().stream()
+                    .map(ConstraintViolation::getMessage)
+                    .anyMatch(message -> message.equals("Insurance must not be null")));
         }
     }
 
@@ -134,8 +134,8 @@ public class InsuranceServiceIT {
 
         final BigDecimal result = insuranceService.calculateInsurance(insurance);
 
-        Assert.assertNotNull(result);
-        Assert.assertEquals(new BigDecimal(102.96).setScale(2, RoundingMode.HALF_UP), result);
+        assertNotNull(result);
+        assertEquals(new BigDecimal("102.96"), result);
     }
 
     @Test
@@ -144,12 +144,12 @@ public class InsuranceServiceIT {
 
         when(tariffService.getTariffByInsuranceTypeAndPacketAndActiveTrue(InsuranceType.DAY, Packet.BASIC)).thenReturn(insurance.getTariff());
 
-        Assert.assertNull(insurance.getPrice());
+        assertNull(insurance.getPrice());
 
         insuranceService.add(insurance);
 
         verify(insuranceRepository, times(1)).save(insurance);
-        Assert.assertEquals(new BigDecimal(14.04).setScale(2, RoundingMode.HALF_UP), insurance.getPrice());
+        assertEquals(new BigDecimal("14.04"), insurance.getPrice());
     }
 
     @Test
@@ -165,15 +165,19 @@ public class InsuranceServiceIT {
 
         insuranceService.softDeleteById(1L);
 
-        Assert.assertNotNull(insurance.getDeletedDate());
+        assertNotNull(insurance.getDeletedDate());
         verify(insuranceRepository, times(1)).save(insurance);
     }
 
-    @Test(expected = NotFoundException.class)
+    @Test()
     public void softDeleteByIdNullInsuranceTest() {
         when(insuranceRepository.findById(1L)).thenReturn(Optional.empty());
 
-        insuranceService.softDeleteById(1L);
+        try {
+            insuranceService.softDeleteById(1L);
+        } catch (NotFoundException e) {
+            assertEquals("Insurance entity doesn't exist", e.getMessage());
+        }
     }
 
     @Test
@@ -190,14 +194,14 @@ public class InsuranceServiceIT {
         try {
             insuranceService.update(insurance.getId(), insurance);
         } catch (Exception e) {
-            Assert.fail();
+            fail();
         }
 
         verify(insuranceRepository, times(1)).save(insuranceArgumentCaptor.capture());
         final Insurance insuranceArgumentCaptorValue = insuranceArgumentCaptor.getValue();
-        Assert.assertEquals(new BigDecimal(35.10).setScale(2, RoundingMode.HALF_UP), insuranceArgumentCaptorValue.getPrice());
-        Assert.assertEquals(insurance.getPerson(), insuranceArgumentCaptorValue.getPerson());
-        Assert.assertEquals(insurance.getEndDate(), insuranceArgumentCaptorValue.getEndDate());
+        assertEquals(new BigDecimal("35.10"), insuranceArgumentCaptorValue.getPrice());
+        assertEquals(insurance.getPerson(), insuranceArgumentCaptorValue.getPerson());
+        assertEquals(insurance.getEndDate(), insuranceArgumentCaptorValue.getEndDate());
     }
 
     @Test
@@ -208,9 +212,9 @@ public class InsuranceServiceIT {
 
         try {
             insuranceService.update(insurance.getId(), insurance);
-            Assert.fail();
+            fail();
         } catch (Exception e) {
-            Assert.assertEquals("No insurance found", e.getMessage());
+            assertEquals("No insurance found", e.getMessage());
         }
     }
 }

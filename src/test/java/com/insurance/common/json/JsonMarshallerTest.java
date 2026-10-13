@@ -1,54 +1,49 @@
 package com.insurance.common.json;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.insurance.insurance.enums.InsuranceType;
 import com.insurance.insurance.model.Insurance;
 import com.insurance.utils.TestUtils;
-import org.junit.Assert;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.xml.bind.ValidationException;
 
-@SpringBootTest
-@RunWith(SpringRunner.class)
+import static org.junit.jupiter.api.Assertions.*;
+
 public class JsonMarshallerTest {
 
-    @Autowired
-    private JsonMarshaller jsonMarshaller;
+    private JsonMarshaller jsonMarshaller = new JsonMarshallerImpl(new ObjectMapper());
 
     @Test
     public void jsonUtilsTest() {
         final Insurance insurance = TestUtils.buildInsurance(InsuranceType.DAY);
         try {
             final String jsonString = jsonMarshaller.toJson(insurance);
-            Assert.assertNotNull(jsonString);
+            assertNotNull(jsonString);
 
-            final Insurance insuranceFromJson = (Insurance) jsonMarshaller.fromJson(Insurance.class, jsonString);
-            Assert.assertNotNull(insuranceFromJson);
-            Assert.assertEquals(insurance.getId(), insuranceFromJson.getId());
-            Assert.assertEquals(insurance.getStartDate(), insuranceFromJson.getStartDate());
-            Assert.assertEquals(insurance.getEndDate(), insuranceFromJson.getEndDate());
-            Assert.assertEquals(insurance.getReinsurances().size(), insuranceFromJson.getReinsurances().size());
-            Assert.assertEquals(insurance.getPerson(), insuranceFromJson.getPerson());
-            Assert.assertEquals(insurance.getTariff(), insuranceFromJson.getTariff());
-            Assert.assertEquals(insurance.getUser(), insuranceFromJson.getUser());
+            final Insurance insuranceFromJson = jsonMarshaller.fromJson(Insurance.class, jsonString);
+            assertNotNull(insuranceFromJson);
+            assertEquals(insurance.getId(), insuranceFromJson.getId());
+            assertEquals(insurance.getStartDate(), insuranceFromJson.getStartDate());
+            assertEquals(insurance.getEndDate(), insuranceFromJson.getEndDate());
+            assertEquals(insurance.getReinsurances().size(), insuranceFromJson.getReinsurances().size());
+            assertEquals(insurance.getPerson(), insuranceFromJson.getPerson());
+            assertEquals(insurance.getTariff(), insuranceFromJson.getTariff());
+            assertEquals(insurance.getUser(), insuranceFromJson.getUser());
         } catch (ValidationException e) {
-            Assert.fail();
+            fail();
         }
     }
 
     @Test
     public void isValidJsonTest() {
         final boolean result = jsonMarshaller.isValidJson("dasdaojopjo");
-        Assert.assertFalse(result);
+        assertFalse(result);
     }
 
     @Test
     public void isInValidJsonTest() {
         final boolean result = jsonMarshaller.isValidJson("{\"insuranceType\":\"DAY\",\"packet\":\"BASIC\",\"price\":1.20}");
-        Assert.assertTrue(result);
+        assertTrue(result);
     }
 }

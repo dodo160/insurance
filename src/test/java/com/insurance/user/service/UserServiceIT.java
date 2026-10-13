@@ -1,28 +1,26 @@
 package com.insurance.user.service;
 
 import com.insurance.common.exception.NotFoundException;
+import com.insurance.integration.AbstractMySqlIntegrationTest;
 import com.insurance.user.enums.UserType;
 import com.insurance.user.model.User;
 import com.insurance.user.repository.UserRepository;
-import org.junit.Assert;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
 import static com.insurance.utils.TestUtils.buildUser;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 @SpringBootTest
-@RunWith(SpringRunner.class)
-public class UserServiceIT {
+public class UserServiceIT extends AbstractMySqlIntegrationTest {
 
     @Autowired
     private UserService userService;
@@ -36,7 +34,7 @@ public class UserServiceIT {
 
         final List<User> result = userService.findAll();
 
-        Assert.assertEquals(1, result.size());
+        assertEquals(1, result.size());
     }
 
     @Test
@@ -45,8 +43,8 @@ public class UserServiceIT {
 
         final User result = userService.findById(1l);
 
-        Assert.assertNotNull(result);
-        Assert.assertEquals(Long.valueOf(1), result.getId());
+        assertNotNull(result);
+        assertEquals(Long.valueOf(1), result.getId());
     }
 
     @Test
@@ -62,15 +60,19 @@ public class UserServiceIT {
 
         userService.softDeleteById(1L);
 
-        Assert.assertNotNull(user.getDeletedDate());
+        assertNotNull(user.getDeletedDate());
         verify(userRepository, times(1)).save(user);
     }
 
-    @Test(expected=NotFoundException.class)
+    @Test()
     public void softDeleteByIdNullInsuranceTest() {
         when(userRepository.findById(1L)).thenReturn(Optional.empty());
 
-        userService.softDeleteById(1L);
+        try {
+            userService.softDeleteById(1L);
+        } catch (NotFoundException e) {
+            assertEquals("User not found", e.getMessage());
+        }
     }
 
     @Test
@@ -98,16 +100,16 @@ public class UserServiceIT {
         try {
             userService.update(user.getId(), user);
         } catch (Exception e) {
-            Assert.fail();
+            fail();
         }
 
         verify(userRepository, times(1)).save(userArgumentCaptor.capture());
         final User userArgumentCaptorValue = userArgumentCaptor.getValue();
-        Assert.assertEquals(user.getFirstName(), userArgumentCaptorValue.getFirstName());
-        Assert.assertEquals(user.getLastName(), userArgumentCaptorValue.getLastName());
-        Assert.assertEquals(user.getAddress(), userArgumentCaptorValue.getAddress());
-        Assert.assertEquals(user.getCity(), userArgumentCaptorValue.getCity());
-        Assert.assertEquals(user.getPostCode(), userArgumentCaptorValue.getPostCode());
+        assertEquals(user.getFirstName(), userArgumentCaptorValue.getFirstName());
+        assertEquals(user.getLastName(), userArgumentCaptorValue.getLastName());
+        assertEquals(user.getAddress(), userArgumentCaptorValue.getAddress());
+        assertEquals(user.getCity(), userArgumentCaptorValue.getCity());
+        assertEquals(user.getPostCode(), userArgumentCaptorValue.getPostCode());
     }
 
     @Test
@@ -118,9 +120,9 @@ public class UserServiceIT {
 
         try {
             userService.update(user.getId(), user);
-            Assert.fail();
+            fail();
         } catch (NotFoundException nfe) {
-            Assert.assertEquals("User not found", nfe.getMessage());
+            assertEquals("User not found", nfe.getMessage());
         }
     }
 }

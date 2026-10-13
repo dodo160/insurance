@@ -1,12 +1,13 @@
 package com.insurance.insurance.enums;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class InsuranceTypeTest {
 
     @Test
     public void insurenceEnumSizeTest() {
-        Assert.assertEquals(2, InsuranceType.values().length);
+        assertEquals(2, InsuranceType.values().length);
     }
 }
