@@ -6,7 +6,6 @@ import com.insurance.user.enums.UserType;
 import com.insurance.user.model.User;
 import com.insurance.user.repository.UserRepository;
 import org.junit.jupiter.api.Test;
-import org.mockito.ArgumentCaptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -75,7 +74,6 @@ public class UserServiceIT extends AbstractMySqlIntegrationTest {
         userService.softDeleteById(1L);
 
         assertNotNull(user.getDeletedDate());
-        verify(userRepository, times(1)).save(user);
     }
 
     @Test()
@@ -109,21 +107,18 @@ public class UserServiceIT extends AbstractMySqlIntegrationTest {
 
         when(userRepository.findById(1L)).thenReturn(Optional.of(buildUser(UserType.CLIENT)));
 
-        final ArgumentCaptor<User> userArgumentCaptor = ArgumentCaptor.forClass(User.class);
-
         try {
-            userService.update(user.getId(), user);
+            final User result = userService.update(user.getId(), user);
+
+            assertNotNull(result);
+            assertEquals(user.getFirstName(), result.getFirstName());
+            assertEquals(user.getLastName(), result.getLastName());
+            assertEquals(user.getAddress(), result.getAddress());
+            assertEquals(user.getCity(), result.getCity());
+            assertEquals(user.getPostCode(), result.getPostCode());
         } catch (Exception e) {
             fail();
         }
-
-        verify(userRepository, times(1)).save(userArgumentCaptor.capture());
-        final User userArgumentCaptorValue = userArgumentCaptor.getValue();
-        assertEquals(user.getFirstName(), userArgumentCaptorValue.getFirstName());
-        assertEquals(user.getLastName(), userArgumentCaptorValue.getLastName());
-        assertEquals(user.getAddress(), userArgumentCaptorValue.getAddress());
-        assertEquals(user.getCity(), userArgumentCaptorValue.getCity());
-        assertEquals(user.getPostCode(), userArgumentCaptorValue.getPostCode());
     }
 
     @Test

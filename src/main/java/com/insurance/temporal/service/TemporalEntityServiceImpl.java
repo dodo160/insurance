@@ -12,8 +12,8 @@ import com.insurance.temporal.model.TemporalEntity;
 import com.insurance.temporal.repository.TemporalEntityRepository;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.transaction.Transactional;
 import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -49,6 +49,7 @@ public class TemporalEntityServiceImpl implements TemporalEntityService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<TemporalEntity> findAll() {
         final List<TemporalEntity> temporalEntities = new ArrayList<>();
         temporalEntityRepository.findAll().forEach(temporalEntities::add);
@@ -59,11 +60,13 @@ public class TemporalEntityServiceImpl implements TemporalEntityService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public TemporalEntity findById(final Long id) {
         return temporalEntityRepository.findById(id).orElseThrow(()-> new NotFoundException("Temporal entity doesn't exist"));
     }
 
     @Override
+    @Transactional
     public TemporalEntity add(final TemporalEntity entity) {
         switch (entity.getMediaType()) {
             case MediaType.APPLICATION_XML_VALUE:
@@ -84,6 +87,7 @@ public class TemporalEntityServiceImpl implements TemporalEntityService {
     }
 
     @Override
+    @Transactional
     public void deleteById(final Long id) {
         findById(id);
         temporalEntityRepository.deleteById(id);

@@ -7,6 +7,7 @@ import com.insurance.tariff.enums.Packet;
 import com.insurance.tariff.model.Tariff;
 import com.insurance.tariff.repository.TariffRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -27,6 +28,7 @@ public class TariffServiceImpl implements TariffService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<Tariff> findAll() {
         final List<Tariff> tariffs = new ArrayList<>();
         tariffRepository.findAll().forEach(tariffs::add);
@@ -37,11 +39,13 @@ public class TariffServiceImpl implements TariffService {
     }
 
 	@Override
+    @Transactional(readOnly = true)
 	public Tariff findById(final Long id) {
 		return tariffRepository.findById(id).orElseThrow(() -> new NotFoundException("Tariff not found"));
 	}
 
     @Override
+    @Transactional
     public Tariff add(final Tariff tariff) {
         if (Objects.nonNull(tariffRepository.getTariffByInsuranceTypeAndPacketAndActiveTrue(tariff.getInsuranceType(), tariff.getPacket()))) {
             throw new DuplicateException("Active tariff already exist with type " + tariff.getInsuranceType() + " and packet " + tariff.getPacket());
@@ -50,29 +54,32 @@ public class TariffServiceImpl implements TariffService {
     }
 
     @Override
+    @Transactional
     public Tariff update(final Long id, final Tariff tariff) {
         final Tariff tar = findById(id);
         tar.setInsuranceType(tariff.getInsuranceType());
         tar.setPacket(tariff.getPacket());
         tar.setPrice(tariff.getPrice());
         tar.setActive(tariff.isActive());
-        return tariffRepository.save(tar);
+        return tar;
     }
 
     @Override
+    @Transactional
     public void deleteById(final Long id) {
         findById(id);
         tariffRepository.deleteById(id);
     }
 
 	@Override
+    @Transactional
 	public void softDeleteById(final Long id) {
 		final Tariff tariff = findById(id);
 		tariff.setDeletedDate(LocalDateTime.now());
-		tariffRepository.save(tariff);
 	}
 
     @Override
+    @Transactional(readOnly = true)
     public Tariff getTariffByInsuranceTypeAndPacketAndActiveTrue(final InsuranceType insType, final Packet packet) {
         return tariffRepository.getTariffByInsuranceTypeAndPacketAndActiveTrue(insType, packet);
     }

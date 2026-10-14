@@ -6,6 +6,7 @@ import com.insurance.insurance.model.Reinsurance;
 import com.insurance.insurance.repository.InsuranceRepository;
 import com.insurance.insurance.service.calculator.InsurancePriceCalculator;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -28,6 +29,7 @@ public class InsuranceServiceImpl implements InsuranceService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<Insurance> findAll() {
         final List<Insurance> insurances = new ArrayList<>();
         insuranceRepository.findAll().forEach(insurances::add);
@@ -38,11 +40,13 @@ public class InsuranceServiceImpl implements InsuranceService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Insurance findById(final Long id) {
         return insuranceRepository.findById(id).orElseThrow(() -> new NotFoundException("Insurance not found"));
     }
 
     @Override
+    @Transactional
     public Insurance add(final Insurance insurance) {
         insurance.updateReinsurances();
         insurance.setPrice(calculateInsurance(insurance));
@@ -50,6 +54,7 @@ public class InsuranceServiceImpl implements InsuranceService {
     }
 
     @Override
+    @Transactional
     public Insurance update(final Long id, final Insurance insurance) {
         final Insurance ins = findById(id);
         ins.setTariff(insurance.getTariff());
@@ -60,23 +65,25 @@ public class InsuranceServiceImpl implements InsuranceService {
         refreshReinsurences(insurance, ins);
         ins.setPrice(calculateInsurance(ins));
         ins.updateReinsurances();
-        return insuranceRepository.save(ins);
+        return ins;
     }
 
     @Override
+    @Transactional
     public void deleteById(final Long id) {
         findById(id);
         insuranceRepository.deleteById(id);
     }
 
     @Override
+    @Transactional
     public void softDeleteById(Long id) {
         final Insurance insurance = findById(id);
         insurance.setDeletedDate(LocalDateTime.now());
-        insuranceRepository.save(insurance);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public BigDecimal calculateInsurance(final Insurance insurance) {
         return insurancePriceCalculator.calculateInsurance(insurance);
     }

@@ -7,7 +7,6 @@ import com.insurance.tariff.enums.Packet;
 import com.insurance.tariff.model.Tariff;
 import com.insurance.tariff.repository.TariffRepository;
 import org.junit.jupiter.api.Test;
-import org.mockito.ArgumentCaptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -78,7 +77,7 @@ public class TariffServiceIT extends AbstractMySqlIntegrationTest {
 
         tariffService.softDeleteById(1L);
 
-        verify(tariffRepository, times(1)).save(tariff);
+        assertNotNull(tariff.getDeletedDate());
     }
 
     @Test()
@@ -109,20 +108,16 @@ public class TariffServiceIT extends AbstractMySqlIntegrationTest {
 
         when(tariffRepository.findById(1L)).thenReturn(Optional.of(buildTariff(InsuranceType.DAY)));
 
-        final ArgumentCaptor<Tariff> tariffArgumentCaptor = ArgumentCaptor.forClass(Tariff.class);
-
         try {
-            tariffService.update(tariff.getId(), tariff);
+            final Tariff result = tariffService.update(tariff.getId(), tariff);
+
+            assertNotNull(result);
+            assertEquals(tariff.getInsuranceType(), result.getInsuranceType());
+            assertEquals(tariff.getPacket(), result.getPacket());
+            assertEquals(tariff.getPrice(), result.getPrice());
         } catch (NotFoundException nfe) {
             fail();
         }
-
-        verify(tariffRepository, times(1)).save(tariffArgumentCaptor.capture());
-        final Tariff tariffArgumentCaptorValue = tariffArgumentCaptor.getValue();
-        assertEquals(tariff.getInsuranceType(), tariffArgumentCaptorValue.getInsuranceType());
-        assertEquals(tariff.getPacket(), tariffArgumentCaptorValue.getPacket());
-        assertEquals(tariff.getPrice(), tariffArgumentCaptorValue.getPrice());
-
     }
 
     @Test

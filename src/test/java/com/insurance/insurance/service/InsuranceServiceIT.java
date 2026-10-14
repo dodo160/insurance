@@ -10,7 +10,6 @@ import com.insurance.tariff.enums.Packet;
 import com.insurance.tariff.service.TariffService;
 import com.insurance.utils.TestUtils;
 import org.junit.jupiter.api.Test;
-import org.mockito.ArgumentCaptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -181,7 +180,6 @@ public class InsuranceServiceIT extends AbstractMySqlIntegrationTest {
         insuranceService.softDeleteById(1L);
 
         assertNotNull(insurance.getDeletedDate());
-        verify(insuranceRepository, times(1)).save(insurance);
     }
 
     @Test()
@@ -204,19 +202,16 @@ public class InsuranceServiceIT extends AbstractMySqlIntegrationTest {
         when(tariffService.getTariffByInsuranceTypeAndPacketAndActiveTrue(InsuranceType.DAY, Packet.BASIC)).thenReturn(insurance.getTariff());
         when(insuranceRepository.findById(insurance.getId())).thenReturn(Optional.of(buildInsurance(InsuranceType.DAY)));
 
-        final ArgumentCaptor<Insurance> insuranceArgumentCaptor = ArgumentCaptor.forClass(Insurance.class);
-
         try {
-            insuranceService.update(insurance.getId(), insurance);
+            final Insurance result = insuranceService.update(insurance.getId(), insurance);
+
+            assertNotNull(result);
+            assertEquals(new BigDecimal("35.10"), result.getPrice());
+            assertEquals(insurance.getPerson(), result.getPerson());
+            assertEquals(insurance.getEndDate(), result.getEndDate());
         } catch (Exception e) {
             fail();
         }
-
-        verify(insuranceRepository, times(1)).save(insuranceArgumentCaptor.capture());
-        final Insurance insuranceArgumentCaptorValue = insuranceArgumentCaptor.getValue();
-        assertEquals(new BigDecimal("35.10"), insuranceArgumentCaptorValue.getPrice());
-        assertEquals(insurance.getPerson(), insuranceArgumentCaptorValue.getPerson());
-        assertEquals(insurance.getEndDate(), insuranceArgumentCaptorValue.getEndDate());
     }
 
     @Test

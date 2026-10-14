@@ -4,6 +4,7 @@ import com.insurance.common.exception.NotFoundException;
 import com.insurance.user.model.User;
 import com.insurance.user.repository.UserRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -23,6 +24,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<User> findAll() {
         final List<User> users = new ArrayList<>();
         userRepository.findAll().forEach(users::add);
@@ -33,16 +35,19 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public User findById(final Long id) {
         return userRepository.findById(id).orElseThrow(()-> new NotFoundException("User not found"));
     }
 
     @Override
+    @Transactional
     public User add(final User user) {
         return userRepository.save(user);
     }
 
     @Override
+    @Transactional
     public User update(final Long id, final User user) {
         final User userDB = findById(id);
         userDB.setFirstName(user.getFirstName());
@@ -50,19 +55,20 @@ public class UserServiceImpl implements UserService {
         userDB.setAddress(user.getAddress());
         userDB.setPostCode(user.getPostCode());
         userDB.setCity(user.getCity());
-        return userRepository.save(userDB);
+        return userDB;
     }
 
     @Override
+    @Transactional
     public void deleteById(final Long id) {
         findById(id);
         userRepository.deleteById(id);
     }
 
     @Override
+    @Transactional
     public void softDeleteById(final Long id) {
         final User user = findById(id);
         user.setDeletedDate(LocalDateTime.now());
-        userRepository.save(user);
     }
 }
