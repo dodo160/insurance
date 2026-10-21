@@ -12,8 +12,7 @@ import javax.xml.bind.annotation.XmlType;
 import java.util.Objects;
 
 @Entity
-@Table(name = "REINSURANCE", uniqueConstraints = {@UniqueConstraint(columnNames = "insurance_id"),
-        @UniqueConstraint(columnNames = "reinsuranceType")})
+@Table(name = "REINSURANCE", uniqueConstraints = {@UniqueConstraint(columnNames = {"insurance_id", "reinsuranceType"})})
 @XmlRootElement()
 @XmlType(namespace = "/insurance/reinsurance")
 public class Reinsurance extends AuditEntity {

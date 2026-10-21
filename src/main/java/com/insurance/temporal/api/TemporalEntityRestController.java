@@ -15,6 +15,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -64,7 +65,7 @@ public class TemporalEntityRestController {
                     content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
                             schema = @Schema(implementation = ErrorResponse.class)))})
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<TemporalEntityDTO> addTemporalEntity(@RequestBody final TemporalEntityDTO temporalEntityDTO) {
+    public ResponseEntity<TemporalEntityDTO> addTemporalEntity(@Valid @RequestBody final TemporalEntityDTO temporalEntityDTO) {
         final TemporalEntityDTO body = temporalEntityMapper.toDto(temporalEntityService.add(temporalEntityMapper.fromDto(temporalEntityDTO)));
         return ResponseEntity.status(HttpStatus.CREATED).body(body);
     }

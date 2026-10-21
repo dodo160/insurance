@@ -29,8 +29,10 @@ import java.util.List;
 public class InsuranceDTO {
 
     private Long id;
+    @Valid
     @NotNull(message = "Missing tariff")
     private TariffDTO tariff;
+    @Valid
     @NotNull(message = "Missing user")
     private UserDTO user;
     @NotNull(message = "Missing strart date")

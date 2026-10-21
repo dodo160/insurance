@@ -54,7 +54,7 @@ public class TemporalEntityServiceImpl implements TemporalEntityService {
         final List<TemporalEntity> temporalEntities = new ArrayList<>();
         temporalEntityRepository.findAll().forEach(temporalEntities::add);
         if (temporalEntities.isEmpty()) {
-            new NotFoundException("Temporal entities not found");
+            throw new NotFoundException("Temporal entities not found");
         }
         return temporalEntities;
     }

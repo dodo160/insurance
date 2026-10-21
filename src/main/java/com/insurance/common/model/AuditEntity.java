@@ -8,7 +8,6 @@ import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
 import javax.xml.bind.annotation.XmlTransient;
 import java.time.LocalDateTime;
-import java.util.Objects;
 
 @MappedSuperclass
 public class AuditEntity extends BaseEntity {
@@ -50,16 +49,6 @@ public class AuditEntity extends BaseEntity {
 
     public void setDeletedDate(LocalDateTime deletedDate) {
         this.deletedDate = deletedDate;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        return super.equals(o);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(super.hashCode(), createdDate, lastUpdatedDate, deletedDate);
     }
 
     @Override
