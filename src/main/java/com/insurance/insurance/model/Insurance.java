@@ -13,10 +13,7 @@ import org.hibernate.validator.constraints.Range;
 
 import javax.persistence.*;
 import javax.validation.Valid;
-import javax.validation.constraints.Digits;
-import javax.validation.constraints.Future;
-import javax.validation.constraints.FutureOrPresent;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.*;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -90,6 +87,7 @@ public class Insurance extends AuditEntity {
         this.endDate = endDate;
     }
 
+    @Size(max = 2, message = "A maximum of two reinsurances is allowed.")
     @XmlElementWrapper(name = "reinsurances")
     @XmlElement(name = "reinsurance")
     public Collection<Reinsurance> getReinsurances() {

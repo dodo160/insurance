@@ -21,6 +21,7 @@ import org.springframework.http.MediaType;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDate;
+import java.util.Arrays;
 import java.util.List;
 
 public class TestUtils {
@@ -42,7 +43,7 @@ public class TestUtils {
         insurance.setStartDate(LocalDate.now());
         insurance.setEndDate(insuranceType == InsuranceType.YEAR ? LocalDate.now().plusYears(1) : LocalDate.now().plusDays(2));
         insurance.setTariff(tariff);
-        insurance.setReinsurances(List.of(reinsuranceStorno, reinsuranceSportsActivity));
+        insurance.setReinsurances(Arrays.asList(reinsuranceStorno, reinsuranceSportsActivity));
         insurance.setUser(user);
         return insurance;
     }

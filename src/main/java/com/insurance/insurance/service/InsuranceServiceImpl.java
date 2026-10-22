@@ -1,6 +1,7 @@
 package com.insurance.insurance.service;
 
 import com.insurance.common.exception.NotFoundException;
+import com.insurance.insurance.enums.ReinsuranceType;
 import com.insurance.insurance.model.Insurance;
 import com.insurance.insurance.model.Reinsurance;
 import com.insurance.insurance.repository.InsuranceRepository;
@@ -10,7 +11,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -64,7 +67,6 @@ public class InsuranceServiceImpl implements InsuranceService {
         ins.setPerson(insurance.getPerson());
         refreshReinsurences(insurance, ins);
         ins.setPrice(calculateInsurance(ins));
-        ins.updateReinsurances();
         return ins;
     }
 
@@ -88,22 +90,20 @@ public class InsuranceServiceImpl implements InsuranceService {
         return insurancePriceCalculator.calculateInsurance(insurance);
     }
 
-    private void refreshReinsurences(final Insurance insurance, final Insurance ins) {
-        if (Objects.nonNull(insurance.getReinsurances()) && Objects.nonNull(ins.getReinsurances()) &&
-                !insurance.getReinsurances().containsAll(ins.getReinsurances()) && !ins.getReinsurances().containsAll(insurance.getReinsurances())) {
-            if (insurance.getReinsurances().size() < ins.getReinsurances().size()) {
-                final Set<Reinsurance> reinsurancesToBeDeleted = new HashSet<>();
-                for (Reinsurance r : ins.getReinsurances()) {
-                    if (insurance.getReinsurances().stream().noneMatch(x -> r.getId().equals(x.getId()))) {
-                        reinsurancesToBeDeleted.add(r);
-                    }
-                }
-                if (!reinsurancesToBeDeleted.isEmpty()) {
-                    ins.getReinsurances().removeAll(reinsurancesToBeDeleted);
-                }
-            } else if (insurance.getReinsurances().size() > ins.getReinsurances().size()) {
-                ins.getReinsurances().addAll(insurance.getReinsurances().stream().filter(x -> Objects.isNull(x.getId())).collect(Collectors.toSet()));
-            }
-        }
+    private void refreshReinsurences(final Insurance insurance, final Insurance insuranceDB) {
+        final Set<ReinsuranceType> inputReinsuranceTypes = insurance.getReinsurances().stream()
+                .map(Reinsurance::getReinsuranceType)
+                .collect(Collectors.toSet());
+        insuranceDB.getReinsurances()
+                .removeIf(r -> !inputReinsuranceTypes.contains(r.getReinsuranceType()));
+
+        insurance.getReinsurances().stream()
+                .filter(x -> insuranceDB.getReinsurances().stream()
+                        .noneMatch(y -> y.getReinsuranceType() == x.getReinsuranceType()))
+                .forEach(x -> {
+            final Reinsurance reinsurance = new Reinsurance();
+            reinsurance.setReinsuranceType(x.getReinsuranceType());
+            insuranceDB.addReinsurance(reinsurance);
+        });
     }
 }

@@ -209,6 +209,7 @@ public class InsuranceServiceIT extends AbstractMySqlIntegrationTest {
             assertEquals(new BigDecimal("35.10"), result.getPrice());
             assertEquals(insurance.getPerson(), result.getPerson());
             assertEquals(insurance.getEndDate(), result.getEndDate());
+            assertEquals(2, result.getReinsurances().size());
         } catch (Exception e) {
             fail();
         }
