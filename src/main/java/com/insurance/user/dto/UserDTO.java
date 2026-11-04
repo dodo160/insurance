@@ -1,5 +1,6 @@
 package com.insurance.user.dto;
 
+import com.insurance.common.dto.Dto;
 import com.insurance.user.enums.UserType;
 import lombok.*;
 
@@ -11,7 +12,7 @@ import javax.validation.constraints.NotNull;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserDTO {
+public class UserDTO implements Dto {
 
     private Long id;
     @NotBlank(message = "Missing first name")

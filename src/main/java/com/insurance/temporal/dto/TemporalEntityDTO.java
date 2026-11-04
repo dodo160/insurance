@@ -1,5 +1,6 @@
 package com.insurance.temporal.dto;
 
+import com.insurance.common.dto.Dto;
 import com.insurance.user.dto.UserDTO;
 import lombok.*;
 
@@ -12,7 +13,7 @@ import javax.validation.constraints.NotNull;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class TemporalEntityDTO {
+public class TemporalEntityDTO implements Dto {
 
     private Long id;
     @Valid

@@ -1,5 +1,6 @@
 package com.insurance.tariff.dto;
 
+import com.insurance.common.dto.Dto;
 import com.insurance.insurance.enums.InsuranceType;
 import com.insurance.tariff.enums.Packet;
 import lombok.*;
@@ -12,7 +13,7 @@ import java.math.BigDecimal;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class TariffDTO {
+public class TariffDTO implements Dto {
 
     private Long id;
     @NotNull(message = "Missing insurance type")

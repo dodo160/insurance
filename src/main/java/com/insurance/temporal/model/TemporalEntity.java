@@ -1,23 +1,19 @@
 package com.insurance.temporal.model;
 
+import com.insurance.common.model.BaseEntity;
 import com.insurance.user.model.User;
 
 import javax.persistence.*;
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import java.io.Serializable;
 import java.util.Objects;
 
 @Entity
 @Table(name = "TEMPORAL_ENTITY")
-public class TemporalEntity implements Serializable {
+public class TemporalEntity extends BaseEntity {
 
     private static final long serialVersionUID = 4981381595897438184L;
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
 
     @Valid
     @NotNull(message = "Missing user")
@@ -34,14 +30,6 @@ public class TemporalEntity implements Serializable {
     @Lob
     @NotBlank(message = "Missing entity")
     private String entity;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public User getUser() {
         return user;
@@ -80,8 +68,7 @@ public class TemporalEntity implements Serializable {
         if (this == o) return true;
         if (!(o instanceof TemporalEntity)) return false;
         TemporalEntity that = (TemporalEntity) o;
-        return Objects.equals(id, that.id) &&
-                Objects.equals(user, that.user) &&
+        return  Objects.equals(user, that.user) &&
                 Objects.equals(entityClass, that.entityClass) &&
                 Objects.equals(mediaType, that.mediaType) &&
                 Objects.equals(entity, that.entity);
@@ -89,13 +76,12 @@ public class TemporalEntity implements Serializable {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, user, entityClass, mediaType, entity);
+        return Objects.hash(user, entityClass, mediaType, entity);
     }
 
     @Override
     public String toString() {
         return "TemporalEntity{" +
-                "id=" + id +
                 ", user=" + user +
                 ", entityClass='" + entityClass + '\'' +
                 ", mediaType='" + mediaType + '\'' +

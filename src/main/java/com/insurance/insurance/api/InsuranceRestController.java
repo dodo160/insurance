@@ -20,7 +20,6 @@ import javax.validation.Valid;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/insurance")
@@ -53,7 +52,7 @@ public class InsuranceRestController {
                             schema = @Schema(implementation = ErrorResponse.class)))})
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<InsuranceDTO>> getAllInsurances() {
-        return ResponseEntity.ok(insuranceService.findAll().stream().map(insuranceMapper::toDto).collect(Collectors.toList()));
+        return ResponseEntity.ok(insuranceMapper.toDtoList(insuranceService.findAll()));
     }
 
     @Operation(summary = "Create insurance", description = "Creates a new insurance and returns the created insurance.")

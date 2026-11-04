@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/temporalEntity")
@@ -50,7 +49,7 @@ public class TemporalEntityRestController {
                             schema = @Schema(implementation = ErrorResponse.class)))})
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<TemporalEntityDTO>> getAllTemporalEntities() {
-        return ResponseEntity.ok(temporalEntityService.findAll().stream().map(temporalEntityMapper::toDto).collect(Collectors.toList()));
+        return ResponseEntity.ok(temporalEntityMapper.toDtoList(temporalEntityService.findAll()));
     }
 
     @Operation(summary = "Create temporal entity", description = "Creates a new temporal entity and returns the created temporal entity.")

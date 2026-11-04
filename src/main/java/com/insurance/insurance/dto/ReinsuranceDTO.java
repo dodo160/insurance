@@ -1,5 +1,6 @@
 package com.insurance.insurance.dto;
 
+import com.insurance.common.dto.Dto;
 import com.insurance.insurance.enums.ReinsuranceType;
 import lombok.*;
 
@@ -10,7 +11,7 @@ import javax.validation.constraints.NotNull;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class ReinsuranceDTO {
+public class ReinsuranceDTO implements Dto {
 
     private Long id;
     @NotNull(message = "Missing reinsurance type")

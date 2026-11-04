@@ -1,5 +1,6 @@
 package com.insurance.common.service;
 
+import com.insurance.common.model.BaseEntity;
 import org.springframework.validation.annotation.Validated;
 
 import javax.validation.Valid;
@@ -7,7 +8,7 @@ import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @Validated
-public interface BasicService<T, ID> {
+public interface BasicService<T extends BaseEntity, ID> {
 
     List<T> findAll();
 

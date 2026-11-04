@@ -24,7 +24,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/user")
@@ -63,7 +62,7 @@ public class UserRestController {
                             schema = @Schema(implementation = ErrorResponse.class)))})
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<UserDTO>> getAllUsers() {
-        return ResponseEntity.ok(userService.findAll().stream().map(userMapper::toDto).collect(Collectors.toList()));
+        return ResponseEntity.ok(userMapper.toDtoList(userService.findAll()));
     }
 
     @Operation(summary = "Create user", description = "Creates a new user and returns the created user.")

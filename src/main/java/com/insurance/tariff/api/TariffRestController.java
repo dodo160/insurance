@@ -21,7 +21,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/tariff")
@@ -54,7 +53,7 @@ public class TariffRestController {
                             schema = @Schema(implementation = ErrorResponse.class)))})
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<TariffDTO>> getAllTariffs() {
-        return ResponseEntity.ok(tariffService.findAll().stream().map(tariffMapper::toDto).collect(Collectors.toList()));
+        return ResponseEntity.ok(tariffMapper.toDtoList(tariffService.findAll()));
     }
 
     @Operation(summary = "Create tariff", description = "Creates a new tariff and returns the created tariff.")

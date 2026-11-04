@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
+import com.insurance.common.dto.Dto;
 import com.insurance.tariff.dto.TariffDTO;
 import com.insurance.user.dto.UserDTO;
 import lombok.*;
@@ -26,7 +27,7 @@ import java.util.List;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class InsuranceDTO {
+public class InsuranceDTO implements Dto {
 
     private Long id;
     @Valid
