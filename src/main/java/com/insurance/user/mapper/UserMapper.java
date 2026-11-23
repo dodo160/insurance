@@ -6,15 +6,19 @@ import com.insurance.user.dto.UserDTO;
 import com.insurance.user.model.User;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
-import org.mapstruct.Mappings;
 
 @Mapper(uses = InsuranceMapper.class)
 public interface UserMapper extends CommonMapper<User, UserDTO> {
 
-    @Mappings(value = {
-            @Mapping(target = "userType", expression = "java(entity.getUserType())")
-    })
+    @Override
+    @Mapping(target = "userType", expression = "java(entity.getUserType())")
     UserDTO toDto(User entity);
 
+    @Override
+    @Mapping(target = "createdDate", ignore = true)
+    @Mapping(target = "lastUpdatedDate", ignore = true)
+    @Mapping(target = "deletedDate", ignore = true)
+    @Mapping(target = "insurances", ignore = true)
+    @Mapping(target = "temporalEntities", ignore = true)
     User fromDto(UserDTO dto);
 }
