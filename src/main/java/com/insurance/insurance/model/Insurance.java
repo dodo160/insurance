@@ -21,8 +21,8 @@ import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashSet;
 import java.util.Objects;
 
 @Entity
@@ -60,13 +60,15 @@ public class Insurance extends AuditEntity {
     private LocalDate endDate;
 
     @Valid
+    @OrderBy( "id ASC")
     @OneToMany(mappedBy = "insurance", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
-    private Collection<Reinsurance> reinsurances = new HashSet<>();
+    private Collection<Reinsurance> reinsurances = new ArrayList<>();
 
     @Range(min = 1, max = 3, message = "Person must be between 1 and 3")
     private int person;
 
-    @Digits(integer = 10, fraction = 2)
+    @Digits(integer = 8, fraction = 2)
+    @Column(precision = 10, scale = 2)
     private BigDecimal price;
 
     @XmlJavaTypeAdapter(LocalDateAdapter.class)
@@ -170,7 +172,6 @@ public class Insurance extends AuditEntity {
                 ", user=" + user +
                 ", startDate=" + startDate +
                 ", endDate=" + endDate +
-                ", reinsurances=" + reinsurances +
                 ", person=" + person +
                 ", price=" + price +
                 "} " + super.toString();

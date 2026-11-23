@@ -13,7 +13,6 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -91,9 +90,9 @@ public class InsuranceServiceImpl implements InsuranceService {
     }
 
     private void refreshReinsurences(final Insurance insurance, final Insurance insuranceDB) {
-        final Set<ReinsuranceType> inputReinsuranceTypes = insurance.getReinsurances().stream()
+        final List<ReinsuranceType> inputReinsuranceTypes = insurance.getReinsurances().stream()
                 .map(Reinsurance::getReinsuranceType)
-                .collect(Collectors.toSet());
+                .collect(Collectors.toList());
         insuranceDB.getReinsurances()
                 .removeIf(r -> !inputReinsuranceTypes.contains(r.getReinsuranceType()));
 

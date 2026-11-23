@@ -11,8 +11,8 @@ import javax.validation.constraints.NotBlank;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
+import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashSet;
 import java.util.Objects;
 
 @Entity
@@ -38,11 +38,13 @@ public class User extends AuditEntity {
     @NotBlank(message = "Missing identity id")
     private String identityId;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private Collection<Insurance> insurances = new HashSet<>();
+    @OrderBy( "id ASC")
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    private Collection<Insurance> insurances = new ArrayList<>();
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private Collection<TemporalEntity> temporalEntities = new HashSet<>();
+    @OrderBy( "id ASC")
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    private Collection<TemporalEntity> temporalEntities = new ArrayList<>();
 
     public String getFirstName() {
         return firstName;

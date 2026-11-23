@@ -63,7 +63,8 @@ public class Reinsurance extends AuditEntity {
     @Override
     public String toString() {
         return "Reinsurance{" +
-                " reinsuranceType=" + reinsuranceType +
+                "insurance=" + insurance +
+                ", reinsuranceType=" + reinsuranceType +
                 "} " + super.toString();
     }
 }

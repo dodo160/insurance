@@ -13,8 +13,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashSet;
 import java.util.Objects;
 
 @Entity
@@ -33,13 +33,15 @@ public class Tariff extends AuditEntity {
     @Enumerated(EnumType.STRING)
     private Packet packet;
 
-    @Digits(integer = 10, fraction = 2)
+    @Digits(integer = 8, fraction = 2)
+    @Column(precision = 10, scale = 2)
     private BigDecimal price;
 
     private boolean active;
 
-    @OneToMany(mappedBy = "tariff", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private Collection<Insurance> insurances = new HashSet<>();
+    @OrderBy( "id ASC")
+    @OneToMany(mappedBy = "tariff", fetch = FetchType.LAZY)
+    private Collection<Insurance> insurances = new ArrayList<>();
 
     public InsuranceType getInsuranceType() {
         return insuranceType;
@@ -93,7 +95,7 @@ public class Tariff extends AuditEntity {
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), insuranceType, packet, price, active, insurances);
+        return Objects.hash(super.hashCode(), insuranceType, packet, price, active);
     }
 
     @Override

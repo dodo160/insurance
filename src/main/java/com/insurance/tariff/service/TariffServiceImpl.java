@@ -17,7 +17,7 @@ import java.util.Objects;
 @Service
 public class TariffServiceImpl implements TariffService {
 
-    private TariffRepository tariffRepository;
+    private final TariffRepository tariffRepository;
 
     public TariffServiceImpl(final TariffRepository tariffRepository) {
         this.tariffRepository = tariffRepository;
