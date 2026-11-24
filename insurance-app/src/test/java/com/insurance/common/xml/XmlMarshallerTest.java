@@ -5,6 +5,7 @@ import com.insurance.insurance.model.Insurance;
 import com.insurance.utils.TestUtils;
 import org.junit.jupiter.api.Test;
 
+import static org.hibernate.validator.internal.util.Contracts.assertNotNull;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class XmlMarshallerTest {

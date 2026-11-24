@@ -99,18 +99,6 @@
         
   
   
-  <xs:complexType name="baseEntityListener">
-                
-    
-    
-    <xs:sequence/>
-              
-  
-  
-  </xs:complexType>
-        
-  
-  
   <xs:simpleType name="reinsuranceType">
                 
     
