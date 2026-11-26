@@ -8,7 +8,7 @@ import com.insurance.insurance.mapper.InsuranceMapperImpl;
 import com.insurance.insurance.mapper.ReinsuranceMapperImpl;
 import com.insurance.insurance.model.Insurance;
 import com.insurance.insurance.service.InsuranceService;
-import com.insurance.tariff.mapper.TariffMapperImpl;
+import com.insurance.tariff.mapper.TariffEmbeddedMapperImpl;
 import com.insurance.user.mapper.UserMapperImpl;
 import com.insurance.utils.TestUtils;
 import org.junit.jupiter.api.Test;
@@ -27,7 +27,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(InsuranceRestController.class)
-@Import({InsuranceMapperImpl.class, TariffMapperImpl.class, UserMapperImpl.class, ReinsuranceMapperImpl.class})
+@Import({InsuranceMapperImpl.class, TariffEmbeddedMapperImpl.class, UserMapperImpl.class, ReinsuranceMapperImpl.class})
 public class InsuranceRestControllerTest {
 
     @Autowired

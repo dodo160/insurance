@@ -7,7 +7,7 @@ import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
 import com.insurance.common.model.AuditEntity;
 import com.insurance.common.xml.xmladapter.LocalDateAdapter;
-import com.insurance.tariff.model.Tariff;
+import com.insurance.tariff.model.TariffEmbedded;
 import com.insurance.user.model.User;
 import org.hibernate.validator.constraints.Range;
 
@@ -35,9 +35,8 @@ public class Insurance extends AuditEntity {
 
     @Valid
     @NotNull(message = "Missing tariff")
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "tariff_id")
-    private Tariff tariff;
+    @Embedded
+    private TariffEmbedded tariff;
 
     @Valid
     @NotNull(message = "Missing user")
@@ -116,11 +115,11 @@ public class Insurance extends AuditEntity {
         this.price = price;
     }
 
-    public Tariff getTariff() {
+    public TariffEmbedded getTariff() {
         return tariff;
     }
 
-    public void setTariff(Tariff tariff) {
+    public void setTariff(TariffEmbedded tariff) {
         this.tariff = tariff;
     }
 

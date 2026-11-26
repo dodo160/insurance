@@ -8,7 +8,7 @@ import com.insurance.insurance.model.Insurance;
 import com.insurance.insurance.model.Reinsurance;
 import com.insurance.tariff.dto.TariffDTO;
 import com.insurance.tariff.enums.Packet;
-import com.insurance.tariff.model.Tariff;
+import com.insurance.tariff.model.TariffEmbedded;
 import com.insurance.temporal.dto.TemporalEntityDTO;
 import com.insurance.temporal.model.TemporalEntity;
 import com.insurance.user.dto.UserDTO;
@@ -30,7 +30,7 @@ public class TestUtils {
     }
 
     public static Insurance buildInsurance(final InsuranceType insuranceType) {
-        final Tariff tariff = buildTariff(insuranceType);
+        final TariffEmbedded tariff = buildTariff(insuranceType);
         final User user = buildUser(UserType.CLIENT);
 
         final Reinsurance reinsuranceStorno = buildReinsurance(ReinsuranceType.STORNO);
@@ -48,8 +48,8 @@ public class TestUtils {
         return insurance;
     }
 
-    public static Tariff buildTariff(final InsuranceType insuranceType) {
-        final Tariff tariff = new Tariff();
+    public static TariffEmbedded buildTariff(final InsuranceType insuranceType) {
+        final TariffEmbedded tariff = new TariffEmbedded();
         tariff.setId(1l);
         tariff.setInsuranceType(insuranceType);
         tariff.setPacket(Packet.BASIC);

@@ -19,7 +19,7 @@ public class XmlMarshallerImpl implements XmlMarshaller {
 
     private final Map<Class<?>, JAXBContext> contexts = new ConcurrentHashMap<>();
 
-    public <T extends BaseEntity> T fromXml(final Class<T> entityClass, final String xmlString) {
+    public <T> T fromXml(final Class<T> entityClass, final String xmlString) {
         try {
             final JAXBContext jaxbContext = getContext(entityClass);
             final Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
@@ -30,7 +30,7 @@ public class XmlMarshallerImpl implements XmlMarshaller {
         }
     }
 
-    public <T extends BaseEntity> String toXml(final Class<T> entityClass, final BaseEntity entity) {
+    public <T> String toXml(final Class<T> entityClass, final BaseEntity entity) {
         try {
             final JAXBContext jaxbContext = getContext(entityClass);
             final Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
@@ -45,7 +45,7 @@ public class XmlMarshallerImpl implements XmlMarshaller {
         }
     }
 
-    private <T extends BaseEntity> JAXBContext getContext(Class<T> clazz) {
+    private <T> JAXBContext getContext(Class<T> clazz) {
         return contexts.computeIfAbsent(
                 clazz,
                 key -> {

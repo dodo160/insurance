@@ -3,7 +3,7 @@ package com.insurance.user.api;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.insurance.insurance.mapper.InsuranceMapperImpl;
 import com.insurance.insurance.mapper.ReinsuranceMapperImpl;
-import com.insurance.tariff.mapper.TariffMapperImpl;
+import com.insurance.tariff.mapper.TariffEmbeddedMapperImpl;
 import com.insurance.user.dto.UserDTO;
 import com.insurance.user.enums.UserType;
 import com.insurance.user.mapper.ClientMapperImpl;
@@ -30,7 +30,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @WebMvcTest(UserRestController.class)
 @Import({InsuranceMapperImpl.class, UserMapperImpl.class, ClientMapperImpl.class, EmployeeMapperImpl.class,
-        TariffMapperImpl.class, ReinsuranceMapperImpl.class})
+        TariffEmbeddedMapperImpl.class, ReinsuranceMapperImpl.class})
 public class UserRestControllerTest {
 
     @Autowired

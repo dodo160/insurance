@@ -10,8 +10,7 @@ import com.insurance.insurance.service.calculator.ReinsuranceCalculator;
 import com.insurance.insurance.service.strategy.DailyInsurancePriceStrategy;
 import com.insurance.insurance.service.strategy.YearlyInsurancePriceStrategy;
 import com.insurance.integration.AbstractMySqlIntegrationTest;
-import com.insurance.tariff.repository.TariffRepository;
-import com.insurance.tariff.service.TariffService;
+import com.insurance.tariff.client.TariffGateway;
 import com.insurance.temporal.repository.TemporalEntityRepository;
 import com.insurance.temporal.service.TemporalEntityService;
 import com.insurance.user.repository.UserRepository;
@@ -29,9 +28,6 @@ public class InsuranceApplicationIT extends AbstractMySqlIntegrationTest {
     private InsuranceRepository insuranceRepository;
 
     @Autowired
-    private TariffRepository tariffRepository;
-
-    @Autowired
     private UserRepository userRepository;
 
     @Autowired
@@ -41,7 +37,7 @@ public class InsuranceApplicationIT extends AbstractMySqlIntegrationTest {
     private InsuranceService insuranceService;
 
     @Autowired
-    private TariffService tariffService;
+    private TariffGateway tariffGateway;
 
     @Autowired
     private UserService userService;
@@ -73,11 +69,10 @@ public class InsuranceApplicationIT extends AbstractMySqlIntegrationTest {
     @Test
     public void contextLoads() {
         assertNotNull(insuranceRepository);
-        assertNotNull(tariffRepository);
         assertNotNull(userRepository);
         assertNotNull(reinsuranceConfigProperties);
         assertNotNull(insuranceService);
-        assertNotNull(tariffService);
+        assertNotNull(tariffGateway);
         assertNotNull(userService);
         assertNotNull(temporalEntityService);
         assertNotNull(temporalEntityRepository);

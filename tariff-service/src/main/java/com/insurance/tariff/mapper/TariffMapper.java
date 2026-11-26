@@ -13,6 +13,5 @@ public interface TariffMapper extends CommonMapper<Tariff, TariffDTO> {
     @Mapping(target = "createdDate", ignore = true)
     @Mapping(target = "lastUpdatedDate", ignore = true)
     @Mapping(target = "deletedDate", ignore = true)
-    @Mapping(target = "insurances", ignore = true)
     Tariff fromDto(TariffDTO dto);
 }

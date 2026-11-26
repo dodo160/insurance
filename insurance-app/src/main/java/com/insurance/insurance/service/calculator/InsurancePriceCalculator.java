@@ -4,8 +4,8 @@ import com.insurance.common.exception.NotFoundException;
 import com.insurance.insurance.enums.InsuranceType;
 import com.insurance.insurance.model.Insurance;
 import com.insurance.insurance.service.strategy.InsurancePriceStrategy;
-import com.insurance.tariff.model.Tariff;
-import com.insurance.tariff.service.TariffService;
+import com.insurance.tariff.client.TariffGateway;
+import com.insurance.tariff.model.TariffEmbedded;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -19,24 +19,38 @@ import java.util.stream.Collectors;
 public class InsurancePriceCalculator {
 
     private final ReinsuranceCalculator reinsuranceCalculator;
-    private final TariffService tariffService;
+    private final TariffGateway tariffGateway;
     private final Map<InsuranceType, InsurancePriceStrategy> insurancePriceStrategies;
 
-    public InsurancePriceCalculator(final ReinsuranceCalculator reinsuranceCalculator, final TariffService tariffService, final Set<InsurancePriceStrategy> strategy) {
+    public InsurancePriceCalculator(final ReinsuranceCalculator reinsuranceCalculator, final TariffGateway tariffGateway, final Set<InsurancePriceStrategy> strategy) {
         this.reinsuranceCalculator = reinsuranceCalculator;
-        this.tariffService = tariffService;
+        this.tariffGateway = tariffGateway;
         this.insurancePriceStrategies = strategy.stream().collect(Collectors.toMap(InsurancePriceStrategy::getInsuranceType, Function.identity()));
     }
 
     public BigDecimal calculateInsurance(final Insurance insurance) {
-        final Tariff tariffDB = tariffService.getTariffByInsuranceTypeAndPacketAndActiveTrue(insurance.getTariff().getInsuranceType(), insurance.getTariff().getPacket());
-        if (Objects.isNull(tariffDB)) {
+        return calculateInsurance(insurance, resolveTariff(insurance));
+    }
+
+    public BigDecimal calculateAndApplyTariff(final Insurance insurance) {
+        final TariffEmbedded tariff = resolveTariff(insurance);
+        final BigDecimal price = calculateInsurance(insurance, tariff);
+        insurance.setTariff(tariff);
+        return price;
+    }
+
+    private TariffEmbedded resolveTariff(final Insurance insurance) {
+        final TariffEmbedded tariff = tariffGateway.getTariffByInsuranceTypeAndPacketAndActiveTrue(insurance.getTariff().getInsuranceType(), insurance.getTariff().getPacket());
+        if (Objects.isNull(tariff)) {
             throw new NotFoundException("Tariff doesn't exist");
         }
-        final BigDecimal tariffPrice = tariffDB.getPrice();
+        return tariff;
+    }
+
+    private BigDecimal calculateInsurance(final Insurance insurance, final TariffEmbedded tariff) {
 
         final BigDecimal reinsurancePrice = reinsuranceCalculator.calculateReinsurance(insurance.getReinsurances(), insurance.getTariff().getInsuranceType());
 
-        return insurancePriceStrategies.get(insurance.getTariff().getInsuranceType()).calculateInsurance(insurance, reinsurancePrice, tariffPrice);
+        return insurancePriceStrategies.get(insurance.getTariff().getInsuranceType()).calculateInsurance(insurance, reinsurancePrice, tariff.getPrice());
     }
 }

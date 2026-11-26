@@ -4,7 +4,7 @@ import com.insurance.insurance.dto.InsuranceDTO;
 import com.insurance.insurance.enums.InsuranceType;
 import com.insurance.insurance.model.Insurance;
 import com.insurance.insurance.model.Reinsurance;
-import com.insurance.tariff.mapper.TariffMapper;
+import com.insurance.tariff.mapper.TariffEmbeddedMapper;
 import com.insurance.user.mapper.UserMapper;
 import com.insurance.utils.TestUtils;
 import org.junit.jupiter.api.BeforeEach;
@@ -24,9 +24,9 @@ public class InsuranceMapperTest {
     public void setUp() {
         UserMapper userMapper = Mappers.getMapper(UserMapper.class);
         ReinsuranceMapper reinsuranceMapper = Mappers.getMapper(ReinsuranceMapper.class);
-        TariffMapper tariffMapper = Mappers.getMapper(TariffMapper.class);
+        TariffEmbeddedMapper tariffEmbeddedMapper = Mappers.getMapper(TariffEmbeddedMapper.class);
 
-        insuranceMapper = new InsuranceMapperImpl(tariffMapper, userMapper, reinsuranceMapper);
+        insuranceMapper = new InsuranceMapperImpl(tariffEmbeddedMapper, userMapper, reinsuranceMapper);
     }
 
     @Test

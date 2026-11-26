@@ -1,20 +1,15 @@
 package com.insurance.tariff.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.insurance.common.model.AuditEntity;
 import com.insurance.insurance.enums.InsuranceType;
-import com.insurance.insurance.model.Insurance;
 import com.insurance.tariff.enums.Packet;
 
 import javax.persistence.*;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Objects;
 
 @Entity
@@ -38,10 +33,6 @@ public class Tariff extends AuditEntity {
     private BigDecimal price;
 
     private boolean active;
-
-    @OrderBy( "id ASC")
-    @OneToMany(mappedBy = "tariff", fetch = FetchType.LAZY)
-    private Collection<Insurance> insurances = new ArrayList<>();
 
     public InsuranceType getInsuranceType() {
         return insuranceType;
@@ -73,16 +64,6 @@ public class Tariff extends AuditEntity {
 
     public void setActive(boolean active) {
         this.active = active;
-    }
-
-    @XmlTransient
-    @JsonIgnore
-    public Collection<Insurance> getInsurances() {
-        return insurances;
-    }
-
-    public void setInsurances(Collection<Insurance> insurances) {
-        this.insurances = insurances;
     }
 
     @Override

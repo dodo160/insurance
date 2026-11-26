@@ -21,17 +21,11 @@ The project focuses on clean backend architecture, persistence, validation, data
 
 ## Architecture
 
-The application uses a feature-based package structure.
+- `insurance-app` owns insurance policies, users and temporal records.
+- `tariff-service` owns the tariff catalogue and serves `/tariff` on port 8081.
+- `insurance-commons` contains shared types, including the tariff HTTP DTO.
 
-Main modules:
-
-- insurance
-- tariff
-- user
-- temporal
-- common
-
-Each feature contains its own API, DTOs, mappers, entities, repositories and services.
+Insurance requests active tariffs from `tariff-service` over HTTP. A policy stores the calculated premium and a copy of the tariff ID, type, packet and price used for the calculation.
 
 ## Main features
 
@@ -50,7 +44,7 @@ Each feature contains its own API, DTOs, mappers, entities, repositories and ser
 Database schema is managed with Flyway migrations.
 
 ```text
-src/main/resources/db/migration/common
+<module>/src/main/resources/db/migration/common
 ```
 
 Development-specific seed data is separated from the common schema migrations.
@@ -96,10 +90,12 @@ Swagger UI:
 
 ```text
 http://localhost:8080/swagger-ui.html
+http://localhost:8081/swagger-ui.html
 ```
 OpenAPI specification:
 ```text
 http://localhost:8080/v3/api-docs
+http://localhost:8081/v3/api-docs
 ```
 
 ## Environment variables
@@ -121,46 +117,29 @@ Test conventions:
 - *IT – integration tests
 - integration tests use MySQL Testcontainers
 
-## Run application locally:
+## Run the services
 
-```bash
-mvn spring-boot:run
-```
-Run the Spring Boot application locally with the dev profile:
-```bash
-mvn spring-boot:run -Dspring-boot.run.profiles=dev
-```
-
-## Run the complete application stack in Docker
-
-Build and start the application together with MySQL and ActiveMQ:
 ```bash
 docker compose up -d --build
 ```
-The Docker Compose environment contains:
-- insurance-app – Spring Boot application
-- insurance-mysql – MySQL database
-- insurance-activemq – ActiveMQ broker
+
+| Service | URL |
+| --- | --- |
+| Insurance API | http://localhost:8080 |
+| Tariff API | http://localhost:8081 |
+| ActiveMQ console | http://localhost:8161 |
+| MySql | localhost:3306 |
 
 
-The application is available at:
-```text
-http://localhost:8080
-```
-ActiveMQ web console:
-```text
-http://localhost:8161
-```
-
-## Development profile
+## Dev mode profile
 ```bash
-docker compose -f compose.yml -f compose.dev.yml up -d --build
+docker compose -f docker-compose.yml -f docker-compose.dev.yml up -d --build
 ```
 
 ## Debug mode profile
 To run the development configuration with remote JVM debugging enabled:
 ```bash
-docker compose -f compose.yml -f compose.debug.yml up -d --build
+docker compose -f docker-compose.yml -f docker-compose.debug.yml up -d --build
 ```
 The debug configuration exposes the JVM debug port:
 ```text

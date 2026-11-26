@@ -5,8 +5,8 @@ import com.insurance.insurance.enums.InsuranceType;
 import com.insurance.insurance.model.Insurance;
 import com.insurance.insurance.service.strategy.DailyInsurancePriceStrategy;
 import com.insurance.insurance.service.strategy.YearlyInsurancePriceStrategy;
-import com.insurance.tariff.model.Tariff;
-import com.insurance.tariff.service.TariffService;
+import com.insurance.tariff.client.TariffGateway;
+import com.insurance.tariff.model.TariffEmbedded;
 import com.insurance.utils.TestUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -31,22 +31,22 @@ public class InsurancePriceCalculatorTest {
     @Mock
     private ReinsuranceCalculator reinsuranceCalculator;
     @Mock
-    private TariffService tariffService;
+    private TariffGateway tariffGateway;
 
     @BeforeEach
     public void setUp() {
         yearlyInsurancePriceStrategy = new YearlyInsurancePriceStrategy();
         dailyInsurancePriceStrategy = new DailyInsurancePriceStrategy();
-        insurancePriceCalculator = new InsurancePriceCalculator(reinsuranceCalculator, tariffService, Set.of(dailyInsurancePriceStrategy, yearlyInsurancePriceStrategy));
+        insurancePriceCalculator = new InsurancePriceCalculator(reinsuranceCalculator, tariffGateway, Set.of(dailyInsurancePriceStrategy, yearlyInsurancePriceStrategy));
     }
 
     @Test
     public void shouldCalculateInsuranceYearTest() {
         final Insurance insurance = TestUtils.buildInsurance(InsuranceType.YEAR);
-        final Tariff tariff = TestUtils.buildTariff(InsuranceType.YEAR);
+        final TariffEmbedded tariff = TestUtils.buildTariff(InsuranceType.YEAR);
         final BigDecimal reinsurancePrice = new BigDecimal("2");
 
-        when(tariffService.getTariffByInsuranceTypeAndPacketAndActiveTrue(
+        when(tariffGateway.getTariffByInsuranceTypeAndPacketAndActiveTrue(
                 insurance.getTariff().getInsuranceType(),
                 insurance.getTariff().getPacket()))
                 .thenReturn(tariff);
@@ -61,7 +61,7 @@ public class InsurancePriceCalculatorTest {
         assertNotNull(result);
         assertEquals(0, new BigDecimal("156.00").compareTo(result));
 
-        verify(tariffService).getTariffByInsuranceTypeAndPacketAndActiveTrue(
+        verify(tariffGateway).getTariffByInsuranceTypeAndPacketAndActiveTrue(
                 InsuranceType.YEAR,
                 insurance.getTariff().getPacket());
 
@@ -73,10 +73,10 @@ public class InsurancePriceCalculatorTest {
     @Test
     public void shouldCalculateYearlyInsuranceWithoutReinsurance() {
         final Insurance insurance = TestUtils.buildInsurance(InsuranceType.YEAR);
-        final Tariff tariff = TestUtils.buildTariff(InsuranceType.YEAR);
+        final TariffEmbedded tariff = TestUtils.buildTariff(InsuranceType.YEAR);
         final BigDecimal reinsurancePrice = new BigDecimal("1.50");
 
-        when(tariffService.getTariffByInsuranceTypeAndPacketAndActiveTrue(
+        when(tariffGateway.getTariffByInsuranceTypeAndPacketAndActiveTrue(
                 insurance.getTariff().getInsuranceType(),
                 insurance.getTariff().getPacket()))
                 .thenReturn(tariff);
@@ -91,7 +91,7 @@ public class InsurancePriceCalculatorTest {
         assertNotNull(result);
         assertEquals(0, new BigDecimal("117.00").compareTo(result));
 
-        verify(tariffService).getTariffByInsuranceTypeAndPacketAndActiveTrue(
+        verify(tariffGateway).getTariffByInsuranceTypeAndPacketAndActiveTrue(
                 InsuranceType.YEAR,
                 insurance.getTariff().getPacket());
 
@@ -103,10 +103,10 @@ public class InsurancePriceCalculatorTest {
     @Test
     public void shouldCalculateYearlyInsuranceWithReinsurance() {
         final Insurance insurance = TestUtils.buildInsurance(InsuranceType.YEAR);
-        final Tariff tariff = TestUtils.buildTariff(InsuranceType.YEAR);
+        final TariffEmbedded tariff = TestUtils.buildTariff(InsuranceType.YEAR);
         final BigDecimal reinsurancePrice = new BigDecimal("1.20");
 
-        when(tariffService.getTariffByInsuranceTypeAndPacketAndActiveTrue(
+        when(tariffGateway.getTariffByInsuranceTypeAndPacketAndActiveTrue(
                 insurance.getTariff().getInsuranceType(),
                 insurance.getTariff().getPacket()))
                 .thenReturn(tariff);
@@ -121,7 +121,7 @@ public class InsurancePriceCalculatorTest {
         assertNotNull(result);
         assertEquals(0, new BigDecimal("93.60").compareTo(result));
 
-        verify(tariffService).getTariffByInsuranceTypeAndPacketAndActiveTrue(
+        verify(tariffGateway).getTariffByInsuranceTypeAndPacketAndActiveTrue(
                 InsuranceType.YEAR,
                 insurance.getTariff().getPacket());
 
@@ -133,10 +133,10 @@ public class InsurancePriceCalculatorTest {
     @Test
     public void shouldCalculateDailyInsurance() {
         final Insurance insurance = TestUtils.buildInsurance(InsuranceType.DAY);
-        final Tariff tariff = TestUtils.buildTariff(InsuranceType.DAY);
+        final TariffEmbedded tariff = TestUtils.buildTariff(InsuranceType.DAY);
         final BigDecimal reinsurancePrice = new BigDecimal("1.80");
 
-        when(tariffService.getTariffByInsuranceTypeAndPacketAndActiveTrue(
+        when(tariffGateway.getTariffByInsuranceTypeAndPacketAndActiveTrue(
                 insurance.getTariff().getInsuranceType(),
                 insurance.getTariff().getPacket()))
                 .thenReturn(tariff);
@@ -151,7 +151,7 @@ public class InsurancePriceCalculatorTest {
         assertNotNull(result);
         assertEquals(0, new BigDecimal("12.96").compareTo(result));
 
-        verify(tariffService).getTariffByInsuranceTypeAndPacketAndActiveTrue(
+        verify(tariffGateway).getTariffByInsuranceTypeAndPacketAndActiveTrue(
                 InsuranceType.DAY,
                 insurance.getTariff().getPacket());
 
@@ -163,10 +163,10 @@ public class InsurancePriceCalculatorTest {
     @Test
     public void shouldCalculateDailyInsuranceWithReinsurance() {
         final Insurance insurance = TestUtils.buildInsurance(InsuranceType.DAY);
-        final Tariff tariff = TestUtils.buildTariff(InsuranceType.DAY);
+        final TariffEmbedded tariff = TestUtils.buildTariff(InsuranceType.DAY);
         final BigDecimal reinsurancePrice = new BigDecimal("1.30");
 
-        when(tariffService.getTariffByInsuranceTypeAndPacketAndActiveTrue(
+        when(tariffGateway.getTariffByInsuranceTypeAndPacketAndActiveTrue(
                 InsuranceType.DAY,
                 insurance.getTariff().getPacket()))
                 .thenReturn(tariff);
@@ -181,7 +181,7 @@ public class InsurancePriceCalculatorTest {
         assertNotNull(result);
         assertEquals(0, new BigDecimal("9.36").compareTo(result));
 
-        verify(tariffService).getTariffByInsuranceTypeAndPacketAndActiveTrue(
+        verify(tariffGateway).getTariffByInsuranceTypeAndPacketAndActiveTrue(
                 InsuranceType.DAY,
                 insurance.getTariff().getPacket());
 
@@ -194,7 +194,7 @@ public class InsurancePriceCalculatorTest {
     public void shouldThrowNotFoundExceptionWhenTariffDoesNotExist() {
         final Insurance insurance = TestUtils.buildInsurance(InsuranceType.YEAR);
 
-        when(tariffService.getTariffByInsuranceTypeAndPacketAndActiveTrue(
+        when(tariffGateway.getTariffByInsuranceTypeAndPacketAndActiveTrue(
                 insurance.getTariff().getInsuranceType(),
                 insurance.getTariff().getPacket()))
                 .thenReturn(null);

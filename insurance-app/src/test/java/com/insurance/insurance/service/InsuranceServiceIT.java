@@ -6,8 +6,8 @@ import com.insurance.insurance.model.Insurance;
 import com.insurance.insurance.repository.InsuranceRepository;
 import com.insurance.insurance.service.calculator.InsurancePriceCalculator;
 import com.insurance.integration.AbstractMySqlIntegrationTest;
+import com.insurance.tariff.client.TariffGateway;
 import com.insurance.tariff.enums.Packet;
-import com.insurance.tariff.service.TariffService;
 import com.insurance.utils.TestUtils;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,7 +39,7 @@ public class InsuranceServiceIT extends AbstractMySqlIntegrationTest {
     private InsuranceRepository insuranceRepository;
 
     @MockBean
-    private TariffService tariffService;
+    private TariffGateway tariffGateway;
 
     @Test
     public void findAllTest() {
@@ -66,7 +66,7 @@ public class InsuranceServiceIT extends AbstractMySqlIntegrationTest {
     public void calculateInsuranceDAYTest() {
         final Insurance insurance = buildInsurance(InsuranceType.DAY);
 
-        when(tariffService.getTariffByInsuranceTypeAndPacketAndActiveTrue(InsuranceType.DAY, Packet.BASIC)).thenReturn(insurance.getTariff());
+        when(tariffGateway.getTariffByInsuranceTypeAndPacketAndActiveTrue(InsuranceType.DAY, Packet.BASIC)).thenReturn(insurance.getTariff());
 
         final BigDecimal result = insuranceService.calculateInsurance(insurance);
 
@@ -89,7 +89,7 @@ public class InsuranceServiceIT extends AbstractMySqlIntegrationTest {
     public void calculateInsuranceDAYNullDBTariffTest() {
         final Insurance insurance = buildInsurance(InsuranceType.DAY);
 
-        when(tariffService.getTariffByInsuranceTypeAndPacketAndActiveTrue(InsuranceType.DAY, Packet.BASIC)).thenReturn(null);
+        when(tariffGateway.getTariffByInsuranceTypeAndPacketAndActiveTrue(InsuranceType.DAY, Packet.BASIC)).thenReturn(null);
 
         try {
             insuranceService.calculateInsurance(insurance);
@@ -130,7 +130,7 @@ public class InsuranceServiceIT extends AbstractMySqlIntegrationTest {
     public void calculateInsuranceYEARTest() {
         final Insurance insurance = buildInsurance(InsuranceType.YEAR);
 
-        when(tariffService.getTariffByInsuranceTypeAndPacketAndActiveTrue(InsuranceType.YEAR, Packet.BASIC)).thenReturn(insurance.getTariff());
+        when(tariffGateway.getTariffByInsuranceTypeAndPacketAndActiveTrue(InsuranceType.YEAR, Packet.BASIC)).thenReturn(insurance.getTariff());
 
         final BigDecimal result = insuranceService.calculateInsurance(insurance);
 
@@ -142,7 +142,7 @@ public class InsuranceServiceIT extends AbstractMySqlIntegrationTest {
     public void addTest() {
         final Insurance insurance = buildInsurance(InsuranceType.DAY);
 
-        when(tariffService.getTariffByInsuranceTypeAndPacketAndActiveTrue(InsuranceType.DAY, Packet.BASIC)).thenReturn(insurance.getTariff());
+        when(tariffGateway.getTariffByInsuranceTypeAndPacketAndActiveTrue(InsuranceType.DAY, Packet.BASIC)).thenReturn(insurance.getTariff());
 
         assertNull(insurance.getPrice());
 
@@ -199,7 +199,7 @@ public class InsuranceServiceIT extends AbstractMySqlIntegrationTest {
         insurance.setEndDate(LocalDate.now().plusDays(4));
         insurance.setPerson(3);
 
-        when(tariffService.getTariffByInsuranceTypeAndPacketAndActiveTrue(InsuranceType.DAY, Packet.BASIC)).thenReturn(insurance.getTariff());
+        when(tariffGateway.getTariffByInsuranceTypeAndPacketAndActiveTrue(InsuranceType.DAY, Packet.BASIC)).thenReturn(insurance.getTariff());
         when(insuranceRepository.findById(insurance.getId())).thenReturn(Optional.of(buildInsurance(InsuranceType.DAY)));
 
         try {

@@ -8,34 +8,25 @@
   <xs:complexType name="tariff">
             
     
-    <xs:complexContent>
+    <xs:sequence>
                   
       
-      <xs:extension base="auditEntity">
-                        
-        
-        <xs:sequence>
-                              
-          
-          <xs:element name="active" type="xs:boolean"/>
-                              
-          
-          <xs:element minOccurs="0" name="insuranceType" type="insuranceType"/>
-                              
-          
-          <xs:element minOccurs="0" name="packet" type="packet"/>
-                              
-          
-          <xs:element minOccurs="0" name="price" type="xs:decimal"/>
-                            
-        
-        </xs:sequence>
-                      
+      <xs:element minOccurs="0" name="id" type="xs:long"/>
+                  
       
-      </xs:extension>
+      <xs:element minOccurs="0" name="insuranceType" type="insuranceType"/>
+                  
+      
+      <xs:element minOccurs="0" name="packet" type="packet"/>
+                  
+      
+      <xs:element minOccurs="0" name="price" type="xs:decimal"/>
+                  
+      
+      <xs:element name="active" type="xs:boolean"/>
                 
     
-    </xs:complexContent>
+    </xs:sequence>
           
   
   </xs:complexType>

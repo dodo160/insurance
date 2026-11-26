@@ -4,7 +4,7 @@ import com.insurance.common.model.BaseEntity;
 
 public interface XmlMarshaller {
 
-    public <T extends BaseEntity> T fromXml(Class<T> entityClass, String xmlString);
+    public <T> T fromXml(Class<T> entityClass, String xmlString);
 
-    public <T extends BaseEntity> String toXml(Class<T> entityClass, BaseEntity entity);
+    public <T> String toXml(Class<T> entityClass, BaseEntity entity);
 }

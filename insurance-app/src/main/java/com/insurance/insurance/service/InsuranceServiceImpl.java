@@ -51,7 +51,7 @@ public class InsuranceServiceImpl implements InsuranceService {
     @Transactional
     public Insurance add(final Insurance insurance) {
         insurance.updateReinsurances();
-        insurance.setPrice(calculateInsurance(insurance));
+        insurance.setPrice(insurancePriceCalculator.calculateAndApplyTariff(insurance));
         return insuranceRepository.save(insurance);
     }
 
@@ -65,7 +65,7 @@ public class InsuranceServiceImpl implements InsuranceService {
         ins.setEndDate(insurance.getEndDate());
         ins.setPerson(insurance.getPerson());
         refreshReinsurences(insurance, ins);
-        ins.setPrice(calculateInsurance(ins));
+        ins.setPrice(insurancePriceCalculator.calculateAndApplyTariff(ins));
         return ins;
     }
 
@@ -78,7 +78,7 @@ public class InsuranceServiceImpl implements InsuranceService {
 
     @Override
     @Transactional
-    public void softDeleteById(Long id) {
+    public void softDeleteById(final Long id) {
         final Insurance insurance = findById(id);
         insurance.setDeletedDate(LocalDateTime.now());
     }

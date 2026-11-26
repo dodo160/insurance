@@ -13,11 +13,41 @@ services:
     volumes:
       - mysql_data:/var/lib/mysql
     healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uadmin", "-padmin"]
+      test: ["CMD", "mysql", "-h", "127.0.0.1", "-uadmin", "-padmin", "insurance", "-e", "SELECT 1"]
       interval: 10s
       timeout: 5s
       retries: 10
       start_period: 20s
+
+  mysql-init-tariff:
+    image: mysql:8.0.46
+    depends_on:
+      mysql:
+        condition: service_healthy
+    environment:
+      MYSQL_PWD: root
+    entrypoint: ["mysql", "--host=mysql", "--user=root", "--execute"]
+    command:
+      - |
+        CREATE DATABASE IF NOT EXISTS tariff;
+        CREATE USER IF NOT EXISTS 'tariff'@'%' IDENTIFIED BY 'tariff';
+        GRANT ALL PRIVILEGES ON tariff.* TO 'tariff'@'%';
+
+  tariff:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: tariff
+    restart: unless-stopped
+    depends_on:
+      mysql-init-tariff:
+        condition: service_completed_successfully
+    environment:
+      TARIFF_DB_URL: jdbc:mysql://mysql:3306/tariff?serverTimezone=Europe/Bratislava&useSSL=false&allowPublicKeyRetrieval=true
+      TARIFF_DB_USERNAME: tariff
+      TARIFF_DB_PASSWORD: tariff
+    ports:
+      - "8081:8081"
 
   activemq:
     image: apache/activemq-classic:5.18.7
@@ -31,6 +61,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+      target: insurance
     container_name: insurance-app
     restart: unless-stopped
     depends_on:
@@ -38,10 +69,13 @@ services:
         condition: service_healthy
       activemq:
         condition: service_started
+      tariff:
+        condition: service_started
     environment:
-      DB_URL: jdbc:mysql://mysql:3306/insurance?serverTimezone=Europe/Bratislava&useSSL=false
+      DB_URL: jdbc:mysql://mysql:3306/insurance?serverTimezone=Europe/Bratislava&useSSL=false&allowPublicKeyRetrieval=true
       DB_USERNAME: admin
       DB_PASSWORD: admin
+      TARIFF_SERVICE_URL: http://tariff:8081
       ACTIVEMQ_BROKER_URL: tcp://activemq:61616
     ports:
       - "8080:8080"
